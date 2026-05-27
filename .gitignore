@@ -1,0 +1,9 @@
+# macOS
+.DS_Store
+
+# Claude Code workspace
+.claude/
+
+# Artefactos de investigación (página de Éxito guardada) — no se publican
+Finalizar la compra.html
+Finalizar la compra_files/

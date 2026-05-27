@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="es-CO">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Éxito · Click to Pay con Unified Checkout Solutions — Demo visual</title>
+<style>
+  :root{
+    --exito-yellow:#FFE800;
+    --exito-yellow-dark:#F2C200;
+    --ink:#1d1d1f;
+    --muted:#6b7280;
+    --line:#e6e6ea;
+    --bg:#f4f5f7;
+    --card:#ffffff;
+    --green:#0a7d34;
+    --accent:#0a66ff;
+    --code-bg:#0d1117;
+    --code-comment:#7ee787;
+    --code-key:#79c0ff;
+    --code-str:#a5d6ff;
+    --radius:16px;
+    --shadow:0 10px 30px rgba(0,0,0,.10);
+    --shadow-lg:0 24px 60px rgba(0,0,0,.18);
+    font-synthesis:none;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;scroll-snap-type:y proximity;}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;line-height:1.5;
+  }
+  h1,h2,h3{line-height:1.15;letter-spacing:-.02em;margin:0 0 .4em;}
+  h1{font-size:clamp(28px,4.4vw,52px);font-weight:800;}
+  h2{font-size:clamp(22px,3vw,34px);font-weight:800;}
+  h3{font-size:18px;font-weight:700;}
+  p{margin:0 0 1em;color:#33333a;}
+  a{color:var(--accent);}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 24px;}
+  section{padding:84px 0;border-bottom:1px solid var(--line);scroll-snap-align:start;}
+  .eyebrow{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.14em;
+    text-transform:uppercase;color:#8a6d00;background:var(--exito-yellow);
+    padding:6px 12px;border-radius:999px;margin-bottom:18px;}
+  .lead{font-size:clamp(16px,1.6vw,19px);color:#44454c;max-width:760px;}
+
+  /* ---------- top nav ---------- */
+  .nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.86);
+    backdrop-filter:saturate(160%) blur(12px);border-bottom:1px solid var(--line);}
+  .nav .wrap{display:flex;align-items:center;gap:18px;height:62px;}
+  .nav .brand{display:flex;align-items:center;gap:10px;font-weight:800;}
+  .nav .links{display:flex;gap:4px;margin-left:auto;flex-wrap:wrap;}
+  .nav a{font-size:13.5px;font-weight:600;color:#3a3a42;text-decoration:none;
+    padding:8px 12px;border-radius:10px;}
+  .nav a:hover{background:#f0f0f3;}
+
+  /* ---------- éxito + c2p logos ---------- */
+  .exito-logo{display:inline-flex;align-items:center;gap:0;background:var(--exito-yellow);
+    color:#1d1d1f;font-weight:900;font-size:18px;letter-spacing:-.04em;
+    padding:5px 12px;border-radius:10px;line-height:1;}
+  .exito-logo small{font-weight:800;}
+  .c2p{display:inline-flex;align-items:center;gap:8px;font-weight:800;color:#111;white-space:nowrap;}
+  .c2p .mark{width:26px;height:26px;border-radius:7px;background:#111;display:inline-grid;place-items:center;flex:0 0 auto;}
+  .c2p .mark svg{width:15px;height:15px;}
+  .c2p.lg .mark{width:34px;height:34px;border-radius:9px;}
+  .c2p.lg{font-size:19px;}
+
+  /* network marks */
+  .mc{display:inline-block;width:34px;height:22px;position:relative;vertical-align:middle;}
+  .mc i{position:absolute;top:2px;width:18px;height:18px;border-radius:50%;}
+  .mc i.r{left:0;background:#EB001B;}
+  .mc i.o{right:0;background:#F79E1B;}
+  .mc i.m{left:8px;width:18px;background:#FF5F00;mix-blend-mode:multiply;}
+  .visa{display:inline-block;font-style:italic;font-weight:900;color:#1a1f71;font-size:15px;letter-spacing:-.02em;}
+
+  /* ---------- cover ---------- */
+  #cover{background:
+      radial-gradient(1200px 500px at 85% -10%, rgba(255,232,0,.55), transparent 60%),
+      linear-gradient(180deg,#fffef5, #f4f5f7);
+    padding-top:64px;}
+  .cover-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center;}
+  .badges{display:flex;gap:10px;flex-wrap:wrap;margin:22px 0 10px;}
+  .pill{background:#fff;border:1px solid var(--line);border-radius:999px;
+    padding:8px 14px;font-size:13px;font-weight:600;box-shadow:var(--shadow);}
+  .cover-card{background:var(--card);border:1px solid var(--line);border-radius:22px;
+    padding:26px;box-shadow:var(--shadow-lg);}
+  .cover-card h3{margin-bottom:14px;}
+  .uc-list{list-style:none;padding:0;margin:0;display:grid;gap:10px;}
+  .uc-list li{display:flex;gap:12px;align-items:flex-start;font-size:14.5px;}
+  .uc-list .n{flex:0 0 auto;width:26px;height:26px;border-radius:8px;background:var(--exito-yellow);
+    color:#111;font-weight:800;display:grid;place-items:center;font-size:13px;}
+
+  /* ---------- generic cards / grids ---------- */
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:22px;}
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:22px;box-shadow:var(--shadow);}
+  .card h3{display:flex;align-items:center;gap:10px;}
+  .card .ico{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;font-size:18px;flex:0 0 auto;}
+  .benefit{list-style:none;padding:0;margin:10px 0 0;display:grid;gap:11px;}
+  .benefit li{display:flex;gap:10px;font-size:14.5px;align-items:flex-start;color:#3a3a42;}
+  .benefit li::before{content:"";flex:0 0 auto;width:18px;height:18px;border-radius:50%;
+    margin-top:2px;background:var(--green) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E") center/12px no-repeat;}
+  .metric{display:flex;gap:18px;flex-wrap:wrap;margin-top:26px;}
+  .metric .m{background:#111;color:#fff;border-radius:14px;padding:16px 20px;min-width:150px;}
+  .metric .m b{display:block;font-size:30px;font-weight:800;letter-spacing:-.02em;}
+  .metric .m span{font-size:12.5px;color:#c9c9d2;}
+
+  /* ---------- architecture ---------- */
+  .arch{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:26px;}
+  .arch .step{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;position:relative;}
+  .arch .step .k{font-size:11px;font-weight:800;color:#8a6d00;letter-spacing:.1em;text-transform:uppercase;}
+  .arch .step h4{margin:6px 0 6px;font-size:15px;}
+  .arch .step p{font-size:12.8px;color:var(--muted);margin:0;}
+  .arch .step code{font-size:11.5px;background:#0d1117;color:#a5d6ff;padding:2px 6px;border-radius:6px;display:inline-block;margin-top:8px;}
+  .arch .step::after{content:"→";position:absolute;right:-13px;top:50%;transform:translateY(-50%);
+    color:#c2c2cc;font-weight:800;z-index:2;}
+  .arch .step:last-child::after{content:"";}
+  .layer-legend{display:flex;gap:18px;flex-wrap:wrap;margin-top:20px;font-size:13px;}
+  .layer-legend span{display:inline-flex;align-items:center;gap:8px;}
+  .dot{width:12px;height:12px;border-radius:50%;}
+
+  /* ---------- DEMO ---------- */
+  #demo{background:linear-gradient(180deg,#fff,#f4f5f7);}
+  .demo-tabs{display:flex;gap:10px;flex-wrap:wrap;margin:22px 0 8px;}
+  .demo-tabs button{border:1px solid var(--line);background:#fff;border-radius:999px;
+    padding:11px 18px;font-size:13.5px;font-weight:700;cursor:pointer;color:#3a3a42;
+    display:flex;align-items:center;gap:9px;transition:.15s;}
+  .demo-tabs button .uc-ico{width:22px;height:22px;border-radius:7px;background:#f0f0f3;display:grid;place-items:center;font-size:13px;}
+  .demo-tabs button[aria-selected="true"]{background:#111;color:#fff;border-color:#111;}
+  .demo-tabs button[aria-selected="true"] .uc-ico{background:#333;}
+  .uc-sub{font-size:13.5px;color:var(--muted);margin:2px 0 18px;}
+
+  .stage{display:grid;grid-template-columns:390px 1fr;gap:26px;align-items:start;}
+  @media(max-width:980px){.stage{grid-template-columns:1fr;}.cover-grid,.grid-2{grid-template-columns:1fr;}.grid-3,.arch{grid-template-columns:1fr 1fr;}}
+
+  /* phone */
+  .phone{width:390px;max-width:100%;height:760px;background:#111;border-radius:46px;
+    padding:12px;box-shadow:var(--shadow-lg);position:sticky;top:80px;}
+  .phone .notch{position:absolute;left:50%;transform:translateX(-50%);top:18px;width:120px;height:26px;
+    background:#111;border-radius:0 0 16px 16px;z-index:6;}
+  .screen{position:relative;width:100%;height:100%;background:#fff;border-radius:36px;overflow:hidden;display:flex;flex-direction:column;}
+  .statusbar{height:34px;display:flex;align-items:center;justify-content:space-between;
+    padding:0 22px;font-size:12px;font-weight:700;color:#111;flex:0 0 auto;}
+  .topbar{background:var(--exito-yellow);height:50px;display:flex;align-items:center;gap:10px;
+    padding:0 16px;flex:0 0 auto;}
+  .topbar .back{font-size:20px;font-weight:800;}
+  .topbar .ttl{font-weight:800;font-size:15px;}
+  .scroll{flex:1 1 auto;overflow:auto;padding:16px;}
+  .scroll::-webkit-scrollbar{width:0;}
+
+  /* checkout UI bits */
+  .sec-title{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#8a8a93;margin:4px 0 10px;}
+  .prod{display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid #f0f0f3;}
+  .prod .img{width:54px;height:54px;border-radius:10px;flex:0 0 auto;background:#f0f0f3 center/cover;}
+  .prod .nm{font-size:13.5px;font-weight:600;}
+  .prod .qty{font-size:12px;color:var(--muted);}
+  .prod .pr{margin-left:auto;font-weight:800;font-size:13.5px;}
+  .totals{margin-top:14px;border-top:1px dashed #e0e0e6;padding-top:12px;font-size:13.5px;}
+  .totals .row{display:flex;justify-content:space-between;margin:6px 0;color:#444;}
+  .totals .row.big{font-size:17px;font-weight:800;color:#111;margin-top:8px;}
+  .free{color:var(--green);font-weight:700;}
+
+  .pm{display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:12px;
+    padding:12px;margin-bottom:10px;background:#fff;}
+  .pm .lg{width:38px;height:26px;border-radius:6px;background:#f0f0f3;display:grid;place-items:center;flex:0 0 auto;font-size:11px;font-weight:800;color:#555;}
+  .pm .nm{font-size:14px;font-weight:600;}
+  .pm .ch{margin-left:auto;width:18px;height:18px;border-radius:50%;border:2px solid #ccc;}
+  .pm.featured{border:2px solid #111;box-shadow:0 6px 18px rgba(0,0,0,.10);position:relative;}
+  .pm.featured::after{content:"Pago en 1 clic";position:absolute;top:-10px;right:12px;background:#111;color:#fff;
+    font-size:10px;font-weight:800;padding:3px 8px;border-radius:999px;letter-spacing:.04em;}
+  .pm.sel .ch{border-color:#111;background:#111 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E") center/11px no-repeat;}
+
+  .c2p-panel{border:1px solid var(--line);border-radius:14px;padding:16px;background:#fff;}
+  .c2p-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
+  .intro{font-size:12.5px;color:var(--muted);margin:8px 0 14px;line-height:1.45;}
+  .field{margin-bottom:12px;}
+  .field label{display:block;font-size:12px;font-weight:700;color:#555;margin-bottom:6px;}
+  .field input{width:100%;border:1.5px solid #d8d8de;border-radius:10px;padding:12px 12px;font-size:14px;background:#fafafb;}
+  .field input:focus{outline:none;border-color:#111;}
+  .row2{display:flex;gap:10px;}
+  .row2 .field{flex:1;}
+  .btn{width:100%;border:none;border-radius:12px;padding:14px;font-size:15px;font-weight:800;
+    cursor:pointer;background:var(--exito-yellow);color:#111;}
+  .btn.dark{background:#111;color:#fff;}
+  .btn.ghost{background:#fff;color:#111;border:1.5px solid #d8d8de;font-weight:700;}
+  .btn.c2pbtn{background:#111;color:#fff;display:flex;align-items:center;justify-content:center;gap:10px;}
+  .smallnote{font-size:11px;color:#9a9aa3;text-align:center;margin-top:10px;line-height:1.4;}
+  .chk{display:flex;gap:9px;align-items:flex-start;font-size:12px;color:#555;margin:10px 0;}
+  .chk .box{width:18px;height:18px;border-radius:5px;flex:0 0 auto;margin-top:1px;
+    background:#111 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E") center/11px no-repeat;}
+
+  /* otp */
+  .otp{display:flex;gap:8px;justify-content:space-between;margin:14px 0;}
+  .otp .d{flex:1;height:52px;border:1.5px solid #d8d8de;border-radius:10px;display:grid;place-items:center;
+    font-size:22px;font-weight:800;background:#fafafb;}
+  .otp .d.on{border-color:#111;color:#111;}
+  .resend{text-align:center;font-size:12px;color:var(--muted);}
+  .resend b{color:#111;}
+  .channel{display:flex;gap:10px;margin:12px 0;}
+  .channel .opt{flex:1;border:1.5px solid #d8d8de;border-radius:10px;padding:10px;text-align:center;font-size:12.5px;font-weight:700;color:#555;}
+  .channel .opt.sel{border-color:#111;color:#111;background:#f7f7f9;}
+
+  /* card list */
+  .cardart{border-radius:14px;padding:14px;color:#fff;position:relative;height:120px;
+    background:linear-gradient(135deg,#2b2b35,#0f0f15);margin-bottom:12px;box-shadow:var(--shadow);}
+  .cardart.sel{outline:3px solid var(--exito-yellow);}
+  .cardart.blue{background:linear-gradient(135deg,#1a1f71,#3a43b0);}
+  .cardart .pan{position:absolute;bottom:34px;left:14px;font-size:15px;letter-spacing:2px;font-weight:600;}
+  .cardart .nm{position:absolute;bottom:12px;left:14px;font-size:11px;opacity:.85;text-transform:uppercase;letter-spacing:.5px;}
+  .cardart .net{position:absolute;top:12px;right:12px;}
+  .cardart .tag{position:absolute;top:12px;left:14px;font-size:10px;font-weight:800;background:rgba(255,255,255,.2);padding:3px 8px;border-radius:999px;}
+  .addcard{border:1.5px dashed #c9c9d2;border-radius:14px;padding:14px;display:flex;align-items:center;
+    gap:10px;font-weight:700;font-size:14px;color:#333;cursor:pointer;}
+  .addcard .plus{width:30px;height:30px;border-radius:50%;background:#111;color:#fff;display:grid;place-items:center;font-size:18px;}
+
+  .recog{display:flex;align-items:center;gap:10px;background:#f7f7f9;border:1px solid var(--line);
+    border-radius:12px;padding:10px 12px;margin-bottom:12px;font-size:12.5px;}
+  .recog .av{width:34px;height:34px;border-radius:50%;background:var(--exito-yellow);display:grid;place-items:center;font-weight:800;}
+  .recog .notyou{margin-left:auto;font-size:12px;font-weight:700;color:var(--accent);}
+
+  /* confirmation */
+  .confirm{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px;}
+  .confirm .tick{width:84px;height:84px;border-radius:50%;background:var(--green);margin-bottom:18px;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");background-size:42px;background-position:center;background-repeat:no-repeat;}
+  .confirm h3{font-size:22px;}
+  .confirm p{font-size:13.5px;color:var(--muted);}
+  .receipt{background:#f7f7f9;border-radius:12px;padding:14px;width:100%;margin-top:16px;font-size:13px;text-align:left;}
+  .receipt .row{display:flex;justify-content:space-between;margin:5px 0;}
+
+  /* ---- right side panels ---- */
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:18px;}
+  .panel .ph{padding:14px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;}
+  .panel .ph .step-no{width:30px;height:30px;border-radius:9px;background:var(--exito-yellow);color:#111;font-weight:800;display:grid;place-items:center;font-size:14px;}
+  .panel .ph h3{margin:0;font-size:16px;}
+  .panel .pb{padding:16px 18px;}
+  .cxnote{font-size:13.5px;color:#3a3a42;}
+  .cxnote .tagrow{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 12px;}
+  .cxnote .ux{font-size:11px;font-weight:800;color:#8a6d00;background:#fff7c2;border:1px solid #f0e08a;
+    padding:4px 9px;border-radius:999px;}
+
+  .code{background:var(--code-bg);color:#e6edf3;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);}
+  .code .bar{display:flex;align-items:center;gap:7px;padding:11px 14px;border-bottom:1px solid #21262d;}
+  .code .bar i{width:11px;height:11px;border-radius:50%;display:inline-block;}
+  .code .bar .r{background:#ff5f56;}.code .bar .y{background:#ffbd2e;}.code .bar .g{background:#27c93f;}
+  .code .bar span{margin-left:8px;font-size:12px;color:#8b949e;font-family:ui-monospace,Menlo,monospace;}
+  .code .layerlabel{margin-left:auto;font-size:10.5px;font-weight:800;padding:3px 8px;border-radius:999px;letter-spacing:.03em;}
+  .code pre{margin:0;padding:16px 18px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    font-size:12.7px;line-height:1.7;overflow:auto;white-space:pre;}
+  .code .ln{display:block;}
+  .code .cmt{color:var(--code-comment);}
+  .code .ret{color:#ffa657;}
+
+  .controls{display:flex;gap:10px;align-items:center;margin-top:6px;}
+  .controls button{border:1px solid var(--line);background:#fff;border-radius:10px;padding:11px 16px;font-weight:700;cursor:pointer;font-size:14px;}
+  .controls button.primary{background:#111;color:#fff;border-color:#111;}
+  .controls button:disabled{opacity:.4;cursor:not-allowed;}
+  .stepdots{display:flex;gap:6px;margin-left:auto;align-items:center;}
+  .stepdots .d{width:9px;height:9px;border-radius:50%;background:#d3d3da;}
+  .stepdots .d.on{background:#111;width:24px;border-radius:999px;}
+  .progresslbl{font-size:12.5px;color:var(--muted);font-weight:600;}
+
+  /* methods table */
+  table.methods{width:100%;border-collapse:collapse;margin-top:20px;background:#fff;border-radius:14px;overflow:hidden;box-shadow:var(--shadow);font-size:13.5px;}
+  table.methods th,table.methods td{text-align:left;padding:13px 16px;border-bottom:1px solid var(--line);vertical-align:top;}
+  table.methods th{background:#111;color:#fff;font-size:12px;letter-spacing:.04em;text-transform:uppercase;}
+  table.methods td code{background:#0d1117;color:#a5d6ff;padding:2px 7px;border-radius:6px;font-size:12.3px;}
+  table.methods tr:last-child td{border-bottom:none;}
+  .src-tag,.ucs-tag{font-size:10.5px;font-weight:800;padding:2px 7px;border-radius:999px;}
+  .ucs-tag{background:#e7f0ff;color:#0a66ff;}
+  .src-tag{background:#fff1d6;color:#a86400;}
+
+  footer{padding:48px 0;color:var(--muted);font-size:13px;}
+  footer .wrap{display:flex;gap:20px;flex-wrap:wrap;justify-content:space-between;}
+  .disclaimer{font-size:12px;color:#9a9aa3;max-width:640px;}
+  .kbd{font-family:ui-monospace,monospace;background:#fff;border:1px solid var(--line);border-bottom-width:2px;border-radius:6px;padding:1px 7px;font-size:12px;}
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav class="nav"><div class="wrap">
+  <div class="brand"><span class="exito-logo">éxito</span><span style="color:#bbb">×</span>
+    <span class="c2p"><span class="mark"><svg viewBox="0 0 24 24" fill="none"><path d="M7 5v14l11-7z" fill="#fff"/></svg></span>Click&nbsp;to&nbsp;Pay</span></div>
+  <div class="links">
+    <a href="#cover">Inicio</a>
+    <a href="#ventajas">Ventajas</a>
+    <a href="#arquitectura">Arquitectura</a>
+    <a href="#demo">Demo interactivo</a>
+    <a href="#metodos">Métodos JS/API</a>
+  </div>
+</div></nav>
+
+<!-- ============ COVER ============ -->
+<section id="cover"><div class="wrap cover-grid">
+  <div>
+    <span class="eyebrow">Mastercard · Caso de implementación</span>
+    <h1>Click to Pay en exito.com con Unified Checkout Solutions</h1>
+    <p class="lead">Una propuesta de jornada de pago — del carrito de compras a la confirmación — diseñada según el
+      <b>CX Guide</b> de Mastercard y la documentación de <b>Unified Checkout Solutions</b>,
+      destacando los métodos de JavaScript/API que orquestan cada paso.</p>
+    <div class="badges">
+      <span class="pill">🛒 Carrito → ✅ Pago completado</span>
+      <span class="pill">📱 Prototipo navegable</span>
+      <span class="pill">⚡ Pago en 1 clic</span>
+    </div>
+    <div class="metric">
+      <div class="m"><b>4</b><span>casos de uso cubiertos</span></div>
+      <div class="m"><b>1</b><span>clic para clientes reconocidos</span></div>
+      <div class="m"><b>0</b><span>datos de tarjeta en servidores de Éxito</span></div>
+    </div>
+  </div>
+  <div class="cover-card">
+    <h3>Casos de uso del demo</h3>
+    <ul class="uc-list">
+      <li><span class="n">1</span><div><b>Nuevo usuario</b> — no reconocido; ingresa una tarjeta y se enrola en Click to Pay.</div></li>
+      <li><span class="n">2</span><div><b>Reconocido por correo / teléfono</b> — identificado por su email, validado con OTP.</div></li>
+      <li><span class="n">3</span><div><b>Usuario reconocido</b> — el dispositivo ya está vinculado: tarjetas al instante.</div></li>
+      <li><span class="n">4</span><div><b>Agregar una nueva tarjeta</b> — usuario reconocido añade una tarjeta a su billetera.</div></li>
+    </ul>
+    <p style="margin:16px 0 0;font-size:12.5px;color:#9a9aa3">Navega con los botones del demo o con las teclas <span class="kbd">←</span> <span class="kbd">→</span>.</p>
+  </div>
+</div></section>
+
+<!-- ============ VENTAJAS ============ -->
+<section id="ventajas"><div class="wrap">
+  <span class="eyebrow">Punto 1 · Ventajas</span>
+  <h2>Por qué Click to Pay</h2>
+  <p class="lead">Click to Pay reemplaza el formulario de tarjeta tradicional por una billetera de red (Mastercard, Visa, Amex, Discover)
+     basada en el estándar EMVCo® SRC. Beneficia por igual al comercio y al tarjetahabiente.</p>
+  <div class="grid-2" style="margin-top:24px">
+    <div class="card">
+      <h3><span class="ico" style="background:var(--exito-yellow)">🏪</span> Para el comercio (Éxito)</h3>
+      <ul class="benefit">
+        <li><b>Más conversión:</b> menos campos y abandono; el pago en 1 clic acorta el checkout drásticamente.</li>
+        <li><b>Mayor tasa de aprobación:</b> datos tokenizados y enriquecidos que las redes aprueban mejor que un PAN manual.</li>
+        <li><b>Menos fraude y contracargos:</b> tokenización de red + autenticación (OTP / 3-D Secure / passkeys).</li>
+        <li><b>Cero datos sensibles (PAN) en Éxito:</b> alcance PCI-DSS reducido; la red guarda y cifra la tarjeta.</li>
+        <li><b>Una sola integración:</b> Unified Checkout Solutions entrega varias redes y métodos con un solo SDK.</li>
+        <li><b>Tarjetas siempre vigentes:</b> el Account Updater de la red actualiza tarjetas vencidas/renovadas.</li>
+        <li><b>Optimizado para móvil:</b> coherente con el alto tráfico móvil de exito.com.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3><span class="ico" style="background:#111;color:#fff">👤</span> Para el tarjetahabiente</h3>
+      <ul class="benefit">
+        <li><b>Sin teclear la tarjeta:</b> se reconoce y paga en 1 clic en cualquier comercio con Click to Pay.</li>
+        <li><b>Reconocimiento entre comercios:</b> se enrola una vez y su billetera lo acompaña por la web.</li>
+        <li><b>Más seguro:</b> el número real nunca viaja ni se almacena en la tienda; se usa un token.</li>
+        <li><b>Control y transparencia:</b> elige qué tarjeta usar, gestiona su billetera y “No eres tú”.</li>
+        <li><b>Experiencia consistente:</b> misma jornada conocida en todos los sitios — confianza.</li>
+        <li><b>Multidispositivo:</b> reconocimiento por correo/teléfono o por dispositivo vinculado.</li>
+      </ul>
+    </div>
+  </div>
+</div></section>
+
+<!-- ============ ARQUITECTURA ============ -->
+<section id="arquitectura"><div class="wrap">
+  <span class="eyebrow">Punto 2 · Cómo funciona</span>
+  <h2>Arquitectura de Unified Checkout Solutions</h2>
+  <p class="lead">Éxito (sobre VTEX) integra <b>una sola vez</b>: el backend genera un <i>capture context</i> y la librería de
+     Unified Checkout monta la interfaz. Mastercard orquesta por dentro los métodos de Click to Pay (capa SRC).</p>
+
+  <div class="arch">
+    <div class="step"><div class="k">Servidor · Éxito</div><h4>1. Crear la sesión</h4>
+      <p>El backend llama a la <b>Sessions API</b> con el monto, país y orígenes. Devuelve un <i>capture context</i> (JWT firmado con llaves de cifrado de un solo uso).</p>
+      <code>POST /sessions → captureContext</code></div>
+    <div class="step"><div class="k">Cliente · Navegador</div><h4>2. Montar Unified Checkout</h4>
+      <p>La librería JS se inicializa con el JWT y monta el botón/componente de pago en el checkout de Éxito.</p>
+      <code>new UnifiedCheckout(jwt).mount()</code></div>
+    <div class="step"><div class="k">Cliente · Click to Pay</div><h4>3. Reconocer y pagar</h4>
+      <p>Click to Pay reconoce al consumidor (correo/teléfono o dispositivo), valida con OTP y muestra sus tarjetas. Devuelve un <b>token transitorio</b>.</p>
+      <code>idLookup · validate · getCards · checkout</code></div>
+    <div class="step"><div class="k">Servidor · Éxito</div><h4>4. Autorizar</h4>
+      <p>El backend autoriza el pago con el token transitorio (más 3-D Secure si aplica). Nunca toca el PAN real.</p>
+      <code>POST /payments (transientToken)</code></div>
+  </div>
+
+  <div class="layer-legend">
+    <span><span class="dot" style="background:#0a66ff"></span> <b>Capa de orquestación</b> — Unified Checkout Solutions (Sessions API + librería JS)</span>
+    <span><span class="dot" style="background:#a86400"></span> <b>Capa Click to Pay</b> — métodos SRC que Mastercard ejecuta dentro de cada momento</span>
+  </div>
+</div></section>
+
+<!-- ============ DEMO ============ -->
+<section id="demo"><div class="wrap">
+  <span class="eyebrow">Puntos 3 + 5 · Jornada interactiva</span>
+  <h2>Demo: del carrito a la confirmación</h2>
+  <p class="lead">Elige un caso de uso y avanza paso a paso. A la derecha verás la nota de experiencia (CX&nbsp;Guide)
+     y el <b>método de JavaScript/API</b> que se ejecuta en ese paso.</p>
+
+  <div class="demo-tabs" id="tabs">
+    <button data-uc="newUser" aria-selected="true"><span class="uc-ico">🆕</span> 1 · Nuevo usuario</button>
+    <button data-uc="email"><span class="uc-ico">✉️</span> 2 · Reconocido por correo/teléfono</button>
+    <button data-uc="device"><span class="uc-ico">📱</span> 3 · Usuario reconocido</button>
+    <button data-uc="addCard"><span class="uc-ico">➕</span> 4 · Agregar nueva tarjeta</button>
+  </div>
+  <p class="uc-sub" id="ucSub"></p>
+
+  <div class="stage">
+    <!-- phone -->
+    <div class="phone">
+      <div class="notch"></div>
+      <div class="screen">
+        <div class="statusbar"><span>9:41</span><span>📶 🔋</span></div>
+        <div id="screen-body" style="flex:1;display:flex;flex-direction:column;overflow:hidden"></div>
+      </div>
+    </div>
+
+    <!-- panels -->
+    <div>
+      <div class="panel">
+        <div class="ph"><span class="step-no" id="stepNo">1</span><h3 id="stepTitle"></h3>
+          <span class="progresslbl" id="progressLbl" style="margin-left:auto"></span></div>
+        <div class="pb">
+          <div class="cxnote" id="cxNote"></div>
+        </div>
+      </div>
+
+      <div class="code">
+        <div class="bar"><i class="r"></i><i class="y"></i><i class="g"></i>
+          <span id="codeFile">checkout.js</span>
+          <span class="layerlabel" id="layerLabel"></span></div>
+        <pre id="codeBody"></pre>
+      </div>
+
+      <div class="controls">
+        <button id="prevBtn">← Anterior</button>
+        <button id="nextBtn" class="primary">Siguiente →</button>
+        <div class="stepdots" id="dots"></div>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<!-- ============ METHODS REFERENCE ============ -->
+<section id="metodos"><div class="wrap">
+  <span class="eyebrow">Punto 5 · Referencia</span>
+  <h2>Mapa de métodos JavaScript / API</h2>
+  <p class="lead">Resumen de los métodos que intervienen en la jornada. <span class="ucs-tag">UCS</span> = orquestación de Unified Checkout Solutions ·
+     <span class="src-tag">SRC</span> = método de Click to Pay (EMVCo SRC) ejecutado dentro de cada momento.</p>
+  <table class="methods">
+    <thead><tr><th>Paso de la jornada</th><th>Método</th><th>Capa</th><th>Qué hace</th></tr></thead>
+    <tbody>
+      <tr><td>Inicializar el pago (checkout)</td><td><code>POST /sessions</code></td><td><span class="ucs-tag">UCS</span></td><td>El backend de Éxito genera el <i>capture context</i> (JWT) con monto, país y métodos permitidos.</td></tr>
+      <tr><td>Montar la interfaz de pago</td><td><code>new UnifiedCheckout(jwt)</code> · <code>.mount()</code></td><td><span class="ucs-tag">UCS</span></td><td>Renderiza el botón / componente de Click to Pay dentro del checkout VTEX de Éxito.</td></tr>
+      <tr><td>Arrancar Click to Pay</td><td><code>c2p.init({ dpaId, locale })</code></td><td><span class="src-tag">SRC</span></td><td>Inicializa el SDK de Click to Pay para el comercio (DPA) y el idioma es_CO.</td></tr>
+      <tr><td>¿Dispositivo ya vinculado?</td><td><code>c2p.isRecognized()</code></td><td><span class="src-tag">SRC</span></td><td>Reconocimiento silencioso por cookie/dispositivo; si es positivo, salta directo a las tarjetas.</td></tr>
+      <tr><td>Reconocer por correo/teléfono</td><td><code>c2p.idLookup({ value, type })</code></td><td><span class="src-tag">SRC</span></td><td>Verifica si el correo/teléfono está enrolado en alguna red Click to Pay.</td></tr>
+      <tr><td>Enviar el código (OTP)</td><td><code>c2p.initiateValidation({ channel })</code></td><td><span class="src-tag">SRC</span></td><td>Envía el código de un solo uso por SMS o correo, según elija el cliente.</td></tr>
+      <tr><td>Validar el código</td><td><code>c2p.validate({ value })</code></td><td><span class="src-tag">SRC</span></td><td>Confirma el OTP y autentica la sesión del consumidor.</td></tr>
+      <tr><td>Listar tarjetas</td><td><code>c2p.getCards()</code></td><td><span class="src-tag">SRC</span></td><td>Devuelve las tarjetas enmascaradas de la billetera (actionCode: SUCCESS).</td></tr>
+      <tr><td>Cifrar una tarjeta nueva</td><td><code>c2p.encryptCard({ pan, exp, cvc })</code></td><td><span class="src-tag">SRC</span></td><td>Cifra los datos de la tarjeta en el navegador; Éxito nunca ve el PAN.</td></tr>
+      <tr><td>Pagar con tarjeta existente</td><td><code>c2p.checkoutWithCard({ srcDigitalCardId })</code></td><td><span class="src-tag">SRC</span></td><td>Genera el token transitorio del pago para la tarjeta seleccionada.</td></tr>
+      <tr><td>Pagar / enrolar tarjeta nueva</td><td><code>c2p.checkoutWithNewCard({ encryptedCard, rememberMe })</code></td><td><span class="src-tag">SRC</span></td><td>Paga con la tarjeta nueva y, con consentimiento, la enrola en la billetera.</td></tr>
+      <tr><td>“No eres tú” / cerrar sesión</td><td><code>c2p.unbindAppInstance()</code></td><td><span class="src-tag">SRC</span></td><td>Desvincula el dispositivo para que otro consumidor use su propia billetera.</td></tr>
+      <tr><td>Autorizar el pago</td><td><code>POST /payments</code> + 3-D Secure</td><td><span class="ucs-tag">UCS</span></td><td>El backend autoriza con el token transitorio; aplica SCA cuando corresponde.</td></tr>
+    </tbody>
+  </table>
+</div></section>
+
+<footer><div class="wrap">
+  <div class="disclaimer">
+    <b>Demo visual no funcional.</b> Prototipo de sugerencia de implementación de Click to Pay con Unified Checkout Solutions para exito.com.
+    Los nombres de métodos siguen la documentación de Mastercard Developers (Unified Checkout Solutions SDK + Click to Pay / EMVCo SRC) y el Click to Pay CX Guide.
+    Las marcas Éxito, Mastercard, Visa y Click to Pay pertenecen a sus titulares.
+  </div>
+  <div>
+    <span class="c2p"><span class="mark"><svg viewBox="0 0 24 24" fill="none"><path d="M7 5v14l11-7z" fill="#fff"/></svg></span>Click to Pay</span>
+  </div>
+</div></footer>
+
+<script>
+/* ============================================================
+   Datos de la jornada — cada caso de uso es una secuencia de pasos.
+   Cada paso: { title, cx:[tags], cxText, file, layer, code:[lineas], screen:fn }
+   ============================================================ */
+
+// ---------- helpers de UI del teléfono (mockups) ----------
+function topbar(title){
+  return '<div class="topbar"><span class="back">‹</span><span class="ttl">'+title+'</span>'
+    +'<span style="margin-left:auto" class="exito-logo">éxito</span></div>';
+}
+function c2pHeader(){
+  return '<div class="c2p-head"><span class="c2p lg"><span class="mark"><svg viewBox="0 0 24 24" fill="none"><path d="M7 5v14l11-7z" fill="#fff"/></svg></span>Click to Pay</span>'
+    +'<span style="font-size:11px;color:#9a9aa3">Pago seguro</span></div>';
+}
+function totals(){
+  return '<div class="totals">'
+    +'<div class="row"><span>Subtotal</span><span>$1.249.900</span></div>'
+    +'<div class="row"><span>Envío</span><span class="free">GRATIS</span></div>'
+    +'<div class="row"><span>Descuento Aliados</span><span>-$60.000</span></div>'
+    +'<div class="row big"><span>Total</span><span>$1.189.900</span></div></div>';
+}
+function cart(){
+  return '<div class="scroll">'
+    + '<div class="sec-title">Tu carrito · 3 productos</div>'
+    + '<div class="prod"><div class="img" style="background:#1b1b22"></div><div><div class="nm">Smart TV Caixun 50" UHD</div><div class="qty">Cantidad: 1</div></div><div class="pr">$899.900</div></div>'
+    + '<div class="prod"><div class="img" style="background:#d7e9ff"></div><div><div class="nm">Mercado de la semana</div><div class="qty">Cantidad: 1</div></div><div class="pr">$289.000</div></div>'
+    + '<div class="prod"><div class="img" style="background:#ffe0e6"></div><div><div class="nm">Set de toallas Casa Estilo</div><div class="qty">Cantidad: 2</div></div><div class="pr">$61.000</div></div>'
+    + totals()
+    + '<button class="btn" style="margin-top:16px">Ir a pagar</button>'
+    + '<div class="smallnote">🔒 Compra protegida · Éxito.com</div>'
+    + '</div>';
+}
+function paymentList(featured){
+  var f = featured ? 'featured sel' : '';
+  var c2pRow = '<div class="pm '+f+'">'
+      +'<span class="c2p"><span class="mark" style="width:30px;height:30px"><svg viewBox="0 0 24 24" fill="none"><path d="M7 5v14l11-7z" fill="#fff"/></svg></span></span>'
+      +'<div class="nm" style="margin-left:2px">Click to Pay</div><span class="ch"></span></div>';
+  return '<div class="scroll">'
+    + '<div class="sec-title">¿Cómo quieres pagar?</div>'
+    + c2pRow
+    + '<div class="pm"><span class="lg" style="background:#111;color:#fff">CR</span><div class="nm">Tarjeta de crédito</div><span class="ch"></span></div>'
+    + '<div class="pm"><span class="lg" style="background:#6a1b9a;color:#fff">N</span><div class="nm">Nequi</div><span class="ch"></span></div>'
+    + '<div class="pm"><span class="lg" style="background:#00a19a;color:#fff">A</span><div class="nm">Addi · Paga después</div><span class="ch"></span></div>'
+    + '<div class="pm"><span class="lg" style="background:#e30613;color:#fff">PSE</span><div class="nm">PSE</div><span class="ch"></span></div>'
+    + '<div class="pm"><span class="lg">CE</span><div class="nm">Contra entrega</div><span class="ch"></span></div>'
+    + totals()
+    + '</div>';
+}
+function emailEntry(prefill){
+  return '<div class="scroll">'
+    + '<div class="c2p-panel">'
+    + c2pHeader()
+    + '<div class="intro">Paga más rápido y seguro. Ingresa tu correo o celular para reconocer tus tarjetas guardadas en Click to Pay — sin volver a digitarlas.</div>'
+    + '<div class="field"><label>Correo electrónico o celular</label><input value="'+(prefill||'')+'" placeholder="ana@correo.com"/></div>'
+    + '<button class="btn c2pbtn"><span class="c2p" style="color:#fff"><span class="mark" style="width:22px;height:22px;background:#fff"><svg viewBox="0 0 24 24" fill="none"><path d="M7 5v14l11-7z" fill="#111"/></svg></span></span> Continuar</button>'
+    + '<div class="smallnote">Al continuar aceptas los <b>Términos</b> y el <b>Aviso de privacidad</b> de Click to Pay.</div>'
+    + '</div></div>';
+}
+function otp(channel){
+  var sms = channel==='sms';
+  return '<div class="scroll">'
+    + '<div class="c2p-panel">'
+    + c2pHeader()
+    + '<h3 style="font-size:16px;margin:10px 0 4px">Verifica que eres tú</h3>'
+    + '<div class="intro">Enviamos un código de un solo uso a '+(sms?'tu celular <b>•••• 7821</b>':'<b>a•••@correo.com</b>')+'. Ingrésalo para ver tus tarjetas.</div>'
+    + '<div class="channel"><div class="opt '+(sms?'sel':'')+'">📱 SMS</div><div class="opt '+(sms?'':'sel')+'">✉️ Correo</div></div>'
+    + '<div class="otp"><div class="d on">4</div><div class="d on">8</div><div class="d on">2</div><div class="d on">9</div><div class="d">_</div><div class="d">_</div></div>'
+    + '<button class="btn dark">Verificar</button>'
+    + '<div class="resend" style="margin-top:12px">¿No llegó? <b>Reenviar código</b> (00:24)</div>'
+    + '</div></div>';
+}
+function recogBar(name){
+  return '<div class="recog"><span class="av">'+name.charAt(0)+'</span>'
+    + '<div><b>Hola, '+name+'</b><br><span style="color:#9a9aa3">Reconocido por Click to Pay</span></div>'
+    + '<span class="notyou">No eres tú</span></div>';
+}
+function cardList(opts){
+  opts = opts || {};
+  var bar = opts.recog ? recogBar(opts.name||'Ana') : '';
+  return '<div class="scroll">'
+    + '<div class="c2p-panel">'
+    + c2pHeader()
+    + bar
+    + '<div class="sec-title" style="margin-top:6px">Tus tarjetas</div>'
+    + '<div class="cardart sel"><span class="tag">Predeterminada</span>'
+      + '<span class="net"><span class="mc"><i class="r"></i><i class="o"></i><i class="m"></i></span></span>'
+      + '<span class="pan">•••• •••• •••• 4291</span><span class="nm">'+(opts.name||'Ana')+' Gómez · Mastercard</span></div>'
+    + '<div class="cardart blue"><span class="net visa" style="color:#fff">VISA</span>'
+      + '<span class="pan">•••• •••• •••• 7733</span><span class="nm">'+(opts.name||'Ana')+' Gómez · Visa débito</span></div>'
+    + '<div class="addcard"><span class="plus">+</span> Agregar tarjeta</div>'
+    + '<button class="btn dark" style="margin-top:14px">Pagar $1.189.900</button>'
+    + '<div class="smallnote">Pago protegido con tokenización de red · Mastercard</div>'
+    + '</div></div>';
+}
+function newCardForm(opts){
+  opts = opts || {};
+  var remember = opts.remember!==false;
+  return '<div class="scroll">'
+    + '<div class="c2p-panel">'
+    + c2pHeader()
+    + '<h3 style="font-size:16px;margin:8px 0 10px">'+(opts.title||'Agregar tarjeta')+'</h3>'
+    + '<div class="field"><label>Número de tarjeta</label><input value="5412 7534 8821 4291" placeholder="0000 0000 0000 0000"/></div>'
+    + '<div class="row2"><div class="field"><label>Vence</label><input value="08/29" placeholder="MM/AA"/></div>'
+      + '<div class="field"><label>CVV</label><input value="•••" placeholder="123"/></div></div>'
+    + '<div class="field"><label>Nombre en la tarjeta</label><input value="ANA M GOMEZ" /></div>'
+    + (remember ? '<div class="chk"><span class="box"></span><div>Guardar mi tarjeta en <b>Click to Pay</b> para pagar en 1 clic aquí y en otros comercios. Acepto los Términos.</div></div>' : '')
+    + '<button class="btn dark">'+(opts.cta||'Guardar y pagar $1.189.900')+'</button>'
+    + '<div class="smallnote">🔒 Tus datos se cifran en tu dispositivo. Éxito no almacena el número de tu tarjeta.</div>'
+    + '</div></div>';
+}
+function confirm(method){
+  return '<div class="confirm">'
+    + '<div class="tick"></div>'
+    + '<h3>¡Pago aprobado!</h3>'
+    + '<p>Tu pedido <b>#EX-2026-88142</b> está confirmado.<br>Recibirás el detalle en tu correo.</p>'
+    + '<div class="receipt">'
+      + '<div class="row"><span>Total pagado</span><b>$1.189.900</b></div>'
+      + '<div class="row"><span>Medio de pago</span><span>'+method+'</span></div>'
+      + '<div class="row"><span>Autenticación</span><span>3-D Secure ✓</span></div>'
+      + '<div class="row"><span>Token de red</span><span>•••• 4291</span></div>'
+    + '</div>'
+    + '<button class="btn" style="margin-top:18px">Ver mi pedido</button>'
+    + '</div>';
+}
+
+// ---------- código por paso ----------
+var C = {
+  cart: [
+    "// Carrito VTEX de Éxito — aún sin método de pago.",
+    "// Click to Pay se prepara al entrar al checkout."
+  ],
+  session: [
+    "// SERVIDOR (backend de Éxito) — crear la sesión de pago",
+    "POST /sessions",
+    "{",
+    "  amount: 118990000, currency: 'COP',",
+    "  country: 'CO', locale: 'es_CO',",
+    "  targetOrigins: ['https://www.exito.com'],",
+    "  allowedPaymentMethods: ['CLICK_TO_PAY', 'CARD']",
+    "}",
+    "// → { captureContext: '<JWT firmado>' }",
+    "",
+    "// CLIENTE (navegador) — montar Unified Checkout",
+    "const uc = new UnifiedCheckout(captureContext);",
+    "const checkout = uc.createCheckout();",
+    "checkout.mount('#exito-payment');   // botón Click to Pay"
+  ],
+  init: [
+    "// Inicializar el SDK de Click to Pay para el comercio (DPA)",
+    "await c2p.init({",
+    "  dpaId: 'exito-co',",
+    "  dpaName: 'Almacenes Éxito',",
+    "  locale: 'es_CO'",
+    "});"
+  ],
+  idLookupNo: [
+    "// El cliente ingresa su correo → ¿está enrolado?",
+    "const r = await c2p.idLookup({",
+    "  value: 'nuevo@correo.com',",
+    "  type:  'EMAIL_ADDRESS'",
+    "});",
+    "// → { consumerPresent: false }   (usuario nuevo)"
+  ],
+  idLookupYes: [
+    "// El cliente ingresa su correo → ¿está enrolado?",
+    "const r = await c2p.idLookup({",
+    "  value: 'ana@correo.com',",
+    "  type:  'EMAIL_ADDRESS'",
+    "});",
+    "// → { consumerPresent: true }   (¡reconocido!)"
+  ],
+  initiate: [
+    "// Enviar el código de un solo uso (OTP)",
+    "await c2p.initiateValidation({",
+    "  requestedValidationChannelId: 'SMS'  // o 'EMAIL'",
+    "});",
+    "// → la red envía el OTP al canal elegido"
+  ],
+  validate: [
+    "// Validar el OTP que digitó el cliente",
+    "const v = await c2p.validate({ value: '482913' });",
+    "// → { validated: true }   sesión autenticada"
+  ],
+  getCards: [
+    "// Obtener las tarjetas de la billetera del consumidor",
+    "const { cards, actionCode } = await c2p.getCards();",
+    "// → actionCode: 'SUCCESS'",
+    "//   cards: [ {srcDigitalCardId, panLastFour:'4291', ...} ]"
+  ],
+  isRecognized: [
+    "// Reconocimiento SILENCIOSO por dispositivo (cookie SRC)",
+    "const { recognized, idTokens } = await c2p.isRecognized();",
+    "// → recognized: true  → sin correo ni OTP",
+    "const { cards } = await c2p.getCards({ idTokens });"
+  ],
+  checkoutCard: [
+    "// Pagar con la tarjeta seleccionada → token transitorio",
+    "const res = await c2p.checkoutWithCard({",
+    "  srcDigitalCardId: 'a1b2-c3d4',",
+    "  dpaTransactionOptions: { dpaLocale:'es_CO' }",
+    "});",
+    "// → { checkoutResponse: '<JWT cifrado / transientToken>' }"
+  ],
+  encrypt: [
+    "// Cifrar la tarjeta EN EL NAVEGADOR (Éxito no ve el PAN)",
+    "const enc = await c2p.encryptCard({",
+    "  primaryAccountNumber: '5412753488214291',",
+    "  panExpirationMonth: '08', panExpirationYear: '2029',",
+    "  cardSecurityCode: '***'",
+    "});"
+  ],
+  checkoutNew: [
+    "// Pagar con la tarjeta nueva y enrolarla (con consentimiento)",
+    "const res = await c2p.checkoutWithNewCard({",
+    "  encryptedCard: enc,",
+    "  rememberMe: true,            // enrolar en Click to Pay",
+    "  dpaTransactionOptions: { dpaLocale:'es_CO' }",
+    "});",
+    "// → token transitorio + tarjeta añadida a la billetera"
+  ],
+  unbind: [
+    "// 'No eres tú' — desvincular el dispositivo",
+    "await c2p.unbindAppInstance();",
+    "// → vuelve a pedir correo/teléfono"
+  ],
+  authorize: [
+    "// SERVIDOR (Éxito) — autorizar con el token transitorio",
+    "POST /payments",
+    "{ transientToken: res.checkoutResponse,",
+    "  amount: 118990000, currency: 'COP',",
+    "  threeDSecure: { challengeIndicator: '04' } }",
+    "// → { status: 'APPROVED', approvalCode, networkToken }"
+  ]
+};
+
+// ---------- flujos ----------
+var FLOWS = {
+  newUser: {
+    label: "Nuevo usuario",
+    sub: "Caso 1 — El consumidor no está enrolado. Ingresa su tarjeta y, con su consentimiento, queda enrolado en Click to Pay para futuras compras.",
+    steps: [
+      { t:"Carrito de compras", layer:"VTEX", file:"cart.js",
+        cx:["Punto de partida"], txt:"La jornada inicia en el carrito de Éxito. El cliente revisa sus productos y toca <b>Ir a pagar</b>. Aún no interviene Click to Pay.",
+        code:C.cart, screen:()=>topbar('Carrito')+cart() },
+      { t:"Iniciar el checkout", layer:"UCS", file:"checkout.js",
+        cx:["Sessions API","mount()"], txt:"Al entrar al checkout, el backend genera el <i>capture context</i> y la librería de Unified Checkout <b>monta</b> el componente de pago, mostrando <b>Click to Pay</b> como medio destacado.",
+        code:C.session, screen:()=>topbar('Pago')+paymentList(false) },
+      { t:"Capturar identidad", layer:"SRC", file:"clicktopay.js",
+        cx:["Capture ID","Product education"], txt:"Según el CX Guide, se presenta un solo campo (correo o celular) con un texto introductorio que explica el valor de Click to Pay. El cliente ingresa su correo.",
+        code:C.init.concat([""]).concat(C.idLookupNo), screen:()=>topbar('Click to Pay')+emailEntry('nuevo@correo.com') },
+      { t:"Ingresar la tarjeta", layer:"SRC", file:"clicktopay.js",
+        cx:["Add a card","Consentimiento"], txt:"Como no está enrolado, se muestra el formulario de tarjeta. Los datos se <b>cifran en el dispositivo</b>. Se ofrece — sin marcar por defecto de forma intrusiva — guardar la tarjeta en Click to Pay.",
+        code:C.encrypt, screen:()=>topbar('Click to Pay')+newCardForm({title:'Ingresa tu tarjeta',cta:'Guardar y pagar $1.189.900',remember:true}) },
+      { t:"Pagar y enrolar", layer:"SRC", file:"clicktopay.js",
+        cx:["Checkout","Enroll in Click to Pay"], txt:"Con el consentimiento del cliente, la tarjeta se enrola en la billetera de red y se genera el <b>token transitorio</b> del pago.",
+        code:C.checkoutNew, screen:()=>topbar('Click to Pay')+newCardForm({title:'Confirmar pago',cta:'Pagando…',remember:true}) },
+      { t:"Autorizar y confirmar", layer:"UCS", file:"server.js",
+        cx:["3-D Secure","Confirmación"], txt:"El backend de Éxito autoriza con el token transitorio (challenge 3-D Secure '04' para usuario nuevo). Se confirma el pedido. La próxima compra ya será de usuario reconocido.",
+        code:C.authorize, screen:()=>confirm('Click to Pay · Mastercard ••4291') }
+    ]
+  },
+  email: {
+    label: "Reconocido por correo / teléfono",
+    sub: "Caso 2 — El consumidor ya está enrolado pero el dispositivo no está vinculado. Se le reconoce por su correo/celular y se valida con un código (OTP).",
+    steps: [
+      { t:"Carrito de compras", layer:"VTEX", file:"cart.js",
+        cx:["Punto de partida"], txt:"La jornada inicia en el carrito de Éxito. El cliente toca <b>Ir a pagar</b>.",
+        code:C.cart, screen:()=>topbar('Carrito')+cart() },
+      { t:"Iniciar el checkout", layer:"UCS", file:"checkout.js",
+        cx:["Sessions API","mount()"], txt:"El backend genera el <i>capture context</i> y se monta Unified Checkout con Click to Pay destacado.",
+        code:C.session, screen:()=>topbar('Pago')+paymentList(false) },
+      { t:"Reconocer por correo", layer:"SRC", file:"clicktopay.js",
+        cx:["Capture ID"], txt:"El cliente ingresa su correo. <code>idLookup</code> confirma que está enrolado en una red Click to Pay.",
+        code:C.init.concat([""]).concat(C.idLookupYes), screen:()=>topbar('Click to Pay')+emailEntry('ana@correo.com') },
+      { t:"Enviar el OTP", layer:"SRC", file:"clicktopay.js",
+        cx:["One-time passcode","Channel choice"], txt:"El CX Guide recomienda dejar elegir el canal (SMS o correo) y enmascarar el destino. <code>initiateValidation</code> dispara el envío del código.",
+        code:C.initiate, screen:()=>topbar('Click to Pay')+otp('sms') },
+      { t:"Validar el OTP", layer:"SRC", file:"clicktopay.js",
+        cx:["One-time passcode","Reenviar"], txt:"El cliente digita el código de 6 dígitos con autocompletado e indicador de reenvío. <code>validate</code> autentica la sesión.",
+        code:C.validate, screen:()=>topbar('Click to Pay')+otp('sms') },
+      { t:"Elegir tarjeta", layer:"SRC", file:"clicktopay.js",
+        cx:["Card list"], txt:"<code>getCards</code> devuelve la billetera. Se muestran las tarjetas enmascaradas con arte de marca y la predeterminada destacada (patrón Card list del CX Guide).",
+        code:C.getCards, screen:()=>topbar('Click to Pay')+cardList({recog:true,name:'Ana'}) },
+      { t:"Pagar", layer:"SRC", file:"clicktopay.js",
+        cx:["Checkout"], txt:"El cliente confirma la tarjeta y paga. <code>checkoutWithCard</code> devuelve el token transitorio.",
+        code:C.checkoutCard, screen:()=>topbar('Click to Pay')+cardList({recog:true,name:'Ana'}) },
+      { t:"Autorizar y confirmar", layer:"UCS", file:"server.js",
+        cx:["3-D Secure","Confirmación"], txt:"El backend autoriza con el token (challenge '01' para usuario reconocido). Pedido confirmado.",
+        code:C.authorize, screen:()=>confirm('Click to Pay · Mastercard ••4291') }
+    ]
+  },
+  device: {
+    label: "Usuario reconocido",
+    sub: "Caso 3 — El dispositivo ya está vinculado a la billetera. Reconocimiento silencioso: sin correo y sin OTP — el camino más corto al pago en 1 clic.",
+    steps: [
+      { t:"Carrito de compras", layer:"VTEX", file:"cart.js",
+        cx:["Punto de partida"], txt:"La jornada inicia en el carrito de Éxito. El cliente toca <b>Ir a pagar</b>.",
+        code:C.cart, screen:()=>topbar('Carrito')+cart() },
+      { t:"Iniciar el checkout", layer:"UCS", file:"checkout.js",
+        cx:["Sessions API","mount()"], txt:"El backend genera el <i>capture context</i> y se monta Unified Checkout.",
+        code:C.session, screen:()=>topbar('Pago')+paymentList(true) },
+      { t:"Reconocimiento silencioso", layer:"SRC", file:"clicktopay.js",
+        cx:["Returning user","1-click"], txt:"<code>isRecognized</code> detecta el dispositivo vinculado (cookie SRC). No se pide correo ni OTP: se saluda al cliente y se ofrece la opción <b>“No eres tú”</b> (CX Guide).",
+        code:C.init.concat([""]).concat(C.isRecognized), screen:()=>topbar('Click to Pay')+cardList({recog:true,name:'Ana'}) },
+      { t:"Elegir tarjeta", layer:"SRC", file:"clicktopay.js",
+        cx:["Card list"], txt:"Las tarjetas aparecen de inmediato. El cliente confirma la predeterminada o elige otra.",
+        code:C.getCards, screen:()=>topbar('Click to Pay')+cardList({recog:true,name:'Ana'}) },
+      { t:"Pagar en 1 clic", layer:"SRC", file:"clicktopay.js",
+        cx:["Checkout","1-click"], txt:"Un solo toque genera el token transitorio. Esta es la promesa central de Click to Pay.",
+        code:C.checkoutCard, screen:()=>topbar('Click to Pay')+cardList({recog:true,name:'Ana'}) },
+      { t:"Autorizar y confirmar", layer:"UCS", file:"server.js",
+        cx:["Confirmación"], txt:"El backend autoriza con el token transitorio y confirma el pedido casi al instante.",
+        code:C.authorize, screen:()=>confirm('Click to Pay · Mastercard ••4291') }
+    ]
+  },
+  addCard: {
+    label: "Agregar una nueva tarjeta",
+    sub: "Caso 4 — Un usuario ya reconocido añade una tarjeta nueva a su billetera durante el pago y la usa de inmediato.",
+    steps: [
+      { t:"Sesión reconocida", layer:"SRC", file:"clicktopay.js",
+        cx:["Returning user","Card list"], txt:"El cliente ya está reconocido y ve su billetera. Para usar otra tarjeta toca <b>Agregar tarjeta</b> (patrón Card list → Add a card).",
+        code:C.getCards, screen:()=>topbar('Click to Pay')+cardList({recog:true,name:'Ana'}) },
+      { t:"Ingresar la tarjeta nueva", layer:"SRC", file:"clicktopay.js",
+        cx:["Add a card","Consentimiento"], txt:"Se abre el formulario. Los datos se <b>cifran en el dispositivo</b> con <code>encryptCard</code>; se ofrece guardarla en la billetera.",
+        code:C.encrypt, screen:()=>topbar('Agregar tarjeta')+newCardForm({title:'Nueva tarjeta',cta:'Guardar y pagar $1.189.900',remember:true}) },
+      { t:"Guardar y pagar", layer:"SRC", file:"clicktopay.js",
+        cx:["Checkout","Enroll card"], txt:"<code>checkoutWithNewCard</code> añade la tarjeta a la billetera de red y la usa para el pago, devolviendo el token transitorio.",
+        code:C.checkoutNew, screen:()=>topbar('Agregar tarjeta')+newCardForm({title:'Confirmar pago',cta:'Pagando…',remember:true}) },
+      { t:"Tarjeta guardada", layer:"SRC", file:"clicktopay.js",
+        cx:["Card list"], txt:"La nueva tarjeta queda disponible en la billetera para próximas compras, lista para el pago en 1 clic.",
+        code:C.getCards, screen:()=>topbar('Click to Pay')+cardList({recog:true,name:'Ana'}) },
+      { t:"Autorizar y confirmar", layer:"UCS", file:"server.js",
+        cx:["3-D Secure","Confirmación"], txt:"El backend autoriza con el token transitorio y confirma el pedido. La billetera del cliente ahora tiene una tarjeta más.",
+        code:C.authorize, screen:()=>confirm('Click to Pay · Mastercard ••8821 (nueva)') }
+    ]
+  }
+};
+
+// ---------- estado + render ----------
+var state = { uc:'newUser', i:0 };
+var layerMeta = {
+  UCS: {label:'Unified Checkout Solutions', bg:'#e7f0ff', color:'#0a66ff'},
+  SRC: {label:'Click to Pay · SRC',          bg:'#fff1d6', color:'#a86400'},
+  VTEX:{label:'Tienda Éxito · VTEX',          bg:'#eafaf0', color:'#0a7d34'}
+};
+
+function renderCode(lines){
+  var html='';
+  for(var k=0;k<lines.length;k++){
+    var ln=lines[k];
+    var cls='ln';
+    var safe=ln.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    if(ln.trim().indexOf('//')===0) cls='ln cmt';
+    else if(ln.trim().indexOf('// →')===0) cls='ln cmt';
+    html+='<span class="'+cls+'">'+(safe===''?'&nbsp;':safe)+'</span>';
+  }
+  return html;
+}
+
+function render(){
+  var flow=FLOWS[state.uc];
+  var step=flow.steps[state.i];
+  document.getElementById('ucSub').innerHTML=flow.sub;
+  // phone
+  document.getElementById('screen-body').innerHTML=step.screen();
+  // panel
+  document.getElementById('stepNo').textContent=(state.i+1);
+  document.getElementById('stepTitle').textContent=step.t;
+  document.getElementById('progressLbl').textContent='Paso '+(state.i+1)+' de '+flow.steps.length;
+  var tags='';
+  for(var j=0;j<step.cx.length;j++) tags+='<span class="ux">'+step.cx[j]+'</span>';
+  document.getElementById('cxNote').innerHTML='<div class="tagrow">'+tags+'</div>'+step.txt;
+  // code
+  document.getElementById('codeFile').textContent=step.file;
+  var lm=layerMeta[step.layer];
+  var ll=document.getElementById('layerLabel');
+  ll.textContent=lm.label; ll.style.background=lm.bg; ll.style.color=lm.color;
+  document.getElementById('codeBody').innerHTML=renderCode(step.code);
+  // dots
+  var dots='';
+  for(var d=0;d<flow.steps.length;d++) dots+='<span class="d'+(d===state.i?' on':'')+'"></span>';
+  document.getElementById('dots').innerHTML=dots;
+  document.getElementById('prevBtn').disabled=(state.i===0);
+  document.getElementById('nextBtn').textContent=(state.i===flow.steps.length-1)?'Reiniciar ↺':'Siguiente →';
+  // tabs
+  var btns=document.querySelectorAll('#tabs button');
+  for(var b=0;b<btns.length;b++) btns[b].setAttribute('aria-selected', btns[b].dataset.uc===state.uc ? 'true':'false');
+}
+
+document.getElementById('tabs').addEventListener('click',function(e){
+  var btn=e.target.closest('button'); if(!btn) return;
+  state.uc=btn.dataset.uc; state.i=0; render();
+});
+document.getElementById('nextBtn').addEventListener('click',function(){
+  var n=FLOWS[state.uc].steps.length;
+  state.i=(state.i+1)%n; render();
+});
+document.getElementById('prevBtn').addEventListener('click',function(){
+  if(state.i>0){state.i--;render();}
+});
+document.addEventListener('keydown',function(e){
+  if(e.key==='ArrowRight'){var n=FLOWS[state.uc].steps.length; state.i=(state.i+1)%n; render();}
+  if(e.key==='ArrowLeft'){ if(state.i>0){state.i--; render();}}
+});
+
+render();
+</script>
+</body>
+</html>

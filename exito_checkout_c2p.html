@@ -1,0 +1,1829 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Éxito — Checkout · Pago</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --amarillo: #F5A800;
+    --amarillo-dark: #d99300;
+    --verde: #2E7D32;
+    --rojo: #C62828;
+    --gris-bg: #F5F5F5;
+    --gris-borde: #E0E0E0;
+    --gris-texto: #757575;
+    --texto: #212121;
+    --blanco: #FFFFFF;
+    --azul-c2p: #1565C0;
+    --azul-c2p-light: #E3F2FD;
+    --font: 'Nunito', sans-serif;
+    --shadow-card: 0 1px 4px rgba(0,0,0,0.10);
+    --shadow-modal: 0 8px 40px rgba(0,0,0,0.22);
+    --radius: 6px;
+    --radius-lg: 10px;
+  }
+
+  body {
+    font-family: var(--font);
+    background: var(--gris-bg);
+    color: var(--texto);
+    font-size: 14px;
+    line-height: 1.5;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: var(--amarillo);
+    padding: 10px 24px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+    position: static;
+    z-index: 100;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+  }
+  .header-row { display:flex; align-items:center; gap:20px; }
+  .header .uc-pills { gap:10px; }
+  .sim-caption { max-width:1100px; margin:0 auto; padding:12px 16px 0; }
+  .sim-caption .flow-caption { margin:0; }
+
+  /* ══ HEADER PRINCIPAL DE LA PRESENTACIÓN (menú general · ajeno al demo) ══ */
+  html { scroll-behavior:smooth; }
+  [id] { scroll-margin-top:80px; }
+  .site-nav { position:sticky; top:0; z-index:300; background:rgba(255,255,255,.93); backdrop-filter:saturate(160%) blur(12px); -webkit-backdrop-filter:saturate(160%) blur(12px); border-bottom:1px solid #e6e6ea; }
+  .site-nav-inner { max-width:1100px; margin:0 auto; min-height:64px; display:flex; align-items:center; gap:18px; padding:10px 24px; flex-wrap:wrap; }
+  .brand-lockup { display:flex; align-items:center; gap:11px; text-decoration:none; }
+  .exito-pill { background:#FFE800; color:#1d1d1f; font-weight:900; font-size:18px; letter-spacing:-.04em; padding:5px 13px; border-radius:10px; line-height:1; }
+  .brand-x { color:#c4c4cc; font-weight:700; font-size:15px; }
+  .c2p-lockup { display:inline-flex; align-items:center; gap:9px; font-weight:800; font-size:16px; color:#111; white-space:nowrap; letter-spacing:-.01em; }
+  .c2p-lockup .c2p-mk { width:30px; height:30px; border-radius:8px; background:#111; display:grid; place-items:center; flex-shrink:0; }
+  .site-links { display:flex; gap:4px; margin-left:auto; flex-wrap:wrap; }
+  .site-links a { font-size:14px; font-weight:700; color:#3a3a42; text-decoration:none; padding:9px 15px; border-radius:10px; transition:background .15s,color .15s; }
+  .site-links a:hover { background:#f0f0f3; }
+  .site-links a.active { background:#111; color:#fff; }
+
+  /* ── Secciones placeholder (Inicio / Ventajas / Métodos) ── */
+  .pres-section { max-width:1100px; margin:0 auto; padding:52px 24px; }
+  .pres-section .eyebrow { display:inline-block; font-size:11px; font-weight:800; letter-spacing:.14em; text-transform:uppercase; color:#8a6d00; background:#FFE800; padding:6px 12px; border-radius:999px; margin-bottom:14px; }
+  .pres-section h2 { font-size:30px; font-weight:800; letter-spacing:-.02em; margin:0 0 12px; color:#1d1d1f; }
+  .pres-ph { color:#9a9aa3; font-size:14px; font-weight:600; border:1.5px dashed #d4d4dc; border-radius:14px; padding:34px; text-align:center; background:#fafafb; }
+
+  /* ══ BARRA DEL SIMULADOR (control del demo) ══ */
+  .demo-bar { background:#f7f7f9; border-bottom:1px solid #e6e6ea; padding:16px 24px; }
+  .demo-bar-inner { max-width:1100px; margin:0 auto; }
+  .sim-label { font-size:12px; font-weight:800; letter-spacing:.4px; text-transform:uppercase; color:#8a8a93; margin-bottom:11px; }
+  .uc-pills { display:flex; gap:10px; flex-wrap:wrap; }
+  .uc-pill { border:1px solid #e0e0e6; background:#fff; border-radius:999px; padding:9px 16px; font-size:13px; font-weight:700; font-family:var(--font); cursor:pointer; color:#3a3a42; display:flex; align-items:center; gap:8px; transition:all .15s; }
+  .uc-pill:hover { border-color:#bdbdbd; }
+  .uc-pill .uc-ico { width:22px; height:22px; border-radius:7px; background:#f0f0f3; display:grid; place-items:center; font-size:12px; }
+  .uc-pill.active { background:#111; color:#fff; border-color:#111; }
+  .uc-pill.active .uc-ico { background:#333; }
+  .demo-bar .flow-caption { margin:13px 0 0; }
+
+  /* ══ DISCLOSURE DE DATOS · CX Guide (data disclosure / PII) ══ */
+  .disc-head { display:flex; align-items:center; gap:12px; padding:14px 20px; cursor:pointer; }
+  .disc-head:hover { background:#FAFAFA; }
+  .disc-ico { width:30px; flex-shrink:0; display:flex; align-items:center; }
+  .disc-head h2 { font-size:14px; font-weight:700; color:var(--texto); margin:0; }
+  .disc-chevron { margin-left:auto; color:#BDBDBD; font-size:13px; transition:transform .2s; }
+  .c2p-disclosure.open .disc-chevron { transform:rotate(180deg); }
+  .disc-body { display:none; padding:0 20px 18px; border-top:1px solid #EEE; }
+  .c2p-disclosure.open .disc-body { display:block; }
+  .disc-lead { font-size:13px; color:#444; line-height:1.55; padding-top:14px; margin:0 0 12px; }
+  .disc-list { list-style:none; padding:0; margin:0 0 14px; display:flex; flex-direction:column; gap:9px; }
+  .disc-list li { font-size:12.5px; color:#555; line-height:1.5; padding-left:20px; position:relative; }
+  .disc-list li::before { content:""; position:absolute; left:0; top:5px; width:8px; height:8px; border-radius:2px; background:var(--azul-c2p); }
+  .disc-list b { color:var(--texto); }
+  .disc-links { display:flex; gap:9px; align-items:center; font-size:12px; padding-top:4px; border-top:1px dashed #eee; margin-top:2px; padding-top:12px; }
+  .disc-links a { color:var(--azul-c2p); text-decoration:none; font-weight:700; }
+  .disc-links a:hover { text-decoration:underline; }
+  .disc-links span { color:#ccc; }
+
+  /* ══ Link informativo + POPUP "Bienvenido a Click to Pay" (CX Guide · product education) ══ */
+  .info-pii { position:relative; margin-top:7px; }
+  .info-link { font-size:13px; font-weight:600; color:#1a1a1a; cursor:pointer; text-decoration:none; }
+  .info-link u { text-decoration:underline; }
+  .info-link:hover { color:#000; }
+  .info-i { display:inline-grid; place-items:center; width:18px; height:18px; border-radius:50%; border:none; background:#2E5E3A; color:#fff; font-size:11px; font-weight:800; font-style:italic; cursor:pointer; padding:0; margin-left:6px; vertical-align:middle; font-family:var(--font); }
+  .info-i:hover { background:#24492e; }
+  .card-contact { overflow:visible; }
+  .card-contact .card-head { border-radius:var(--radius-lg) var(--radius-lg) 0 0; }
+  .info-tip { display:none; position:fixed; z-index:500; background:#F2F2F2; color:#222; border-radius:10px; box-shadow:0 12px 32px rgba(0,0,0,.22); padding:16px 18px; font-size:13.5px; line-height:1.5; width:380px; max-width:90vw; }
+  .info-tip.show { display:block; }
+  .info-tip::before { content:""; position:absolute; top:-8px; left:var(--tip-arrow,40px); width:0; height:0; border-left:8px solid transparent; border-right:8px solid transparent; border-bottom:8px solid #F2F2F2; }
+  .welcome-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.5); z-index:600; align-items:center; justify-content:center; padding:20px; }
+  .welcome-overlay.open { display:flex; }
+  .welcome-modal { background:#fff; border-radius:16px; width:380px; max-width:96vw; max-height:92vh; overflow-y:auto; padding:32px 30px 28px; box-shadow:var(--shadow-modal); animation:fadeIn .2s ease; }
+  .welcome-title { font-size:34px; font-weight:800; line-height:1.04; letter-spacing:-.02em; margin:0 0 16px; color:#111; }
+  .welcome-title span { color:#EE4823; }
+  .welcome-sub { font-size:15px; color:#333; line-height:1.45; margin:0 0 18px; font-weight:500; }
+  .welcome-nets { display:flex; align-items:center; gap:7px; margin-bottom:20px; }
+  .wn-sep { width:1px; height:20px; background:#ccc; margin:0 3px; }
+  .wn-ph { width:30px; height:21px; border-radius:4px; background:#E4E4E7; }
+  .welcome-list { list-style:none; padding:0; margin:0 0 24px; display:flex; flex-direction:column; gap:15px; }
+  .welcome-list li { font-size:15px; color:#222; line-height:1.4; padding-left:18px; position:relative; font-weight:500; }
+  .welcome-list li::before { content:"•"; position:absolute; left:2px; top:-2px; color:#222; font-size:20px; }
+  .welcome-ok { width:100%; background:#111; color:#fff; border:none; border-radius:999px; padding:15px; font-size:16px; font-weight:800; font-family:var(--font); cursor:pointer; }
+  .welcome-ok:hover { background:#333; }
+
+  /* ── Icono de info por campo + tooltip de disclosure (CX Guide · PII) ── */
+  .field-info { width:16px; height:16px; border-radius:50%; border:none; background:#9aa0a6; color:#fff; font-size:10px; font-weight:800; font-style:italic; cursor:pointer; line-height:16px; padding:0; margin-left:6px; vertical-align:middle; font-family:var(--font); text-align:center; }
+  .field-info:hover { background:#6b7178; }
+  .field-tip { display:none; position:relative; background:#fff; border:1px solid #e0e0e0; border-radius:10px; box-shadow:0 8px 26px rgba(0,0,0,.16); padding:13px 15px; font-size:12.5px; color:#444; line-height:1.5; margin:9px 0 12px; }
+  .field-tip.show { display:block; }
+  .field-tip::before { content:""; position:absolute; top:-7px; left:22px; width:12px; height:12px; background:#fff; border-left:1px solid #e0e0e0; border-top:1px solid #e0e0e0; transform:rotate(45deg); }
+  .header-logo {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--texto);
+    letter-spacing: -1.5px;
+    text-decoration: none;
+    line-height: 1;
+  }
+  .header-logo em { color: var(--rojo); font-style: normal; }
+  .header-sep { width: 1px; height: 28px; background: rgba(0,0,0,0.18); }
+  .header-title { font-size: 15px; font-weight: 700; color: var(--texto); }
+  .header-right {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #444;
+  }
+  .lock-icon { font-size: 14px; }
+
+  /* ── BREADCRUMB ── */
+  .breadcrumb-bar {
+    background: var(--blanco);
+    border-bottom: 1px solid var(--gris-borde);
+    padding: 10px 24px;
+  }
+  .breadcrumb {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    font-size: 13px;
+  }
+  .bc-item { color: var(--gris-texto); }
+  .bc-item.active { color: var(--amarillo-dark); font-weight: 700; }
+  .bc-sep { color: #CCC; margin: 0 8px; font-size: 12px; }
+
+  /* ── LAYOUT ── */
+  .page-wrap {
+    max-width: 1100px;
+    margin: 20px auto;
+    padding: 0 16px 40px;
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 18px;
+    align-items: start;
+  }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--blanco);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    border: 1px solid var(--gris-borde);
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .card:last-child { margin-bottom: 0; }
+
+  .card-head {
+    background: #FAFAFA;
+    border-bottom: 1px solid var(--gris-borde);
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .step-num {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: var(--amarillo);
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--texto);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .step-num.done { background: var(--verde); color: #fff; }
+  .card-head h2 { font-size: 15px; font-weight: 700; }
+  .card-body { padding: 20px; }
+
+  /* ── CONTACT DONE ── */
+  .contact-done {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 2px 0;
+  }
+  .avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: #FFF3CD;
+    font-size: 13px;
+    font-weight: 800;
+    color: #B45309;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .contact-name { font-size: 14px; font-weight: 700; }
+  .contact-email { font-size: 12px; color: var(--gris-texto); }
+  .badge-done {
+    margin-left: auto;
+    background: #E8F5E9;
+    color: var(--verde);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    border: 1px solid #C8E6C9;
+  }
+
+  /* ── FLOW DEMO TABS ── */
+  .demo-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--gris-texto);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin-bottom: 8px;
+  }
+  .flow-tabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 18px;
+    background: #F5F5F5;
+    padding: 4px;
+    border-radius: var(--radius);
+  }
+  .flow-tab {
+    flex: 1;
+    padding: 6px 4px;
+    font-size: 11px;
+    font-weight: 700;
+    font-family: var(--font);
+    border: none;
+    border-radius: 4px;
+    background: transparent;
+    cursor: pointer;
+    text-align: center;
+    color: var(--gris-texto);
+    transition: all 0.15s;
+    line-height: 1.3;
+  }
+  .flow-tab.active {
+    background: var(--blanco);
+    color: var(--texto);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+  }
+
+  /* ── FORM FIELDS ── */
+  .field { margin-bottom: 14px; }
+  .field label {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    color: #555;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+  .field input, .field select {
+    width: 100%;
+    border: 1px solid #BDBDBD;
+    border-radius: var(--radius);
+    padding: 10px 12px;
+    font-size: 14px;
+    font-family: var(--font);
+    color: var(--texto);
+    outline: none;
+    transition: border-color 0.15s;
+    background: var(--blanco);
+  }
+  .field input:focus { border-color: var(--amarillo-dark); box-shadow: 0 0 0 3px rgba(245,168,0,0.15); }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .field-relative { position: relative; }
+  .field-relative input { padding-right: 80px; }
+  .field-brands {
+    position: absolute;
+    right: 10px; top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    gap: 3px;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 18px 0;
+  }
+  .div-line { flex: 1; height: 1px; background: #E0E0E0; }
+  .div-text { font-size: 12px; color: #9E9E9E; font-weight: 600; white-space: nowrap; }
+
+  /* ── CLICK TO PAY BUTTON (EMVCo spec) ── */
+  .c2p-trigger-wrap { margin-bottom: 6px; }
+  .c2p-btn {
+    width: 100%;
+    background: var(--blanco);
+    border: 1.5px solid #BDBDBD;
+    border-radius: var(--radius);
+    padding: 11px 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.15s;
+    font-family: var(--font);
+  }
+  .c2p-btn:hover { border-color: var(--azul-c2p); background: var(--azul-c2p-light); }
+
+  /* Click to Pay icon (EMVCo pentagon + arrow) */
+  .c2p-icon-svg { flex-shrink: 0; }
+  .c2p-vertical-sep {
+    width: 1px;
+    height: 26px;
+    background: #BDBDBD;
+    flex-shrink: 0;
+  }
+  .c2p-network-marks {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex: 1;
+  }
+  .net-logo {
+    height: 22px;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px 5px;
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+    flex-shrink: 0;
+  }
+  .net-mc { background: #EB001B; color: #fff; width: 28px; border-radius: 14px; position: relative; overflow: visible; }
+  .net-visa { background: #1A1F71; color: #fff; padding: 2px 6px; }
+  .net-amex { background: #007BC1; color: #fff; }
+  .net-disc { background: #FF6600; color: #fff; }
+  .c2p-label { font-size: 13px; font-weight: 700; color: #222; margin-left: 2px; }
+
+  .c2p-learn {
+    text-align: center;
+    font-size: 11px;
+    color: #9E9E9E;
+    margin-top: 6px;
+  }
+  .c2p-learn a { color: var(--azul-c2p); text-decoration: none; font-weight: 600; }
+
+  /* ── MANUAL CARD MINI BRANDS ── */
+  .mini-brand {
+    height: 18px;
+    border-radius: 2px;
+    padding: 1px 4px;
+    font-size: 7px;
+    font-weight: 800;
+  }
+
+  /* ── CHECKBOX ── */
+  .check-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 12px 0;
+  }
+  .check-row input[type=checkbox] {
+    width: 16px; height: 16px;
+    accent-color: var(--amarillo);
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .check-row label { font-size: 13px; color: #555; cursor: pointer; font-weight: 500; }
+
+  /* ── SUBMIT ── */
+  .btn-pay {
+    width: 100%;
+    background: var(--amarillo);
+    border: none;
+    border-radius: var(--radius);
+    padding: 14px;
+    font-size: 16px;
+    font-weight: 800;
+    font-family: var(--font);
+    color: var(--texto);
+    cursor: pointer;
+    transition: background 0.15s;
+    letter-spacing: 0.2px;
+  }
+  .btn-pay:hover { background: var(--amarillo-dark); }
+  .ssl-note {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    margin-top: 10px;
+    font-size: 11px;
+    color: var(--gris-texto);
+    font-weight: 600;
+  }
+
+  /* ── ORDER SUMMARY ── */
+  .order-item {
+    display: flex;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px dashed #EEE;
+  }
+  .order-item:last-child { border-bottom: none; }
+  .item-img {
+    width: 52px; height: 52px;
+    border-radius: 6px;
+    background: #F5F5F5;
+    border: 1px solid #EEE;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+  }
+  .item-name { font-size: 13px; font-weight: 600; line-height: 1.3; color: var(--texto); }
+  .item-qty { font-size: 11px; color: var(--gris-texto); margin-top: 3px; }
+  .item-price { font-size: 14px; font-weight: 700; white-space: nowrap; margin-left: auto; padding-top: 2px; }
+
+  .totals { margin-top: 4px; padding-top: 12px; border-top: 1px solid var(--gris-borde); }
+  .total-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: #555;
+    padding: 4px 0;
+  }
+  .total-row.big {
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--texto);
+    margin-top: 8px;
+    padding-top: 10px;
+    border-top: 2px solid var(--gris-borde);
+  }
+  .green { color: var(--verde); font-weight: 700; }
+  .cuotas-badge {
+    display: inline-block;
+    background: #FFF8E1;
+    border: 1px solid #FFD54F;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #B45309;
+    padding: 2px 8px;
+    margin-top: 6px;
+  }
+
+  .delivery-block {
+    background: #E8F5E9;
+    border-radius: var(--radius);
+    border-left: 3px solid var(--verde);
+    padding: 10px 12px;
+    font-size: 12px;
+    margin-top: 14px;
+  }
+  .delivery-block strong { color: var(--verde); }
+
+  .security-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 14px;
+    justify-content: center;
+  }
+  .sec-badge {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: #FAFAFA;
+    border: 1px solid #EEE;
+    border-radius: 20px;
+    padding: 4px 10px;
+    font-size: 11px;
+    color: #666;
+    font-weight: 600;
+  }
+
+
+  /* ══════════════════════════════════════
+     CLICK TO PAY MODAL  (EMVCo CX spec)
+  ══════════════════════════════════════ */
+  .c2p-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    z-index: 500;
+    align-items: center;
+    justify-content: center;
+  }
+  .c2p-overlay.open { display: flex; }
+
+  /* Panel inline (no popup) */
+  #c2p-inline-host { display: none; margin: 8px 0 4px; }
+  .c2p-modal {
+    background: var(--blanco);
+    border: 1px solid var(--gris-borde);
+    border-radius: 10px;
+    width: 100%;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    animation: fadeIn .2s ease;
+  }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+  @keyframes slideUp {
+    from { transform: translateY(18px); opacity: 0; }
+    to   { transform: translateY(0);    opacity: 1; }
+  }
+
+  /* Modal header — white with C2P icon + networks (EMVCo spec) */
+  .c2p-modal-header {
+    padding: 18px 20px 14px;
+    border-bottom: 1px solid var(--gris-borde);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: static;
+    background: #FAFAFA;
+    z-index: 10;
+  }
+  .c2p-modal-header .c2p-icon-svg { flex-shrink: 0; }
+  .c2p-modal-header .c2p-vertical-sep { background: #BDBDBD; }
+  .modal-nets { display: flex; align-items: center; gap: 5px; }
+  .modal-merchant { margin-left: auto; text-align: right; }
+  .modal-merchant-name { font-size: 12px; font-weight: 700; color: #555; }
+  .modal-merchant-sub { font-size: 11px; color: #9E9E9E; }
+  .c2p-close {
+    margin-left: 12px;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    border: 1px solid var(--gris-borde);
+    background: var(--blanco);
+    cursor: pointer;
+    font-size: 14px;
+    color: #757575;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-family: var(--font);
+    transition: background 0.12s;
+  }
+  .c2p-close:hover { background: #F5F5F5; }
+
+  /* Progress steps */
+  .c2p-progress {
+    display: flex;
+    gap: 4px;
+    padding: 12px 20px 0;
+  }
+  .c2p-prog-step {
+    flex: 1;
+    height: 3px;
+    border-radius: 2px;
+    background: #E0E0E0;
+    transition: background 0.3s;
+  }
+  .c2p-prog-step.done { background: var(--azul-c2p); }
+
+  .c2p-modal-body { padding: 20px; }
+
+  /* Steps */
+  .c2p-step { display: none; }
+  .c2p-step.active { display: block; }
+
+  .c2p-step-title {
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--texto);
+    margin-bottom: 4px;
+  }
+  .c2p-step-desc {
+    font-size: 13px;
+    color: var(--gris-texto);
+    margin-bottom: 18px;
+    line-height: 1.5;
+    font-weight: 500;
+  }
+
+  /* Recognized user banner */
+  .recog-banner {
+    background: var(--azul-c2p-light);
+    border: 1px solid #BBDEFB;
+    border-radius: var(--radius);
+    padding: 11px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+  .recog-icon { font-size: 22px; line-height: 1; }
+  .recog-title { font-size: 13px; font-weight: 700; color: #0D47A1; }
+  .recog-sub { font-size: 11px; color: #1565C0; }
+
+  /* Card list */
+  .card-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+  .c2p-card-item {
+    border: 1.5px solid var(--gris-borde);
+    border-radius: var(--radius-lg);
+    padding: 12px 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.15s;
+    background: #FAFAFA;
+  }
+  .c2p-card-item:hover { border-color: var(--azul-c2p); background: var(--azul-c2p-light); }
+  .c2p-card-item.sel { border-color: var(--azul-c2p); background: var(--azul-c2p-light); }
+
+  .card-art {
+    width: 48px; height: 30px;
+    border-radius: 5px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 8px;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+  .ca-mc {
+    background: linear-gradient(135deg, #EB001B 0%, #F79E1B 50%, #F79E1B 100%);
+    color: #fff;
+    letter-spacing: 0.2px;
+  }
+  .ca-visa { background: #1A1F71; color: #fff; }
+  .ca-amex { background: #007BC1; color: #fff; }
+
+  .c2p-card-info { flex: 1; }
+  .c2p-card-name { font-size: 13px; font-weight: 700; color: var(--texto); }
+  .c2p-card-num { font-size: 12px; color: var(--gris-texto); font-weight: 500; }
+  .c2p-card-exp { font-size: 11px; color: #BDBDBD; }
+
+  .radio-circle {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    border: 2px solid #BDBDBD;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    transition: border-color 0.15s;
+  }
+  .c2p-card-item.sel .radio-circle { border-color: var(--azul-c2p); }
+  .radio-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--azul-c2p);
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+  .c2p-card-item.sel .radio-dot { opacity: 1; }
+
+  .c2p-add-card {
+    text-align: center;
+    font-size: 13px;
+    color: var(--azul-c2p);
+    font-weight: 700;
+    cursor: pointer;
+    margin-bottom: 14px;
+    padding: 6px;
+  }
+  .c2p-add-card:hover { text-decoration: underline; }
+
+  /* CVV mini */
+  .cvv-section { margin-bottom: 16px; }
+  .cvv-section label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-bottom: 6px;
+    display: block;
+  }
+  .cvv-wrap { display: flex; align-items: center; gap: 10px; }
+  .cvv-wrap input {
+    width: 96px;
+    border: 1px solid #BDBDBD;
+    border-radius: var(--radius);
+    padding: 9px 14px;
+    font-size: 16px;
+    letter-spacing: 4px;
+    text-align: center;
+    font-family: var(--font);
+    outline: none;
+  }
+  .cvv-wrap input:focus { border-color: var(--azul-c2p); }
+  .cvv-hint { font-size: 11px; color: #9E9E9E; font-weight: 500; line-height: 1.4; }
+
+  /* Buttons */
+  .btn-c2p-primary {
+    width: 100%;
+    background: var(--azul-c2p);
+    border: none;
+    border-radius: var(--radius);
+    padding: 13px;
+    font-size: 15px;
+    font-weight: 800;
+    font-family: var(--font);
+    color: var(--blanco);
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .btn-c2p-primary:hover { background: #0D47A1; }
+  .btn-c2p-success {
+    background: var(--verde);
+  }
+  .btn-c2p-success:hover { background: #1B5E20; }
+
+  .not-you {
+    text-align: center;
+    margin-top: 12px;
+    font-size: 12px;
+    color: #9E9E9E;
+    font-weight: 500;
+  }
+  .not-you a { color: var(--azul-c2p); cursor: pointer; font-weight: 700; text-decoration: none; }
+  .not-you a:hover { text-decoration: underline; }
+
+  /* OTP */
+  .otp-via { display: flex; gap: 8px; margin-bottom: 16px; }
+  .via-btn {
+    flex: 1;
+    border: 1.5px solid #E0E0E0;
+    border-radius: var(--radius);
+    padding: 9px 6px;
+    background: var(--blanco);
+    cursor: pointer;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 700;
+    color: #757575;
+    transition: all 0.15s;
+    font-family: var(--font);
+    line-height: 1.4;
+  }
+  .via-btn.sel { border-color: var(--azul-c2p); background: var(--azul-c2p-light); color: var(--azul-c2p); }
+  .via-icon { font-size: 18px; display: block; margin-bottom: 2px; }
+
+  .otp-boxes {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin: 20px 0;
+  }
+  .otp-box {
+    width: 44px; height: 50px;
+    border: 2px solid #E0E0E0;
+    border-radius: var(--radius);
+    font-size: 22px;
+    font-weight: 800;
+    text-align: center;
+    color: var(--texto);
+    font-family: var(--font);
+    outline: none;
+    background: #FAFAFA;
+    transition: all 0.15s;
+    -moz-appearance: textfield;
+  }
+  .otp-box:focus { border-color: var(--azul-c2p); background: var(--blanco); box-shadow: 0 0 0 3px rgba(21,101,192,0.12); }
+  .otp-box.filled { border-color: var(--verde); background: #E8F5E9; }
+  .otp-box::-webkit-inner-spin-button, .otp-box::-webkit-outer-spin-button { -webkit-appearance: none; }
+
+  .otp-resend {
+    text-align: center;
+    font-size: 12px;
+    color: #9E9E9E;
+    margin-bottom: 18px;
+    font-weight: 500;
+  }
+  .otp-resend a { color: var(--azul-c2p); cursor: pointer; font-weight: 700; }
+
+  .c2p-legal {
+    font-size: 11px;
+    color: #BDBDBD;
+    text-align: center;
+    margin-top: 14px;
+    line-height: 1.6;
+    font-weight: 500;
+  }
+  .c2p-legal a { color: var(--azul-c2p); text-decoration: none; }
+
+  /* New user form in modal */
+  .modal-field { margin-bottom: 12px; }
+  .modal-field label {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    color: #757575;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 5px;
+  }
+  .modal-field input, .modal-field select {
+    width: 100%;
+    border: 1px solid #BDBDBD;
+    border-radius: var(--radius);
+    padding: 10px 12px;
+    font-size: 14px;
+    font-family: var(--font);
+    color: var(--texto);
+    outline: none;
+  }
+  .modal-field input:focus { border-color: var(--azul-c2p); }
+  .modal-field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .phone-row { display: grid; grid-template-columns: 80px 1fr; gap: 8px; }
+
+  /* Success */
+  .success-wrap { text-align: center; padding: 8px 0; }
+  .success-circle {
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    background: #E8F5E9;
+    border: 3px solid var(--verde);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 34px;
+    margin: 0 auto 16px;
+  }
+  .success-title { font-size: 20px; font-weight: 800; margin-bottom: 6px; }
+  .success-desc { font-size: 13px; color: var(--gris-texto); margin-bottom: 18px; line-height: 1.6; font-weight: 500; }
+  .success-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #F5F5F5;
+    border: 1px solid #E0E0E0;
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-bottom: 16px;
+  }
+  .success-amount { font-size: 22px; font-weight: 800; color: var(--texto); }
+  .success-order { font-size: 12px; color: var(--gris-texto); margin-bottom: 20px; font-weight: 500; }
+  .success-order strong { color: var(--texto); }
+  .c2p-footer-note {
+    margin-top: 10px;
+    font-size: 10px;
+    color: #BDBDBD;
+  }
+
+  /* ── EMVCo C2P Icon SVG ── */
+  /* Pentagon + forward arrow — EMVCo standard mark */
+
+  /* ══ API / JS METHOD ANNOTATIONS (Punto 5 del caso) ══ */
+  .api-note {
+    background: #0B1F33;
+    border: 1px solid #14334F;
+    border-left: 3px solid var(--azul-c2p);
+    border-radius: 6px;
+    padding: 9px 12px;
+    margin-top: 14px;
+    font-family: 'SF Mono', ui-monospace, Menlo, Consolas, monospace;
+    font-size: 11px;
+    line-height: 1.7;
+    color: #CFE8FF;
+    display: flex;
+    gap: 9px;
+    align-items: flex-start;
+    text-align: left;
+  }
+  .api-badge {
+    background: var(--azul-c2p);
+    color: #fff;
+    font-family: var(--font);
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .api-badge.srv { background: #2E7D32; }
+  .api-badge.ucs { background: #6A1B9A; }
+  .api-note .cmt { color: #6FB3E0; }
+  .api-note .m   { color: #FFD479; font-weight: 700; }
+  .api-note .arr { color: #8899A6; }
+
+  /* ── flow caption ── */
+  .flow-caption {
+    font-size: 12.5px;
+    color: #5a4500;
+    font-weight: 600;
+    margin: -6px 0 16px;
+    padding: 9px 12px;
+    background: #FFF8E1;
+    border: 1px solid #FFE0A3;
+    border-left: 3px solid var(--amarillo);
+    border-radius: var(--radius);
+    line-height: 1.5;
+  }
+  .flow-caption strong { color: #B45309; }
+
+  /* ══ LISTA DE MÉTODOS DE PAGO (estilo Éxito) ══ */
+  .pm-banner { background:#4A90D9; color:#fff; font-size:12.5px; font-weight:700; text-align:center; padding:9px 14px; border-radius:6px; margin-bottom:16px; }
+  .pm-list { display:flex; flex-direction:column; gap:12px; }
+  .pm-item { border:1px solid var(--gris-borde); border-radius:10px; background:var(--blanco); overflow:hidden; transition:box-shadow .15s, border-color .15s; }
+  .pm-item.open { box-shadow:0 2px 12px rgba(0,0,0,.09); border-color:#BDBDBD; }
+  .pm-header { display:flex; align-items:center; gap:12px; padding:15px 16px; cursor:pointer; }
+  .pm-header:hover { background:#FAFAFA; }
+  .pm-ico { width:32px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .pm-name { font-size:14.5px; font-weight:600; color:#616161; }
+  .pm-item.open .pm-name { color:var(--texto); font-weight:700; }
+  .pm-badge-list { margin-left:8px; background:var(--azul-c2p); color:#fff; font-size:9.5px; font-weight:800; padding:2px 7px; border-radius:20px; letter-spacing:.4px; }
+  .pm-chevron { margin-left:auto; color:#BDBDBD; font-size:13px; transition:transform .2s; }
+  .pm-item.open .pm-chevron { transform:rotate(180deg); }
+  .pm-body { display:none; padding:0 18px 20px; }
+  .pm-item.open .pm-body { display:block; }
+  .pm-hint { font-size:13px; color:var(--gris-texto); padding-top:14px; line-height:1.5; border-top:1px solid #EEE; }
+  .c2p-express-head { display:flex; align-items:center; gap:10px; margin:0 0 10px; font-size:13px; font-weight:700; color:var(--texto); border-top:1px solid #EEE; padding-top:16px; }
+  .pm-badge-1click { margin-left:auto; background:var(--azul-c2p); color:#fff; font-size:10.5px; font-weight:800; padding:3px 9px; border-radius:20px; }
+  .cc-grid { display:grid; grid-template-columns:1fr 1fr; gap:2px 18px; margin:6px 0; }
+  .cc-grid .field label { text-transform:none; letter-spacing:0; font-weight:600; color:#444; font-size:13px; }
+  .cc-exp-wrap { display:grid; grid-template-columns:1.2fr 1fr; gap:12px; align-items:start; }
+  .exp-row { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  @media (max-width:560px){ .cc-grid { grid-template-columns:1fr; } }
+  /* marca Click to Pay + redes en la fila de tarjeta (imagen de referencia) */
+  .pm-ico.c2p-mark { width:40px; }
+  .pm-nets { display:flex; align-items:center; gap:5px; margin-left:auto; }
+  .pm-nets .pm-net-ph { width:26px; height:18px; border-radius:4px; background:#E4E4E7; display:inline-block; }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════
+     HEADER PRINCIPAL DE LA PRESENTACIÓN (menú general)
+══════════════════════════════════════════════════ -->
+<header class="site-nav">
+  <div class="site-nav-inner">
+    <a class="brand-lockup" href="#inicio" aria-label="Inicio">
+      <span class="exito-pill">éxito</span>
+      <span class="brand-x">×</span>
+      <span class="c2p-lockup">
+        <span class="c2p-mk">
+          <svg width="20" height="14" viewBox="0 0 40 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Click to Pay">
+            <path d="M5 4 H20 L28 14 L20 24 H5 Z" fill="#fff" stroke="#fff" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M31 7 C35 11 35 17 31 21" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+        </span>
+        Click to Pay
+      </span>
+    </a>
+    <nav class="site-links">
+      <a href="#inicio" class="active">Inicio</a>
+      <a href="#ventajas">Ventajas</a>
+      <a href="#demo">Demo</a>
+      <a href="#metodos">Métodos</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ── Inicio (sección por completar) ── -->
+<section id="inicio" class="pres-section">
+  <span class="eyebrow">Presentación</span>
+  <h2>Click to Pay en exito.com con Unified Checkout Solutions</h2>
+  <div class="pres-ph">Portada / introducción — sección por completar.</div>
+</section>
+
+<!-- ── Ventajas (sección por completar) ── -->
+<section id="ventajas" class="pres-section">
+  <span class="eyebrow">Punto 1</span>
+  <h2>Ventajas de Click to Pay</h2>
+  <div class="pres-ph">Beneficios para el comercio y el tarjetahabiente — sección por completar.</div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     DEMO — checkout interactivo
+══════════════════════════════════════════════════ -->
+<div id="demo">
+
+<!-- ══ HEADER del checkout Éxito · incluye el selector de casos de uso ══ -->
+<header class="header">
+  <div class="header-row">
+    <a class="header-logo" href="#">éxito<em>.</em></a>
+    <div class="header-sep"></div>
+    <div class="header-title">Pago seguro</div>
+    <div class="header-right">
+      <span class="lock-icon">🔒</span>
+      SSL 256-bit
+    </div>
+  </div>
+  <div class="uc-pills" role="tablist">
+    <button class="uc-pill active" id="tab-new" role="tab" onclick="setFlow('new')"><span class="uc-ico">🆕</span> 1 · Nuevo usuario</button>
+    <button class="uc-pill" id="tab-unrecog" role="tab" onclick="setFlow('unrecog')"><span class="uc-ico">✉️</span> 2 · Reconocido por correo/teléfono</button>
+    <button class="uc-pill" id="tab-recog" role="tab" onclick="setFlow('recog')"><span class="uc-ico">👤</span> 3 · Usuario reconocido</button>
+    <button class="uc-pill" id="tab-addcard" role="tab" onclick="setFlow('addcard')"><span class="uc-ico">➕</span> 4 · Agregar nueva tarjeta</button>
+  </div>
+</header>
+
+<!-- ══ BREADCRUMB ══ -->
+<div class="breadcrumb-bar">
+  <nav class="breadcrumb" aria-label="Pasos de compra">
+    <span class="bc-item">Carrito</span>
+    <span class="bc-sep">›</span>
+    <span class="bc-item">Envío</span>
+    <span class="bc-sep">›</span>
+    <span class="bc-item active">Pago</span>
+    <span class="bc-sep">›</span>
+    <span class="bc-item">Confirmación</span>
+  </nav>
+</div>
+
+<!-- ══ PAGE LAYOUT ══ -->
+<main class="page-wrap">
+
+  <!-- ── LEFT COLUMN ── -->
+  <div>
+
+    <!-- Paso 1: Contacto (completado) -->
+    <div class="card card-contact">
+      <div class="card-head">
+        <div class="step-num done">✓</div>
+        <h2>Datos de contacto</h2>
+      </div>
+      <div class="card-body" style="padding: 14px 20px;">
+        <div class="contact-done">
+          <div class="avatar">CM</div>
+          <div>
+            <div class="contact-name">Carlos Martínez</div>
+            <div class="contact-email">carlos.martinez@gmail.com · Cel. 310 234 5678</div>
+            <div class="info-pii">
+              <a class="info-link" onclick="openWelcome()">¿Cómo <u>Click to Pay</u> utiliza mi información?</a><button class="info-i" type="button" onclick="toggleInfoTip(this)" aria-label="Cómo se usa este dato">i</button>
+              <div class="info-tip">Click to Pay usará tu número de celular para verificar si tienes tarjetas vinculadas.<br><br>Puede enviarse un código de un solo uso a este celular para confirmar que eres tú. Pueden aplicar tarifas de mensajes o datos.</div>
+            </div>
+          </div>
+          <span class="badge-done">✓ Completado</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Paso 2: Pago -->
+    <div class="card">
+      <div class="card-head">
+        <div class="step-num">2</div>
+        <h2>Elige un método de pago</h2>
+      </div>
+      <div class="card-body">
+
+        <!-- Banner de descuento (estilo Éxito) -->
+        <div class="pm-banner">*El descuento se verá reflejado en el total al ingresar el método de pago.</div>
+
+        <!-- ══ LISTA DE MÉTODOS DE PAGO ══ -->
+        <div class="pm-list">
+
+          <!-- Tarjeta Éxito -->
+          <div class="pm-item">
+            <div class="pm-header" onclick="togglePM(this)">
+              <span class="pm-ico"><svg width="30" height="22" viewBox="0 0 30 22"><rect width="30" height="22" rx="3" fill="#F5A800"/><rect x="0" y="4.5" width="30" height="4" fill="#5a3e00"/><rect x="4" y="13" width="9" height="3" rx="1.5" fill="#fff" opacity=".85"/></svg></span>
+              <span class="pm-name">Tarjeta Éxito</span>
+              <span class="pm-chevron">▾</span>
+            </div>
+            <div class="pm-body"><p class="pm-hint">Paga con tu Tarjeta Éxito y aprovecha cuotas sin interés y descuentos exclusivos para clientes Éxito.</p></div>
+          </div>
+
+          <!-- Tarjeta crédito o débito (abierta por defecto · aloja Click to Pay) -->
+          <div class="pm-item open">
+            <div class="pm-header" onclick="togglePM(this)">
+              <span class="pm-ico c2p-mark">
+                <svg width="38" height="26" viewBox="0 0 40 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Click to Pay">
+                  <path d="M5 4 H20 L28 14 L20 24 H5 Z" fill="#111" stroke="#111" stroke-width="3" stroke-linejoin="round"/>
+                  <path d="M31 7 C35 11 35 17 31 21" fill="none" stroke="#111" stroke-width="3" stroke-linecap="round"/>
+                </svg>
+              </span>
+              <span class="pm-name">Tarjeta crédito o débito</span>
+              <span class="pm-nets" aria-label="Redes aceptadas">
+                <svg width="26" height="18" viewBox="0 0 34 22" fill="none" aria-label="Mastercard"><circle cx="12" cy="11" r="10" fill="#EB001B"/><circle cx="22" cy="11" r="10" fill="#F79E1B"/><path d="M17 4.8 A10 10 0 0 1 17 17.2 A10 10 0 0 1 17 4.8Z" fill="#FF5F00"/></svg>
+                <svg width="28" height="18" viewBox="0 0 36 22" fill="none" aria-label="Visa"><rect width="36" height="22" rx="3" fill="#1A1F71"/><text x="18" y="15.5" text-anchor="middle" font-family="Arial Black,Arial" font-weight="900" font-size="11" fill="white" letter-spacing="0.5">VISA</text></svg>
+                <svg width="27" height="18" viewBox="0 0 34 22" fill="none" aria-label="American Express"><rect width="34" height="22" rx="3" fill="#007BC1"/><text x="17" y="15" text-anchor="middle" font-family="Arial Black,Arial" font-weight="900" font-size="8" fill="white" letter-spacing="0.3">AMEX</text></svg>
+                <svg width="27" height="18" viewBox="0 0 34 22" fill="none" aria-label="Discover"><rect width="34" height="22" rx="3" fill="#231F20"/><circle cx="22" cy="11" r="9" fill="#FF6600"/><text x="9" y="15" font-family="Arial Black,Arial" font-weight="900" font-size="7" fill="white">DISC</text></svg>
+              </span>
+              <span class="pm-chevron" style="margin-left:10px;">▾</span>
+            </div>
+            <div class="pm-body">
+
+              <!-- Click to Pay express — CX Guide: presentado en el punto de entrada de la tarjeta -->
+              <div class="c2p-express-head">Paga más rápido y seguro <span class="pm-badge-1click">⚡ Pago en 1 clic</span></div>
+
+        <div class="c2p-trigger-wrap">
+          <button class="c2p-btn" id="c2p-main-btn" onclick="openC2P()" aria-label="Pagar con Click to Pay">
+            <!-- EMVCo Pentagon icon -->
+            <!-- Marca oficial Click to Pay (EMVCo): pentágono + símbolo de transición continua -->
+            <svg class="c2p-icon-svg" width="30" height="21" viewBox="0 0 40 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Click to Pay">
+              <path d="M5 4 H20 L28 14 L20 24 H5 Z" fill="#111" stroke="#111" stroke-width="3" stroke-linejoin="round"/>
+              <path d="M31 7 C35 11 35 17 31 21" fill="none" stroke="#111" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+            <div class="c2p-vertical-sep"></div>
+            <div class="c2p-network-marks">
+              <!-- Mastercard circles -->
+              <svg width="34" height="22" viewBox="0 0 34 22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Mastercard">
+                <circle cx="12" cy="11" r="10" fill="#EB001B"/>
+                <circle cx="22" cy="11" r="10" fill="#F79E1B"/>
+                <path d="M17 4.8 A10 10 0 0 1 17 17.2 A10 10 0 0 1 17 4.8Z" fill="#FF5F00"/>
+              </svg>
+              <!-- Visa -->
+              <svg width="36" height="22" viewBox="0 0 36 22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Visa">
+                <rect width="36" height="22" rx="3" fill="#1A1F71"/>
+                <text x="18" y="15.5" text-anchor="middle" font-family="Arial Black,Arial" font-weight="900" font-size="11" fill="white" letter-spacing="0.5">VISA</text>
+              </svg>
+              <!-- Amex -->
+              <svg width="34" height="22" viewBox="0 0 34 22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="American Express">
+                <rect width="34" height="22" rx="3" fill="#007BC1"/>
+                <text x="17" y="15" text-anchor="middle" font-family="Arial Black,Arial" font-weight="900" font-size="8" fill="white" letter-spacing="0.3">AMEX</text>
+              </svg>
+              <!-- Discover -->
+              <svg width="34" height="22" viewBox="0 0 34 22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Discover">
+                <rect width="34" height="22" rx="3" fill="#231F20"/>
+                <circle cx="22" cy="11" r="9" fill="#FF6600"/>
+                <text x="9" y="15" font-family="Arial Black,Arial" font-weight="900" font-size="7" fill="white">DISC</text>
+              </svg>
+            </div>
+            <span class="c2p-label">Click to Pay</span>
+          </button>
+          <div class="c2p-learn">Pago rápido y seguro · <a href="#" onclick="return false;">¿Qué es Click to Pay?</a></div>
+        </div>
+
+              <!-- Panel INLINE de Click to Pay (el JS monta aquí los pasos; no es popup) -->
+              <div id="c2p-inline-host"></div>
+
+              <!-- Formulario manual de tarjeta (se oculta al activar Click to Pay) -->
+              <div id="manual-card">
+              <div class="divider">
+                <div class="div-line"></div>
+                <div class="div-text">o ingresa los datos de tu tarjeta</div>
+                <div class="div-line"></div>
+              </div>
+
+              <!-- Formulario manual (layout Éxito) -->
+              <div class="cc-grid">
+                <div class="field">
+                  <label>*Número de la tarjeta</label>
+                  <div class="field-relative">
+                    <input type="text" placeholder="0000 0000 0000 0000" maxlength="19" oninput="fmtCard(this)">
+                    <div class="field-brands">
+                      <svg width="28" height="18" viewBox="0 0 34 22" fill="none"><circle cx="12" cy="11" r="10" fill="#EB001B"/><circle cx="22" cy="11" r="10" fill="#F79E1B"/><path d="M17 4.8 A10 10 0 0 1 17 17.2 A10 10 0 0 1 17 4.8Z" fill="#FF5F00"/></svg>
+                      <svg width="30" height="18" viewBox="0 0 36 22" fill="none"><rect width="36" height="22" rx="3" fill="#1A1F71"/><text x="18" y="15.5" text-anchor="middle" font-family="Arial Black" font-weight="900" font-size="11" fill="white">VISA</text></svg>
+                    </div>
+                  </div>
+                </div>
+                <div class="field">
+                  <label>*Número de cuotas</label>
+                  <select>
+                    <option>¿En cuántas cuotas deseas pagar?</option>
+                    <option>1 cuota</option>
+                    <option>3 cuotas</option>
+                    <option>6 cuotas</option>
+                    <option>12 cuotas sin interés</option>
+                    <option>24 cuotas</option>
+                    <option>36 cuotas</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>*Nombre como aparece en la tarjeta</label>
+                  <input type="text" placeholder="Nombre completo">
+                </div>
+                <div class="cc-exp-wrap">
+                  <div class="field">
+                    <label>*Fecha de expiración</label>
+                    <div class="exp-row">
+                      <select><option>MM</option><option>01</option><option>02</option><option>03</option><option>04</option><option>05</option><option>06</option><option>07</option><option>08</option><option>09</option><option>10</option><option>11</option><option>12</option></select>
+                      <select><option>AA</option><option>26</option><option>27</option><option>28</option><option>29</option><option>30</option><option>31</option></select>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label>*Código de seguridad</label>
+                    <input type="text" placeholder="•••" maxlength="4">
+                  </div>
+                </div>
+              </div>
+
+              <div class="check-row">
+                <input type="checkbox" id="save-card" checked>
+                <label for="save-card">La dirección de la factura de la tarjeta es <strong>Calle 134a # 13 - 29 ...</strong></label>
+              </div>
+
+              <button class="btn-pay">Pagar $&#8203;475.020</button>
+              <div class="ssl-note">🔒 Pago protegido con cifrado SSL 256 bits · PCI DSS</div>
+              </div><!-- /#manual-card -->
+            </div><!-- /pm-body Tarjeta crédito o débito -->
+          </div><!-- /pm-item Tarjeta crédito o débito -->
+
+          <!-- Botón Bancolombia -->
+          <div class="pm-item">
+            <div class="pm-header" onclick="togglePM(this)">
+              <span class="pm-ico"><svg width="26" height="26" viewBox="0 0 26 26"><circle cx="13" cy="13" r="13" fill="#1a1a1a"/><rect x="6.5" y="6.5" width="13" height="13" rx="2.5" transform="rotate(45 13 13)" fill="#FFD200"/></svg></span>
+              <span class="pm-name">Botón Bancolombia</span>
+              <span class="pm-chevron">▾</span>
+            </div>
+            <div class="pm-body"><p class="pm-hint">Serás redirigido a la app o al portal de Bancolombia para autorizar tu pago de forma segura.</p></div>
+          </div>
+
+          <!-- PSE -->
+          <div class="pm-item">
+            <div class="pm-header" onclick="togglePM(this)">
+              <span class="pm-ico"><svg width="26" height="26" viewBox="0 0 26 26"><circle cx="13" cy="13" r="13" fill="#0A2A5E"/><text x="13" y="16.5" text-anchor="middle" font-family="Arial" font-style="italic" font-weight="900" font-size="9" fill="#33B1E1">pse</text></svg></span>
+              <span class="pm-name">Paga con PSE</span>
+              <span class="pm-chevron">▾</span>
+            </div>
+            <div class="pm-body"><p class="pm-hint">Paga directamente desde tu cuenta bancaria a través de PSE.</p></div>
+          </div>
+
+          <!-- NEQUI -->
+          <div class="pm-item">
+            <div class="pm-header" onclick="togglePM(this)">
+              <span class="pm-ico"><svg width="26" height="26" viewBox="0 0 26 26"><rect x="5.5" y="5.5" width="15" height="15" rx="3.5" transform="rotate(45 13 13)" fill="#FF2D6F"/><rect x="9" y="9" width="8" height="8" rx="2" transform="rotate(45 13 13)" fill="#00C9B7"/></svg></span>
+              <span class="pm-name">Paga con NEQUI</span>
+              <span class="pm-chevron">▾</span>
+            </div>
+            <div class="pm-body"><p class="pm-hint">Aprueba el pago desde tu app Nequi con una notificación push o ingresando tu número.</p></div>
+          </div>
+
+          <!-- Puntos Colombia -->
+          <div class="pm-item">
+            <div class="pm-header" onclick="togglePM(this)">
+              <span class="pm-ico"><svg width="26" height="26" viewBox="0 0 26 26"><circle cx="13" cy="13" r="13" fill="#6C2BD9"/><text x="13" y="17.5" text-anchor="middle" font-family="Arial" font-weight="900" font-size="13" fill="#fff">C</text></svg></span>
+              <span class="pm-name">Paga con Puntos Colombia</span>
+              <span class="pm-chevron">▾</span>
+            </div>
+            <div class="pm-body"><p class="pm-hint">Redime tus Puntos Colombia para cubrir total o parcialmente el valor de tu compra.</p></div>
+          </div>
+
+        </div><!-- /pm-list -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ── RIGHT COLUMN: ORDER SUMMARY ── -->
+  <div>
+    <div class="card">
+      <div class="card-head">
+        <h2>Resumen del pedido</h2>
+        <span style="margin-left:auto;font-size:12px;color:#9E9E9E;font-weight:600;">3 artículos</span>
+      </div>
+      <div class="card-body">
+        <div class="order-item">
+          <div class="item-img">📺</div>
+          <div style="flex:1;">
+            <div class="item-name">TV Samsung 55" QLED 4K Smart</div>
+            <div class="item-qty">Cant: 1</div>
+          </div>
+          <div class="item-price">$389.900</div>
+        </div>
+        <div class="order-item">
+          <div class="item-img">🎮</div>
+          <div style="flex:1;">
+            <div class="item-name">Control PS5 DualSense Blanco</div>
+            <div class="item-qty">Cant: 1</div>
+          </div>
+          <div class="item-price">$99.900</div>
+        </div>
+        <div class="order-item">
+          <div class="item-img">🔌</div>
+          <div style="flex:1;">
+            <div class="item-name">Cable HDMI 4K 2m Philips</div>
+            <div class="item-qty">Cant: 2</div>
+          </div>
+          <div class="item-price">$38.000</div>
+        </div>
+
+        <div class="totals">
+          <div class="total-row"><span>Subtotal</span><span>$527.800</span></div>
+          <div class="total-row"><span>Envío</span><span class="green">Gratis 🎉</span></div>
+          <div class="total-row"><span>Descuento Éxito Más</span><span class="green">−$52.780</span></div>
+          <div class="total-row big"><span>Total</span><span>$475.020</span></div>
+          <div class="cuotas-badge">12 cuotas de $39.585 sin interés con Tarjeta Éxito</div>
+        </div>
+
+        <div class="delivery-block">
+          <strong>📦 Entrega estimada:</strong> Mañana antes de las 8 pm<br>
+          <span style="color:#555;">Cra. 43A #1-50, El Poblado, Medellín</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="security-row">
+      <div class="sec-badge">🛡️ Compra segura</div>
+      <div class="sec-badge">↩ 30 días devolución</div>
+      <div class="sec-badge">🎧 Soporte 24/7</div>
+    </div>
+  </div>
+</main>
+
+</div><!-- /#demo -->
+
+<!-- ── Métodos (sección por completar) ── -->
+<section id="metodos" class="pres-section">
+  <span class="eyebrow">Punto 5</span>
+  <h2>Métodos JavaScript / API</h2>
+  <div class="pres-ph">Mapa de métodos JS/API por paso de la jornada — sección por completar.</div>
+</section>
+
+
+<!-- ══ POPUP educativo "Bienvenido a Click to Pay" (CX Guide · product education) ══ -->
+<div class="welcome-overlay" id="welcome-overlay" role="dialog" aria-modal="true" aria-label="Bienvenido a Click to Pay" onclick="if(event.target===this) closeWelcome()">
+  <div class="welcome-modal">
+    <h2 class="welcome-title">Bienvenido a<br><span>Click to Pay</span></h2>
+    <p class="welcome-sub">Un método de pago rápido y seguro, compatible con Mastercard, Visa, American Express y Discover.</p>
+    <div class="welcome-nets">
+      <svg width="30" height="21" viewBox="0 0 40 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Click to Pay">
+        <path d="M5 4 H20 L28 14 L20 24 H5 Z" fill="#111" stroke="#111" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M31 7 C35 11 35 17 31 21" fill="none" stroke="#111" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+      <span class="wn-sep"></span>
+      <svg width="30" height="21" viewBox="0 0 34 22" fill="none" aria-label="Mastercard"><circle cx="12" cy="11" r="10" fill="#EB001B"/><circle cx="22" cy="11" r="10" fill="#F79E1B"/><path d="M17 4.8 A10 10 0 0 1 17 17.2 A10 10 0 0 1 17 4.8Z" fill="#FF5F00"/></svg>
+      <span class="wn-ph"></span><span class="wn-ph"></span><span class="wn-ph"></span>
+    </div>
+    <ul class="welcome-list">
+      <li>Mantén tu información protegida y segura</li>
+      <li>Úsalo en comercios de todo el mundo</li>
+      <li>Configúralo una vez para pagar sin complicaciones en el futuro</li>
+    </ul>
+    <button class="welcome-ok" onclick="closeWelcome()">OK</button>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════
+     CLICK TO PAY MODAL
+══════════════════════════════ -->
+<div class="c2p-overlay" id="c2p-overlay" role="dialog" aria-modal="true" aria-label="Click to Pay">
+  <div class="c2p-modal" id="c2p-modal">
+
+    <!-- Modal header — EMVCo: icon + separator + network marks + merchant -->
+    <div class="c2p-modal-header">
+      <!-- Marca oficial Click to Pay (EMVCo): pentágono + símbolo de transición continua -->
+      <svg class="c2p-icon-svg" width="32" height="23" viewBox="0 0 40 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Click to Pay">
+        <path d="M5 4 H20 L28 14 L20 24 H5 Z" fill="#111" stroke="#111" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M31 7 C35 11 35 17 31 21" fill="none" stroke="#111" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+      <div class="c2p-vertical-sep" style="height:24px;"></div>
+      <div class="modal-nets">
+        <svg width="32" height="20" viewBox="0 0 34 22" fill="none"><circle cx="12" cy="11" r="10" fill="#EB001B"/><circle cx="22" cy="11" r="10" fill="#F79E1B"/><path d="M17 4.8 A10 10 0 0 1 17 17.2 A10 10 0 0 1 17 4.8Z" fill="#FF5F00"/></svg>
+        <svg width="34" height="20" viewBox="0 0 36 22" fill="none"><rect width="36" height="22" rx="3" fill="#1A1F71"/><text x="18" y="15.5" text-anchor="middle" font-family="Arial Black" font-weight="900" font-size="11" fill="white">VISA</text></svg>
+        <svg width="32" height="20" viewBox="0 0 34 22" fill="none"><rect width="34" height="22" rx="3" fill="#007BC1"/><text x="17" y="15" text-anchor="middle" font-family="Arial Black" font-weight="900" font-size="8" fill="white">AMEX</text></svg>
+        <svg width="32" height="20" viewBox="0 0 34 22" fill="none"><rect width="34" height="22" rx="3" fill="#231F20"/><circle cx="22" cy="11" r="9" fill="#FF6600"/><text x="9" y="15" font-family="Arial Black" font-weight="900" font-size="7" fill="white">DISC</text></svg>
+      </div>
+      <div class="modal-merchant">
+        <div class="modal-merchant-name">éxito.</div>
+        <div class="modal-merchant-sub">Pago seguro</div>
+      </div>
+      <button class="c2p-close" onclick="closeC2P()" aria-label="Cerrar">✕</button>
+    </div>
+
+    <!-- Progress bar -->
+    <div class="c2p-progress" id="c2p-progress">
+      <div class="c2p-prog-step" id="prog1"></div>
+      <div class="c2p-prog-step" id="prog2"></div>
+      <div class="c2p-prog-step" id="prog3"></div>
+    </div>
+
+    <!-- ══ MODAL BODY ══ -->
+    <div class="c2p-modal-body">
+
+      <!-- STEP: RECOGNIZED USER → card selection directly -->
+      <div class="c2p-step" id="step-recog">
+        <div class="recog-banner">
+          <div class="recog-icon">✅</div>
+          <div>
+            <div class="recog-title">¡Hola, Carlos!</div>
+            <div class="recog-sub">Dispositivo de confianza detectado · Sesión activa</div>
+          </div>
+        </div>
+        <div class="c2p-step-title">Selecciona una tarjeta</div>
+        <div class="c2p-step-desc">Elige con qué tarjeta deseas pagar. Total a pagar: <strong>$475.020</strong></div>
+        <div class="card-list">
+          <div class="c2p-card-item sel" onclick="pickCard(this)">
+            <svg width="48" height="30" viewBox="0 0 34 22" fill="none"><circle cx="12" cy="11" r="10" fill="#EB001B"/><circle cx="22" cy="11" r="10" fill="#F79E1B"/><path d="M17 4.8 A10 10 0 0 1 17 17.2 A10 10 0 0 1 17 4.8Z" fill="#FF5F00"/></svg>
+            <div class="c2p-card-info">
+              <div class="c2p-card-name">Mastercard Platinum</div>
+              <div class="c2p-card-num">•••• •••• •••• 4892</div>
+              <div class="c2p-card-exp">Vence 03/27</div>
+            </div>
+            <div class="radio-circle"><div class="radio-dot"></div></div>
+          </div>
+          <div class="c2p-card-item" onclick="pickCard(this)">
+            <svg width="48" height="30" viewBox="0 0 36 22" fill="none"><rect width="36" height="22" rx="3" fill="#1A1F71"/><text x="18" y="15.5" text-anchor="middle" font-family="Arial Black" font-weight="900" font-size="11" fill="white">VISA</text></svg>
+            <div class="c2p-card-info">
+              <div class="c2p-card-name">Visa Signature</div>
+              <div class="c2p-card-num">•••• •••• •••• 3310</div>
+              <div class="c2p-card-exp">Vence 11/26</div>
+            </div>
+            <div class="radio-circle"><div class="radio-dot"></div></div>
+          </div>
+          <div class="c2p-card-item" onclick="pickCard(this)">
+            <svg width="48" height="30" viewBox="0 0 34 22" fill="none"><rect width="34" height="22" rx="3" fill="#007BC1"/><text x="17" y="15" text-anchor="middle" font-family="Arial Black" font-weight="900" font-size="8" fill="white">AMEX</text></svg>
+            <div class="c2p-card-info">
+              <div class="c2p-card-name">Amex Gold Card</div>
+              <div class="c2p-card-num">•••• •••••• •7241</div>
+              <div class="c2p-card-exp">Vence 08/28</div>
+            </div>
+            <div class="radio-circle"><div class="radio-dot"></div></div>
+          </div>
+        </div>
+        <div class="c2p-add-card" onclick="openAddCard()">+ Agregar nueva tarjeta</div>
+        <div class="cvv-section">
+          <label>CVV de la tarjeta seleccionada</label>
+          <div class="cvv-wrap">
+            <input type="password" placeholder="•••" maxlength="4" id="cvv-recog">
+            <span class="cvv-hint">Requerido por el banco<br>emisor de tu tarjeta.</span>
+          </div>
+        </div>
+        <button class="btn-c2p-primary" onclick="goSuccess('MC','4892')">Pagar $475.020</button>
+        <div class="not-you">¿No son tus tarjetas? <a onclick="closeC2P()">Cerrar sesión</a></div>
+      </div>
+
+      <!-- STEP: UNRECOGNIZED → email + OTP channel -->
+      <div class="c2p-step" id="step-unrecog-email">
+        <div class="c2p-step-title">Confirma tu identidad</div>
+        <div class="c2p-step-desc">Ingresa tu correo para encontrar tu cuenta Click to Pay en este dispositivo.</div>
+        <div class="modal-field">
+          <label>Correo electrónico</label>
+          <input type="email" id="unrecog-email-input" value="carlos.martinez@gmail.com">
+        </div>
+        <div style="font-size:12px;font-weight:700;color:#555;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:8px;">Enviar código de verificación por:</div>
+        <div class="otp-via">
+          <button class="via-btn sel" id="via-sms" onclick="selVia('sms')"><span class="via-icon">💬</span>SMS<br>••••7234</button>
+          <button class="via-btn" id="via-email" onclick="selVia('email')"><span class="via-icon">📧</span>Email</button>
+          <button class="via-btn" id="via-wa" onclick="selVia('wa')"><span class="via-icon">💚</span>WhatsApp</button>
+        </div>
+        <button class="btn-c2p-primary" onclick="goOTP()">Enviar código</button>
+        <div class="c2p-legal">Al continuar, Éxito compartirá tus datos de tarjeta con la red de pago seleccionada para inscribirte en Click to Pay y hacer tu próximo pago más rápido. <a href="#" onclick="return false;">Más información.</a></div>
+      </div>
+
+      <!-- STEP: OTP entry -->
+      <div class="c2p-step" id="step-otp">
+        <div class="c2p-step-title">Código de verificación</div>
+        <div class="c2p-step-desc" id="otp-desc">Ingresa el código de 6 dígitos que enviamos a tu SMS ••••7234.</div>
+        <div class="otp-boxes">
+          <input class="otp-box" type="number" id="otp0" maxlength="1" oninput="otpIn(0)" onkeydown="otpKey(event,0)">
+          <input class="otp-box" type="number" id="otp1" maxlength="1" oninput="otpIn(1)" onkeydown="otpKey(event,1)">
+          <input class="otp-box" type="number" id="otp2" maxlength="1" oninput="otpIn(2)" onkeydown="otpKey(event,2)">
+          <input class="otp-box" type="number" id="otp3" maxlength="1" oninput="otpIn(3)" onkeydown="otpKey(event,3)">
+          <input class="otp-box" type="number" id="otp4" maxlength="1" oninput="otpIn(4)" onkeydown="otpKey(event,4)">
+          <input class="otp-box" type="number" id="otp5" maxlength="1" oninput="otpIn(5)" onkeydown="otpKey(event,5)">
+        </div>
+        <div class="otp-resend">¿No recibiste el código? <a onclick="resendOTP()">Reenviar</a> &nbsp;·&nbsp; <span id="otp-timer">0:59</span></div>
+        <button class="btn-c2p-primary" onclick="verifyOTP()" id="otp-btn">Verificar</button>
+        <div class="c2p-legal">El código expira en 10 minutos. Nunca compartas este código con nadie.</div>
+      </div>
+
+      <!-- STEP: Card selection (after OTP) -->
+      <div class="c2p-step" id="step-cards-otp">
+        <div class="c2p-step-title">Tus tarjetas Click to Pay</div>
+        <div class="c2p-step-desc">Selecciona la tarjeta con la que deseas pagar <strong>$475.020</strong>.</div>
+        <div class="card-list">
+          <div class="c2p-card-item sel" onclick="pickCard(this)">
+            <svg width="48" height="30" viewBox="0 0 34 22" fill="none"><circle cx="12" cy="11" r="10" fill="#EB001B"/><circle cx="22" cy="11" r="10" fill="#F79E1B"/><path d="M17 4.8 A10 10 0 0 1 17 17.2 A10 10 0 0 1 17 4.8Z" fill="#FF5F00"/></svg>
+            <div class="c2p-card-info">
+              <div class="c2p-card-name">Mastercard Platinum</div>
+              <div class="c2p-card-num">•••• •••• •••• 4892</div>
+              <div class="c2p-card-exp">Vence 03/27</div>
+            </div>
+            <div class="radio-circle"><div class="radio-dot"></div></div>
+          </div>
+          <div class="c2p-card-item" onclick="pickCard(this)">
+            <svg width="48" height="30" viewBox="0 0 36 22" fill="none"><rect width="36" height="22" rx="3" fill="#1A1F71"/><text x="18" y="15.5" text-anchor="middle" font-family="Arial Black" font-weight="900" font-size="11" fill="white">VISA</text></svg>
+            <div class="c2p-card-info">
+              <div class="c2p-card-name">Visa Signature</div>
+              <div class="c2p-card-num">•••• •••• •••• 3310</div>
+              <div class="c2p-card-exp">Vence 11/26</div>
+            </div>
+            <div class="radio-circle"><div class="radio-dot"></div></div>
+          </div>
+        </div>
+        <div class="cvv-section">
+          <label>CVV de la tarjeta seleccionada</label>
+          <div class="cvv-wrap">
+            <input type="password" placeholder="•••" maxlength="4">
+            <span class="cvv-hint">Requerido por el banco emisor.</span>
+          </div>
+        </div>
+        <div class="c2p-add-card" onclick="openAddCard()">+ Agregar nueva tarjeta</div>
+        <button class="btn-c2p-primary" onclick="goSuccess('MC','4892')">Pagar $475.020</button>
+        <div class="not-you">¿No son tus tarjetas? <a onclick="closeC2P()">Cerrar sesión</a></div>
+      </div>
+
+      <!-- STEP: NEW USER → enrollment form -->
+      <div class="c2p-step" id="step-new-user">
+        <div class="c2p-step-title">Crea tu cuenta Click to Pay</div>
+        <div class="c2p-step-desc">Paga más rápido en tu próxima compra. Registra tu tarjeta de forma segura y encriptada.</div>
+        <div class="modal-field">
+          <label>Correo electrónico</label>
+          <input type="email" placeholder="tu@correo.com">
+        </div>
+        <div class="modal-field">
+          <label>Número de celular</label>
+          <div class="phone-row">
+            <select>
+              <option>🇨🇴 +57</option>
+              <option>🇺🇸 +1</option>
+              <option>🇲🇽 +52</option>
+              <option>🇦🇷 +54</option>
+            </select>
+            <input type="tel" placeholder="300 123 4567">
+          </div>
+        </div>
+        <div class="modal-field">
+          <label>Número de tarjeta</label>
+          <input type="text" placeholder="0000 0000 0000 0000" oninput="fmtCard(this)">
+        </div>
+        <div class="modal-field-row">
+          <div class="modal-field"><label>Vencimiento</label><input type="text" placeholder="MM / AA" oninput="fmtExp(this)"></div>
+          <div class="modal-field"><label>CVV</label><input type="text" placeholder="•••" maxlength="4"></div>
+        </div>
+        <div class="modal-field">
+          <label>Nombre completo</label>
+          <input type="text" placeholder="Como aparece en tu tarjeta">
+        </div>
+        <div style="height:6px;"></div>
+        <button class="btn-c2p-primary" onclick="goOTPNew()">Registrar y continuar</button>
+        <div class="c2p-legal">Al registrarte, aceptas los <a href="#" onclick="return false;">Términos de uso</a> y la <a href="#" onclick="return false;">Política de privacidad</a> de Click to Pay y la red de tu tarjeta.</div>
+      </div>
+
+      <!-- STEP: ADD NEW CARD — usuario reconocido agrega tarjeta a su billetera -->
+      <div class="c2p-step" id="step-add-card">
+        <div class="recog-banner">
+          <div class="recog-icon">✅</div>
+          <div>
+            <div class="recog-title">¡Hola, Carlos!</div>
+            <div class="recog-sub">Agrega una tarjeta a tu billetera Click to Pay</div>
+          </div>
+        </div>
+        <div class="c2p-step-title">Agregar nueva tarjeta</div>
+        <div class="c2p-step-desc">Tus datos se cifran en tu dispositivo. Éxito nunca almacena el número de tu tarjeta.</div>
+        <div class="modal-field" style="margin-top:16px;">
+          <label>Número de tarjeta</label>
+          <input type="text" placeholder="0000 0000 0000 0000" maxlength="19" oninput="fmtCard(this)">
+        </div>
+        <div class="modal-field-row">
+          <div class="modal-field"><label>Vencimiento</label><input type="text" placeholder="MM / AA" maxlength="7" oninput="fmtExp(this)"></div>
+          <div class="modal-field"><label>CVV</label><input type="text" placeholder="•••" maxlength="4"></div>
+        </div>
+        <div class="modal-field">
+          <label>Nombre en la tarjeta</label>
+          <input type="text" placeholder="Como aparece en tu tarjeta">
+        </div>
+        <div class="check-row">
+          <input type="checkbox" id="save-new-card" checked>
+          <label for="save-new-card">Guardar esta tarjeta en mi billetera Click to Pay</label>
+        </div>
+        <button class="btn-c2p-primary" onclick="goSuccess('MC','8821')">Guardar y pagar $475.020</button>
+        <div class="not-you">¿Prefieres otra tarjeta? <a onclick="backToCards()">Volver a mis tarjetas</a></div>
+        <div class="c2p-legal">Tu tarjeta se inscribe de forma tokenizada en la red de pago seleccionada. Aceptas los <a href="#" onclick="return false;">Términos</a> y la <a href="#" onclick="return false;">Política de privacidad</a> de Click to Pay.</div>
+      </div>
+
+      <!-- STEP: SUCCESS -->
+      <div class="c2p-step" id="step-success">
+        <div class="success-wrap">
+          <div class="success-circle">✓</div>
+          <div class="success-title">¡Pago exitoso!</div>
+          <div class="success-desc">Tu pedido fue procesado correctamente. Recibirás una confirmación a carlos.martinez@gmail.com.</div>
+          <div class="success-chip">
+            <svg width="44" height="28" viewBox="0 0 34 22" fill="none"><circle cx="12" cy="11" r="10" fill="#EB001B"/><circle cx="22" cy="11" r="10" fill="#F79E1B"/><path d="M17 4.8 A10 10 0 0 1 17 17.2 A10 10 0 0 1 17 4.8Z" fill="#FF5F00"/></svg>
+            <div>
+              <div id="success-card-label" style="font-size:13px;font-weight:700;color:#555;">Mastercard •••• 4892</div>
+              <div class="success-amount">$475.020</div>
+            </div>
+          </div>
+          <div class="success-order">N° de pedido: <strong>EX-2026-847291</strong></div>
+          <button class="btn-c2p-primary btn-c2p-success" onclick="closeC2P()">Ver mi pedido</button>
+          <div class="c2p-footer-note">Procesado con Click to Pay · EMVCo Secure Remote Commerce</div>
+        </div>
+      </div>
+
+    </div><!-- /modal-body -->
+  </div><!-- /modal -->
+</div><!-- /overlay -->
+
+
+<script>
+  let currentFlow = 'new';
+  let otpTimer = null;
+
+  /* ── FLOW SELECTOR ── */
+  const FLOW_CAPTION = {
+    recog:   '👤 <strong>Usuario reconocido</strong> — dispositivo de confianza: tus tarjetas aparecen al instante y pagas en 1 clic, sin OTP.',
+    unrecog: '✉️ <strong>Reconocido por correo / teléfono</strong> — te identificamos por tu correo o celular y validamos con un código (OTP).',
+    new:     '✨ <strong>Usuario nuevo</strong> — registras tu tarjeta cifrada en el dispositivo y quedas inscrito en Click to Pay.',
+    addcard: '➕ <strong>Agregar nueva tarjeta</strong> — un usuario reconocido añade una tarjeta a su billetera Click to Pay.'
+  };
+  function setFlow(f) {
+    currentFlow = f;
+    ['recog','unrecog','new','addcard'].forEach(t => {
+      document.getElementById('tab-'+t).classList.toggle('active', t===f);
+    });
+    var cap = document.getElementById('flow-caption'); if (cap) cap.innerHTML = FLOW_CAPTION[f];
+    const host = document.getElementById('c2p-inline-host');
+    if (host && host.style.display === 'block') showStep('start');
+  }
+
+  /* ── OPEN / CLOSE (panel INLINE, sin popup) ── */
+  function mountInlineC2P() {
+    const host = document.getElementById('c2p-inline-host');
+    const modal = document.getElementById('c2p-modal');
+    if (host && modal && modal.parentElement !== host) host.appendChild(modal);
+  }
+  function openC2P() {
+    mountInlineC2P();
+    showStep('start');
+    document.getElementById('c2p-inline-host').style.display = 'block';
+    const m = document.getElementById('manual-card'); if (m) m.style.display = 'none';
+    const t = document.querySelector('.c2p-trigger-wrap'); if (t) t.style.display = 'none';
+    document.getElementById('c2p-inline-host').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+  function closeC2P() {
+    document.getElementById('c2p-inline-host').style.display = 'none';
+    const m = document.getElementById('manual-card'); if (m) m.style.display = 'block';
+    const t = document.querySelector('.c2p-trigger-wrap'); if (t) t.style.display = 'block';
+    clearInterval(otpTimer);
+    resetOTP();
+  }
+
+  /* ── STEPS ── */
+  const ALL_STEPS = ['step-recog','step-unrecog-email','step-otp','step-cards-otp','step-new-user','step-add-card','step-success'];
+
+  function showStep(id) {
+    ALL_STEPS.forEach(s => document.getElementById(s).classList.remove('active'));
+    if (id === 'start') {
+      if (currentFlow === 'recog')        { document.getElementById('step-recog').classList.add('active'); setProg(2); }
+      else if (currentFlow === 'unrecog') { document.getElementById('step-unrecog-email').classList.add('active'); setProg(1); }
+      else if (currentFlow === 'addcard') { document.getElementById('step-add-card').classList.add('active'); setProg(2); }
+      else                                { document.getElementById('step-new-user').classList.add('active'); setProg(1); }
+    } else {
+      document.getElementById(id).classList.add('active');
+    }
+  }
+
+  /* ── ADD NEW CARD (caso 4) ── */
+  function openAddCard() {
+    showStep('step-add-card');
+    setProg(2);
+    document.getElementById('c2p-modal').scrollTop = 0;
+  }
+  function backToCards() {
+    if (currentFlow === 'unrecog' || currentFlow === 'new') showStep('step-cards-otp');
+    else showStep('step-recog');
+    setProg(currentFlow === 'unrecog' || currentFlow === 'new' ? 3 : 2);
+  }
+
+  function setProg(n) {
+    for (let i=1;i<=3;i++) document.getElementById('prog'+i).classList.toggle('done', i<=n);
+  }
+
+  /* ── OTP flow ── */
+  function goOTP() {
+    const via = document.querySelector('.via-btn.sel');
+    const viaText = via ? via.textContent.trim().split('\n')[0] : 'SMS';
+    document.getElementById('otp-desc').textContent = 'Ingresa el código de 6 dígitos que enviamos a tu '+viaText+'.';
+    showStep('step-otp');
+    setProg(2);
+    startOtpTimer();
+    setTimeout(()=>document.getElementById('otp0').focus(), 80);
+  }
+
+  function goOTPNew() {
+    document.getElementById('otp-desc').textContent = 'Ingresa el código de 6 dígitos que enviamos a tu celular para confirmar tu identidad.';
+    showStep('step-otp');
+    setProg(2);
+    startOtpTimer();
+    setTimeout(()=>document.getElementById('otp0').focus(), 80);
+  }
+
+  function verifyOTP() {
+    let filled = 0;
+    for(let i=0;i<6;i++) if(document.getElementById('otp'+i).value) filled++;
+    if (filled < 6) {
+      document.getElementById('otp0').style.borderColor='#C62828';
+      setTimeout(()=>{ document.getElementById('otp0').style.borderColor=''; }, 1200);
+      return;
+    }
+    clearInterval(otpTimer);
+    showStep('step-cards-otp');
+    setProg(3);
+  }
+
+  function goSuccess(net, last4) {
+    const label = net === 'MC' ? 'Mastercard ••••' : net + ' ••••';
+    document.getElementById('success-card-label').textContent = label + ' ' + last4;
+    showStep('step-success');
+    setProg(3);
+    clearInterval(otpTimer);
+  }
+
+  /* ── OTP helpers ── */
+  function otpIn(idx) {
+    const box = document.getElementById('otp'+idx);
+    const v = box.value.replace(/\D/g,'').slice(-1);
+    box.value = v;
+    box.classList.toggle('filled', !!v);
+    if (v && idx < 5) document.getElementById('otp'+(idx+1)).focus();
+    if (v && idx === 5) document.getElementById('otp-btn').focus();
+  }
+  function otpKey(e, idx) {
+    if (e.key==='Backspace' && !document.getElementById('otp'+idx).value && idx>0)
+      document.getElementById('otp'+(idx-1)).focus();
+  }
+  function resetOTP() {
+    for(let i=0;i<6;i++){ const b=document.getElementById('otp'+i); if(b){b.value='';b.classList.remove('filled');} }
+  }
+  function resendOTP() {
+    resetOTP();
+    startOtpTimer();
+    document.getElementById('otp0').focus();
+  }
+  function startOtpTimer() {
+    clearInterval(otpTimer);
+    let s = 59;
+    document.getElementById('otp-timer').textContent = '0:59';
+    otpTimer = setInterval(()=>{
+      s--;
+      const m=Math.floor(s/60), sec=s%60;
+      document.getElementById('otp-timer').textContent = m+':'+(sec<10?'0':'')+sec;
+      if(s<=0) clearInterval(otpTimer);
+    }, 1000);
+  }
+
+  /* ── Popup "Bienvenido a Click to Pay" (CX Guide · product education) ── */
+  function openWelcome() { document.getElementById('welcome-overlay').classList.add('open'); }
+  function closeWelcome() { document.getElementById('welcome-overlay').classList.remove('open'); }
+
+  /* ── Popup de disclosure anclado al icono "i" (CX Guide · PII) ── */
+  function toggleInfoTip(btn) {
+    var tip = btn.parentElement.querySelector('.info-tip');
+    if (!tip) return;
+    if (tip.classList.contains('show')) { tip.classList.remove('show'); return; }
+    var r = btn.getBoundingClientRect();
+    var w = 380;
+    var left = r.left + r.width / 2 - 40;          // la flecha (40px) queda bajo el icono
+    if (left + w > window.innerWidth - 12) left = window.innerWidth - 12 - w;
+    if (left < 12) left = 12;
+    var arrow = (r.left + r.width / 2) - left - 8;  // recalcula la flecha si se ajustó
+    tip.style.left = left + 'px';
+    tip.style.top = (r.bottom + 10) + 'px';
+    tip.style.setProperty('--tip-arrow', arrow + 'px');
+    tip.classList.add('show');
+  }
+  /* Cerrar el popup al hacer clic fuera */
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('.info-i') || e.target.closest('.info-tip')) return;
+    var open = document.querySelector('.info-tip.show');
+    if (open) open.classList.remove('show');
+  });
+
+  /* ── Acordeón de métodos de pago (estilo Éxito) ── */
+  function togglePM(header) {
+    const item = header.closest('.pm-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.pm-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+
+  /* ── Card & channel selection ── */
+  function pickCard(el) {
+    const list = el.closest('.card-list');
+    list.querySelectorAll('.c2p-card-item').forEach(c=>c.classList.remove('sel'));
+    el.classList.add('sel');
+  }
+  function selVia(t) {
+    ['sms','email','wa'].forEach(v=>{
+      const el=document.getElementById('via-'+v);
+      if(el) el.classList.toggle('sel', v===t);
+    });
+  }
+
+  /* ── Card/exp formatters ── */
+  function fmtCard(i) {
+    let v=i.value.replace(/\D/g,'').substring(0,16);
+    i.value=v.replace(/(.{4})/g,'$1 ').trim();
+  }
+  function fmtExp(i) {
+    let v=i.value.replace(/\D/g,'');
+    if(v.length>=3) v=v.substring(0,2)+' / '+v.substring(2,4);
+    i.value=v;
+  }
+
+  /* Montar el panel de Click to Pay inline al cargar (reubica el nodo fuera del overlay) */
+  mountInlineC2P();
+
+  /* Menú principal: resaltar enlace activo al hacer clic */
+  document.querySelectorAll('.site-links a').forEach(function(a){
+    a.addEventListener('click', function(){
+      document.querySelectorAll('.site-links a').forEach(function(x){ x.classList.remove('active'); });
+      this.classList.add('active');
+    });
+  });
+</script>
+
+</body>
+</html>
