@@ -45,8 +45,6 @@
 
   /* Casos de uso como texto plano (estilo "Pago seguro", sin color de fondo) */
   .header .uc-pill { border:none; background:transparent; border-radius:0; padding:4px 0; font-size:14px; font-weight:700; color:rgba(33,33,33,.55); gap:7px; }
-  .header .uc-pill:hover { border:none; color:#111; }
-  .header .uc-pill .uc-ico { width:auto; height:auto; background:transparent; border-radius:0; font-size:15px; }
   .header .uc-pill.active { background:transparent; border:none; color:#111; text-decoration:underline; text-underline-offset:5px; text-decoration-thickness:2px; }
   .header .uc-pill.active .uc-ico { background:transparent; }
   .sim-caption { max-width:1100px; margin:0 auto; padding:12px 16px 0; }
