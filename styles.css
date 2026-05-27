@@ -965,6 +965,22 @@
   .uc-panel { display:none; animation:fadeIn .18s ease; }
   .uc-panel.active { display:block; }
 
+  /* ── Caso "Nuevo usuario" · patrón Card Loader (CX Guide) ── */
+  .nu-step { display:none; }
+  .nu-step.active { display:block; animation:fadeIn .18s ease; }
+  /* 04 · Card loader (pantalla de carga mientras se buscan las tarjetas) */
+  .cardloader { border:1.5px solid var(--gris-borde); border-radius:10px; background:#fff; }
+  .cl-body { padding:34px 20px 38px; display:flex; flex-direction:column; align-items:center; gap:18px; text-align:center; }
+  .cl-spinner { width:48px; height:48px; position:relative; display:grid; place-items:center; }
+  .cl-ring { position:absolute; inset:0; border:3px solid #E3F2FD; border-top-color:var(--azul-c2p); border-radius:50%; animation:clspin .8s linear infinite; }
+  @keyframes clspin { to { transform:rotate(360deg); } }
+  .cl-text { font-size:13.5px; color:var(--gris-texto); font-weight:600; max-width:250px; line-height:1.5; }
+  /* 05.2 · consentimiento de inscripción */
+  .nu-consent { background:#FAFAFA; border:1px solid #EEE; border-radius:8px; padding:12px 14px; margin:4px 0 14px; animation:fadeIn .18s ease; }
+  .nu-consent .check-row { margin:0 0 8px; align-items:flex-start; }
+  .nu-legal { font-size:11px; color:#9E9E9E; line-height:1.55; }
+  .nu-legal a { color:var(--azul-c2p); text-decoration:none; }
+
   /* ── CTA de navegación entre páginas (sitio multipágina) ── */
   .pres-lead { font-size:16px; color:#52525b; line-height:1.6; max-width:680px; margin:0 0 26px; font-weight:500; }
   .pres-cta-row { display:flex; gap:12px; flex-wrap:wrap; }
