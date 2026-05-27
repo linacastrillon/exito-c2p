@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Referencia (archivo) · Flujo Click to Pay — Éxito</title>
+<!--
+  ARCHIVO DE REFERENCIA — flujo completo de Click to Pay versionado desde el
+  commit bcab9aa (antes de dejar la sección en blanco para reconstruir).
+  Conserva: popup "Bienvenido a Click to Pay", modal con todos los casos de
+  uso (reconocido, OTP, nuevo usuario, agregar tarjeta, éxito) y su JS.
+  No forma parte del flujo nuevo; sirve para consultar/reutilizar.
+-->
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  .archive-banner { background:#FFF3CD; border-bottom:1px solid #FFE0A3; color:#8a6d00; font-size:13px; font-weight:700; text-align:center; padding:8px 16px; }
+</style>
+</head>
+<body>
+
+<div class="archive-banner">📦 Archivo de referencia — flujo Click to Pay versionado (commit bcab9aa). No es la versión activa del demo.</div>
+
+<!-- ══ HEADER PRINCIPAL DE LA PRESENTACIÓN (menú general · compartido) ══ -->
+<header class="site-nav">
+  <div class="site-nav-inner">
+    <a class="brand-lockup" href="index.html" aria-label="Inicio">
+      <span class="exito-pill">éxito</span>
+      <span class="brand-x">×</span>
+      <span class="c2p-lockup">
+        <span class="c2p-mk">
+          <svg width="20" height="14" viewBox="0 0 40 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Click to Pay">
+            <path d="M5 4 H20 L28 14 L20 24 H5 Z" fill="#fff" stroke="#fff" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M31 7 C35 11 35 17 31 21" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+        </span>
+        Click to Pay
+      </span>
+    </a>
+    <nav class="site-links">
+      <a href="index.html">Inicio</a>
+      <a href="ventajas.html">Ventajas</a>
+      <a href="demo.html" class="active">Demo</a>
+      <a href="metodos.html">Métodos</a>
+    </nav>
+  </div>
+</header>
+
+<div id="demo">
+
+<!-- ══ HEADER del checkout Éxito · incluye el selector de casos de uso ══ -->
+<header class="header">
+  <div class="header-row">
+    <a class="header-logo" href="#">éxito<em>.</em></a>
+    <div class="header-sep"></div>
+    <div class="uc-pills" role="tablist">
+      <button class="uc-pill active" id="tab-new" role="tab" onclick="setFlow('new')">1 · Nuevo usuario</button>
+      <button class="uc-pill" id="tab-unrecog" role="tab" onclick="setFlow('unrecog')">2 · Reconocido por correo/teléfono</button>
+      <button class="uc-pill" id="tab-recog" role="tab" onclick="setFlow('recog')">3 · Usuario reconocido</button>
+      <button class="uc-pill" id="tab-addcard" role="tab" onclick="setFlow('addcard')">4 · Agregar nueva tarjeta</button>
+    </div>
+    <div class="header-right">
+      <span class="lock-icon">🔒</span>
+      SSL 256-bit
+    </div>
+  </div>
+</header>
+
+<!-- ══ BREADCRUMB ══ -->
+<div class="breadcrumb-bar">
+  <nav class="breadcrumb" aria-label="Pasos de compra">
+    <span class="bc-item">Carrito</span>
+    <span class="bc-sep">›</span>
+    <span class="bc-item">Envío</span>
+    <span class="bc-sep">›</span>
+    <span class="bc-item active">Pago</span>
+    <span class="bc-sep">›</span>
+    <span class="bc-item">Confirmación</span>
+  </nav>
+</div>
+
+<!-- ══ PAGE LAYOUT ══ -->
+<main class="page-wrap">
+
+  <!-- ── LEFT COLUMN ── -->
+  <div>
+
+    <!-- Paso 1: Contacto (completado) -->
+    <div class="card card-contact">
+      <div class="card-head">
+        <div class="step-num done">✓</div>
+        <h2>Datos de contacto</h2>
+      </div>
+      <div class="card-body" style="padding: 14px 20px;">
+        <div class="contact-done">
+          <div class="avatar">CM</div>
+          <div>
+            <div class="contact-name">Carlos Martínez</div>
+            <div class="contact-email">carlos.martinez@gmail.com · Cel. 310 234 5678</div>
+            <div class="info-pii">
+              <a class="info-link" onclick="openWelcome()">¿Cómo <u>Click to Pay</u> utiliza mi información?</a><button class="info-i" type="button" onclick="toggleInfoTip(this)" aria-label="Cómo se usa este dato">i</button>
+              <div class="info-tip">Click to Pay usará tu número de celular para verificar si tienes tarjetas vinculadas.<br><br>Puede enviarse un código de un solo uso a este celular para confirmar que eres tú. Pueden aplicar tarifas de mensajes o datos.</div>
+            </div>
+          </div>
+          <span class="badge-done">✓ Completado</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Paso 2: Pago -->
+    <div class="card">
+      <div class="card-head">
+        <div class="step-num">2</div>
+        <h2>Elige un método de pago</h2>
+      </div>
+      <div class="card-body">
+
+        <!-- Banner de descuento (estilo Éxito) -->
+        <div class="pm-banner">*El descuento se verá reflejado en el total al ingresar el método de pago.</div>
+
+        <!-- ══ LISTA DE MÉTODOS DE PAGO ══ -->
+        <div class="pm-list">
+
+          <!-- Tarjeta Éxito -->
+          <div class="pm-item">
+            <div class="pm-header" onclick="togglePM(this)">
+              <span class="pm-ico"><svg width="30" height="22" viewBox="0 0 30 22"><rect width="30" height="22" rx="3" fill="#F5A800"/><rect x="0" y="4.5" width="30" height="4" fill="#5a3e00"/><rect x="4" y="13" width="9" height="3" rx="1.5" fill="#fff" opacity=".85"/></svg></span>
+              <span class="pm-name">Tarjeta Éxito</span>
+              <span class="pm-chevron">▾</span>
+            </div>
+            <div class="pm-body"><p class="pm-hint">Paga con tu Tarjeta Éxito y aprovecha cuotas sin interés y descuentos exclusivos para clientes Éxito.</p></div>
+          </div>
+
+          <!-- Tarjeta crédito o débito (abierta por defecto · aloja Click to Pay) -->
+          <div class="pm-item open">
+            <div class="pm-header" onclick="openCardPM(this)">
+              <span class="pm-ico c2p-mark">
+                <svg width="38" height="26" viewBox="0 0 40 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Click to Pay">
+                  <path d="M5 4 H20 L28 14 L20 24 H5 Z" fill="#111" stroke="#111" stroke-width="3" stroke-linejoin="round"/>
+                  <path d="M31 7 C35 11 35 17 31 21" fill="none" stroke="#111" stroke-width="3" stroke-linecap="round"/>
+                </svg>
+              </span>
+              <span class="pm-name">Tarjeta crédito o débito</span>
+              <span class="pm-nets" aria-label="Redes aceptadas">
+                <svg width="26" height="18" viewBox="0 0 34 22" fill="none" aria-label="Mastercard"><circle cx="12" cy="11" r="10" fill="#EB001B"/><circle cx="22" cy="11" r="10" fill="#F79E1B"/><path d="M17 4.8 A10 10 0 0 1 17 17.2 A10 10 0 0 1 17 4.8Z" fill="#FF5F00"/></svg>
+                <svg width="28" height="18" viewBox="0 0 36 22" fill="none" aria-label="Visa"><rect width="36" height="22" rx="3" fill="#1A1F71"/><text x="18" y="15.5" text-anchor="middle" font-family="Arial Black,Arial" font-weight="900" font-size="11" fill="white" letter-spacing="0.5">VISA</text></svg>
+                <svg width="27" height="18" viewBox="0 0 34 22" fill="none" aria-label="American Express"><rect width="34" height="22" rx="3" fill="#007BC1"/><text x="17" y="15" text-anchor="middle" font-family="Arial Black,Arial" font-weight="900" font-size="8" fill="white" letter-spacing="0.3">AMEX</text></svg>
+                <svg width="27" height="18" viewBox="0 0 34 22" fill="none" aria-label="Discover"><rect width="34" height="22" rx="3" fill="#231F20"/><circle cx="22" cy="11" r="9" fill="#FF6600"/><text x="9" y="15" font-family="Arial Black,Arial" font-weight="900" font-size="7" fill="white">DISC</text></svg>
+              </span>
+              <span class="pm-chevron" style="margin-left:10px;">▾</span>
+            </div>
+            <div class="pm-body">
+
+              <!-- Panel INLINE de Click to Pay (se monta al hacer clic en el título "Tarjeta crédito o débito" de arriba) -->
+              <div id="c2p-inline-host"></div>
+
+              <!-- Formulario manual de tarjeta (se oculta al activar Click to Pay) -->
+              <div id="manual-card">
+              <div class="divider">
+                <div class="div-line"></div>
+                <div class="div-text">o ingresa los datos de tu tarjeta</div>
+                <div class="div-line"></div>
+              </div>
+
+              <!-- Formulario manual (layout Éxito) -->
+              <div class="cc-grid">
+                <div class="field">
+                  <label>*Número de la tarjeta</label>
+                  <div class="field-relative">
+                    <input type="text" placeholder="0000 0000 0000 0000" maxlength="19" oninput="fmtCard(this)">
+                    <div class="field-brands">
+                      <svg width="28" height="18" viewBox="0 0 34 22" fill="none"><circle cx="12" cy="11" r="10" fill="#EB001B"/><circle cx="22" cy="11" r="10" fill="#F79E1B"/><path d="M17 4.8 A10 10 0 0 1 17 17.2 A10 10 0 0 1 17 4.8Z" fill="#FF5F00"/></svg>
+                      <svg width="30" height="18" viewBox="0 0 36 22" fill="none"><rect width="36" height="22" rx="3" fill="#1A1F71"/><text x="18" y="15.5" text-anchor="middle" font-family="Arial Black" font-weight="900" font-size="11" fill="white">VISA</text></svg>
+                    </div>
+                  </div>
+                </div>
+                <div class="field">
+                  <label>*Número de cuotas</label>
+                  <select>
+                    <option>¿En cuántas cuotas deseas pagar?</option>
+                    <option>1 cuota</option>
+                    <option>3 cuotas</option>
+                    <option>6 cuotas</option>
+                    <option>12 cuotas sin interés</option>
+                    <option>24 cuotas</option>
+                    <option>36 cuotas</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>*Nombre como aparece en la tarjeta</label>
+                  <input type="text" placeholder="Nombre completo">
+                </div>
+                <div class="cc-exp-wrap">
+                  <div class="field">
+                    <label>*Fecha de expiración</label>
+                    <div class="exp-row">
+                      <select><option>MM</option><option>01</option><option>02</option><option>03</option><option>04</option><option>05</option><option>06</option><option>07</option><option>08</option><option>09</option><option>10</option><option>11</option><option>12</option></select>
+                      <select><option>AA</option><option>26</option><option>27</option><option>28</option><option>29</option><option>30</option><option>31</option></select>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label>*Código de seguridad</label>
+                    <input type="text" placeholder="•••" maxlength="4">
+                  </div>
+                </div>
+              </div>
+
+              <div class="check-row">
+                <input type="checkbox" id="save-card" checked>
+                <label for="save-card">La dirección de la factura de la tarjeta es <strong>Calle 134a # 13 - 29 ...</strong></label>
+              </div>
+
+              <button class="btn-pay">Pagar $&#8203;475.020</button>
+              <div class="ssl-note">🔒 Pago protegido con cifrado SSL 256 bits · PCI DSS</div>
+              </div><!-- /#manual-card -->
+            </div><!-- /pm-body Tarjeta crédito o débito -->
+          </div><!-- /pm-item Tarjeta crédito o débito -->
+
+          <!-- Botón Bancolombia -->
+          <div class="pm-item">
+            <div class="pm-header" onclick="togglePM(this)">
+              <span class="pm-ico"><svg width="26" height="26" viewBox="0 0 26 26"><circle cx="13" cy="13" r="13" fill="#1a1a1a"/><rect x="6.5" y="6.5" width="13" height="13" rx="2.5" transform="rotate(45 13 13)" fill="#FFD200"/></svg></span>
+              <span class="pm-name">Botón Bancolombia</span>
+              <span class="pm-chevron">▾</span>
+            </div>
+            <div class="pm-body"><p class="pm-hint">Serás redirigido a la app o al portal de Bancolombia para autorizar tu pago de forma segura.</p></div>
+          </div>
+
+          <!-- PSE -->
+          <div class="pm-item">
+            <div class="pm-header" onclick="togglePM(this)">
+              <span class="pm-ico"><svg width="26" height="26" viewBox="0 0 26 26"><circle cx="13" cy="13" r="13" fill="#0A2A5E"/><text x="13" y="16.5" text-anchor="middle" font-family="Arial" font-style="italic" font-weight="900" font-size="9" fill="#33B1E1">pse</text></svg></span>
+              <span class="pm-name">Paga con PSE</span>
+              <span class="pm-chevron">▾</span>
+            </div>
+            <div class="pm-body"><p class="pm-hint">Paga directamente desde tu cuenta bancaria a través de PSE.</p></div>
+          </div>
+
+          <!-- NEQUI -->
+          <div class="pm-item">
+            <div class="pm-header" onclick="togglePM(this)">
+              <span class="pm-ico"><svg width="26" height="26" viewBox="0 0 26 26"><rect x="5.5" y="5.5" width="15" height="15" rx="3.5" transform="rotate(45 13 13)" fill="#FF2D6F"/><rect x="9" y="9" width="8" height="8" rx="2" transform="rotate(45 13 13)" fill="#00C9B7"/></svg></span>
+              <span class="pm-name">Paga con NEQUI</span>
+              <span class="pm-chevron">▾</span>
+            </div>
+            <div class="pm-body"><p class="pm-hint">Aprueba el pago desde tu app Nequi con una notificación push o ingresando tu número.</p></div>
+          </div>
+
+          <!-- Puntos Colombia -->
+          <div class="pm-item">
+            <div class="pm-header" onclick="togglePM(this)">
+              <span class="pm-ico"><svg width="26" height="26" viewBox="0 0 26 26"><circle cx="13" cy="13" r="13" fill="#6C2BD9"/><text x="13" y="17.5" text-anchor="middle" font-family="Arial" font-weight="900" font-size="13" fill="#fff">C</text></svg></span>
+              <span class="pm-name">Paga con Puntos Colombia</span>
+              <span class="pm-chevron">▾</span>
+            </div>
+            <div class="pm-body"><p class="pm-hint">Redime tus Puntos Colombia para cubrir total o parcialmente el valor de tu compra.</p></div>
+          </div>
+
+        </div><!-- /pm-list -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ── RIGHT COLUMN: ORDER SUMMARY ── -->
+  <div>
+    <div class="card">
+      <div class="card-head">
+        <h2>Resumen del pedido</h2>
+        <span style="margin-left:auto;font-size:12px;color:#9E9E9E;font-weight:600;">3 artículos</span>
+      </div>
+      <div class="card-body">
+        <div class="order-item">
+          <div class="item-img">📺</div>
+          <div style="flex:1;">
+            <div class="item-name">TV Samsung 55" QLED 4K Smart</div>
+            <div class="item-qty">Cant: 1</div>
+          </div>
+          <div class="item-price">$389.900</div>
+        </div>
+        <div class="order-item">
+          <div class="item-img">🎮</div>
+          <div style="flex:1;">
+            <div class="item-name">Control PS5 DualSense Blanco</div>
+            <div class="item-qty">Cant: 1</div>
+          </div>
+          <div class="item-price">$99.900</div>
+        </div>
+        <div class="order-item">
+          <div class="item-img">🔌</div>
+          <div style="flex:1;">
+            <div class="item-name">Cable HDMI 4K 2m Philips</div>
+            <div class="item-qty">Cant: 2</div>
+          </div>
+          <div class="item-price">$38.000</div>
+        </div>
+
+        <div class="totals">
+          <div class="total-row"><span>Subtotal</span><span>$527.800</span></div>
+          <div class="total-row"><span>Envío</span><span class="green">Gratis 🎉</span></div>
+          <div class="total-row"><span>Descuento Éxito Más</span><span class="green">−$52.780</span></div>
+          <div class="total-row big"><span>Total</span><span>$475.020</span></div>
+          <div class="cuotas-badge">12 cuotas de $39.585 sin interés con Tarjeta Éxito</div>
+        </div>
+
+        <div class="delivery-block">
+          <strong>📦 Entrega estimada:</strong> Mañana antes de las 8 pm<br>
+          <span style="color:#555;">Cra. 43A #1-50, El Poblado, Medellín</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="security-row">
+      <div class="sec-badge">🛡️ Compra segura</div>
+      <div class="sec-badge">↩ 30 días devolución</div>
+      <div class="sec-badge">🎧 Soporte 24/7</div>
+    </div>
+  </div>
+</main>
+
+</div><!-- /#demo -->
+<!-- ══ POPUP educativo "Bienvenido a Click to Pay" (CX Guide · product education) ══ -->
+<div class="welcome-overlay" id="welcome-overlay" role="dialog" aria-modal="true" aria-label="Bienvenido a Click to Pay" onclick="if(event.target===this) closeWelcome()">
+  <div class="welcome-modal">
+    <h2 class="welcome-title">Bienvenido a<br><span>Click to Pay</span></h2>
+    <p class="welcome-sub">Un método de pago rápido y seguro, compatible con Mastercard, Visa, American Express y Discover.</p>
+    <div class="welcome-nets">
+      <svg width="30" height="21" viewBox="0 0 40 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Click to Pay">
+        <path d="M5 4 H20 L28 14 L20 24 H5 Z" fill="#111" stroke="#111" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M31 7 C35 11 35 17 31 21" fill="none" stroke="#111" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+      <span class="wn-sep"></span>
+      <svg width="30" height="21" viewBox="0 0 34 22" fill="none" aria-label="Mastercard"><circle cx="12" cy="11" r="10" fill="#EB001B"/><circle cx="22" cy="11" r="10" fill="#F79E1B"/><path d="M17 4.8 A10 10 0 0 1 17 17.2 A10 10 0 0 1 17 4.8Z" fill="#FF5F00"/></svg>
+      <span class="wn-ph"></span><span class="wn-ph"></span><span class="wn-ph"></span>
+    </div>
+    <ul class="welcome-list">
+      <li>Mantén tu información protegida y segura</li>
+      <li>Úsalo en comercios de todo el mundo</li>
+      <li>Configúralo una vez para pagar sin complicaciones en el futuro</li>
+    </ul>
+    <button class="welcome-ok" onclick="closeWelcome()">OK</button>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════
+     CLICK TO PAY MODAL
+══════════════════════════════ -->
+<div class="c2p-overlay" id="c2p-overlay" role="dialog" aria-modal="true" aria-label="Click to Pay">
+  <div class="c2p-modal" id="c2p-modal">
+
+    <!-- Modal header — EMVCo: icon + separator + network marks + merchant -->
+    <div class="c2p-modal-header">
+      <!-- Marca oficial Click to Pay (EMVCo): pentágono + símbolo de transición continua -->
+      <svg class="c2p-icon-svg" width="32" height="23" viewBox="0 0 40 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Click to Pay">
+        <path d="M5 4 H20 L28 14 L20 24 H5 Z" fill="#111" stroke="#111" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M31 7 C35 11 35 17 31 21" fill="none" stroke="#111" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+      <div class="c2p-vertical-sep" style="height:24px;"></div>
+      <div class="modal-nets">
+        <svg width="32" height="20" viewBox="0 0 34 22" fill="none"><circle cx="12" cy="11" r="10" fill="#EB001B"/><circle cx="22" cy="11" r="10" fill="#F79E1B"/><path d="M17 4.8 A10 10 0 0 1 17 17.2 A10 10 0 0 1 17 4.8Z" fill="#FF5F00"/></svg>
+        <svg width="34" height="20" viewBox="0 0 36 22" fill="none"><rect width="36" height="22" rx="3" fill="#1A1F71"/><text x="18" y="15.5" text-anchor="middle" font-family="Arial Black" font-weight="900" font-size="11" fill="white">VISA</text></svg>
+        <svg width="32" height="20" viewBox="0 0 34 22" fill="none"><rect width="34" height="22" rx="3" fill="#007BC1"/><text x="17" y="15" text-anchor="middle" font-family="Arial Black" font-weight="900" font-size="8" fill="white">AMEX</text></svg>
+        <svg width="32" height="20" viewBox="0 0 34 22" fill="none"><rect width="34" height="22" rx="3" fill="#231F20"/><circle cx="22" cy="11" r="9" fill="#FF6600"/><text x="9" y="15" font-family="Arial Black" font-weight="900" font-size="7" fill="white">DISC</text></svg>
+      </div>
+      <div class="modal-merchant">
+        <div class="modal-merchant-name">éxito.</div>
+        <div class="modal-merchant-sub">Pago seguro</div>
+      </div>
+      <button class="c2p-close" onclick="closeC2P()" aria-label="Cerrar">✕</button>
+    </div>
+
+    <!-- Progress bar -->
+    <div class="c2p-progress" id="c2p-progress">
+      <div class="c2p-prog-step" id="prog1"></div>
+      <div class="c2p-prog-step" id="prog2"></div>
+      <div class="c2p-prog-step" id="prog3"></div>
+    </div>
+
+    <!-- ══ MODAL BODY ══ -->
+    <div class="c2p-modal-body">
+
+      <!-- STEP: RECOGNIZED USER → card selection directly -->
+      <div class="c2p-step" id="step-recog">
+        <div class="recog-banner">
+          <div class="recog-icon">✅</div>
+          <div>
+            <div class="recog-title">¡Hola, Carlos!</div>
+            <div class="recog-sub">Dispositivo de confianza detectado · Sesión activa</div>
+          </div>
+        </div>
+        <div class="c2p-step-title">Selecciona una tarjeta</div>
+        <div class="c2p-step-desc">Elige con qué tarjeta deseas pagar. Total a pagar: <strong>$475.020</strong></div>
+        <div class="card-list">
+          <div class="c2p-card-item sel" onclick="pickCard(this)">
+            <svg width="48" height="30" viewBox="0 0 34 22" fill="none"><circle cx="12" cy="11" r="10" fill="#EB001B"/><circle cx="22" cy="11" r="10" fill="#F79E1B"/><path d="M17 4.8 A10 10 0 0 1 17 17.2 A10 10 0 0 1 17 4.8Z" fill="#FF5F00"/></svg>
+            <div class="c2p-card-info">
+              <div class="c2p-card-name">Mastercard Platinum</div>
+              <div class="c2p-card-num">•••• •••• •••• 4892</div>
+              <div class="c2p-card-exp">Vence 03/27</div>
+            </div>
+            <div class="radio-circle"><div class="radio-dot"></div></div>
+          </div>
+          <div class="c2p-card-item" onclick="pickCard(this)">
+            <svg width="48" height="30" viewBox="0 0 36 22" fill="none"><rect width="36" height="22" rx="3" fill="#1A1F71"/><text x="18" y="15.5" text-anchor="middle" font-family="Arial Black" font-weight="900" font-size="11" fill="white">VISA</text></svg>
+            <div class="c2p-card-info">
+              <div class="c2p-card-name">Visa Signature</div>
+              <div class="c2p-card-num">•••• •••• •••• 3310</div>
+              <div class="c2p-card-exp">Vence 11/26</div>
+            </div>
+            <div class="radio-circle"><div class="radio-dot"></div></div>
+          </div>
+          <div class="c2p-card-item" onclick="pickCard(this)">
+            <svg width="48" height="30" viewBox="0 0 34 22" fill="none"><rect width="34" height="22" rx="3" fill="#007BC1"/><text x="17" y="15" text-anchor="middle" font-family="Arial Black" font-weight="900" font-size="8" fill="white">AMEX</text></svg>
+            <div class="c2p-card-info">
+              <div class="c2p-card-name">Amex Gold Card</div>
+              <div class="c2p-card-num">•••• •••••• •7241</div>
+              <div class="c2p-card-exp">Vence 08/28</div>
+            </div>
+            <div class="radio-circle"><div class="radio-dot"></div></div>
+          </div>
+        </div>
+        <div class="c2p-add-card" onclick="openAddCard()">+ Agregar nueva tarjeta</div>
+        <div class="cvv-section">
+          <label>CVV de la tarjeta seleccionada</label>
+          <div class="cvv-wrap">
+            <input type="password" placeholder="•••" maxlength="4" id="cvv-recog">
+            <span class="cvv-hint">Requerido por el banco<br>emisor de tu tarjeta.</span>
+          </div>
+        </div>
+        <button class="btn-c2p-primary" onclick="goSuccess('MC','4892')">Pagar $475.020</button>
+        <div class="not-you">¿No son tus tarjetas? <a onclick="closeC2P()">Cerrar sesión</a></div>
+      </div>
+
+      <!-- STEP: UNRECOGNIZED → email + OTP channel -->
+      <div class="c2p-step" id="step-unrecog-email">
+        <div class="c2p-step-title">Confirma tu identidad</div>
+        <div class="c2p-step-desc">Ingresa tu correo para encontrar tu cuenta Click to Pay en este dispositivo.</div>
+        <div class="modal-field">
+          <label>Correo electrónico</label>
+          <input type="email" id="unrecog-email-input" value="carlos.martinez@gmail.com">
+        </div>
+        <div style="font-size:12px;font-weight:700;color:#555;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:8px;">Enviar código de verificación por:</div>
+        <div class="otp-via">
+          <button class="via-btn sel" id="via-sms" onclick="selVia('sms')"><span class="via-icon">💬</span>SMS<br>••••7234</button>
+          <button class="via-btn" id="via-email" onclick="selVia('email')"><span class="via-icon">📧</span>Email</button>
+          <button class="via-btn" id="via-wa" onclick="selVia('wa')"><span class="via-icon">💚</span>WhatsApp</button>
+        </div>
+        <button class="btn-c2p-primary" onclick="goOTP()">Enviar código</button>
+        <div class="c2p-legal">Al continuar, Éxito compartirá tus datos de tarjeta con la red de pago seleccionada para inscribirte en Click to Pay y hacer tu próximo pago más rápido. <a href="#" onclick="return false;">Más información.</a></div>
+      </div>
+
+      <!-- STEP: OTP entry -->
+      <div class="c2p-step" id="step-otp">
+        <div class="c2p-step-title">Código de verificación</div>
+        <div class="c2p-step-desc" id="otp-desc">Ingresa el código de 6 dígitos que enviamos a tu SMS ••••7234.</div>
+        <div class="otp-boxes">
+          <input class="otp-box" type="number" id="otp0" maxlength="1" oninput="otpIn(0)" onkeydown="otpKey(event,0)">
+          <input class="otp-box" type="number" id="otp1" maxlength="1" oninput="otpIn(1)" onkeydown="otpKey(event,1)">
+          <input class="otp-box" type="number" id="otp2" maxlength="1" oninput="otpIn(2)" onkeydown="otpKey(event,2)">
+          <input class="otp-box" type="number" id="otp3" maxlength="1" oninput="otpIn(3)" onkeydown="otpKey(event,3)">
+          <input class="otp-box" type="number" id="otp4" maxlength="1" oninput="otpIn(4)" onkeydown="otpKey(event,4)">
+          <input class="otp-box" type="number" id="otp5" maxlength="1" oninput="otpIn(5)" onkeydown="otpKey(event,5)">
+        </div>
+        <div class="otp-resend">¿No recibiste el código? <a onclick="resendOTP()">Reenviar</a> &nbsp;·&nbsp; <span id="otp-timer">0:59</span></div>
+        <button class="btn-c2p-primary" onclick="verifyOTP()" id="otp-btn">Verificar</button>
+        <div class="c2p-legal">El código expira en 10 minutos. Nunca compartas este código con nadie.</div>
+      </div>
+
+      <!-- STEP: Card selection (after OTP) -->
+      <div class="c2p-step" id="step-cards-otp">
+        <div class="c2p-step-title">Tus tarjetas Click to Pay</div>
+        <div class="c2p-step-desc">Selecciona la tarjeta con la que deseas pagar <strong>$475.020</strong>.</div>
+        <div class="card-list">
+          <div class="c2p-card-item sel" onclick="pickCard(this)">
+            <svg width="48" height="30" viewBox="0 0 34 22" fill="none"><circle cx="12" cy="11" r="10" fill="#EB001B"/><circle cx="22" cy="11" r="10" fill="#F79E1B"/><path d="M17 4.8 A10 10 0 0 1 17 17.2 A10 10 0 0 1 17 4.8Z" fill="#FF5F00"/></svg>
+            <div class="c2p-card-info">
+              <div class="c2p-card-name">Mastercard Platinum</div>
+              <div class="c2p-card-num">•••• •••• •••• 4892</div>
+              <div class="c2p-card-exp">Vence 03/27</div>
+            </div>
+            <div class="radio-circle"><div class="radio-dot"></div></div>
+          </div>
+          <div class="c2p-card-item" onclick="pickCard(this)">
+            <svg width="48" height="30" viewBox="0 0 36 22" fill="none"><rect width="36" height="22" rx="3" fill="#1A1F71"/><text x="18" y="15.5" text-anchor="middle" font-family="Arial Black" font-weight="900" font-size="11" fill="white">VISA</text></svg>
+            <div class="c2p-card-info">
+              <div class="c2p-card-name">Visa Signature</div>
+              <div class="c2p-card-num">•••• •••• •••• 3310</div>
+              <div class="c2p-card-exp">Vence 11/26</div>
+            </div>
+            <div class="radio-circle"><div class="radio-dot"></div></div>
+          </div>
+        </div>
+        <div class="cvv-section">
+          <label>CVV de la tarjeta seleccionada</label>
+          <div class="cvv-wrap">
+            <input type="password" placeholder="•••" maxlength="4">
+            <span class="cvv-hint">Requerido por el banco emisor.</span>
+          </div>
+        </div>
+        <div class="c2p-add-card" onclick="openAddCard()">+ Agregar nueva tarjeta</div>
+        <button class="btn-c2p-primary" onclick="goSuccess('MC','4892')">Pagar $475.020</button>
+        <div class="not-you">¿No son tus tarjetas? <a onclick="closeC2P()">Cerrar sesión</a></div>
+      </div>
+
+      <!-- STEP: NEW USER → enrollment form -->
+      <div class="c2p-step" id="step-new-user">
+        <div class="c2p-step-title">Crea tu cuenta Click to Pay</div>
+        <div class="c2p-step-desc">Paga más rápido en tu próxima compra. Registra tu tarjeta de forma segura y encriptada.</div>
+        <div class="modal-field">
+          <label>Correo electrónico</label>
+          <input type="email" placeholder="tu@correo.com">
+        </div>
+        <div class="modal-field">
+          <label>Número de celular</label>
+          <div class="phone-row">
+            <select>
+              <option>🇨🇴 +57</option>
+              <option>🇺🇸 +1</option>
+              <option>🇲🇽 +52</option>
+              <option>🇦🇷 +54</option>
+            </select>
+            <input type="tel" placeholder="300 123 4567">
+          </div>
+        </div>
+        <div class="modal-field">
+          <label>Número de tarjeta</label>
+          <input type="text" placeholder="0000 0000 0000 0000" oninput="fmtCard(this)">
+        </div>
+        <div class="modal-field-row">
+          <div class="modal-field"><label>Vencimiento</label><input type="text" placeholder="MM / AA" oninput="fmtExp(this)"></div>
+          <div class="modal-field"><label>CVV</label><input type="text" placeholder="•••" maxlength="4"></div>
+        </div>
+        <div class="modal-field">
+          <label>Nombre completo</label>
+          <input type="text" placeholder="Como aparece en tu tarjeta">
+        </div>
+        <div style="height:6px;"></div>
+        <button class="btn-c2p-primary" onclick="goOTPNew()">Registrar y continuar</button>
+        <div class="c2p-legal">Al registrarte, aceptas los <a href="#" onclick="return false;">Términos de uso</a> y la <a href="#" onclick="return false;">Política de privacidad</a> de Click to Pay y la red de tu tarjeta.</div>
+      </div>
+
+      <!-- STEP: ADD NEW CARD — usuario reconocido agrega tarjeta a su billetera -->
+      <div class="c2p-step" id="step-add-card">
+        <div class="recog-banner">
+          <div class="recog-icon">✅</div>
+          <div>
+            <div class="recog-title">¡Hola, Carlos!</div>
+            <div class="recog-sub">Agrega una tarjeta a tu billetera Click to Pay</div>
+          </div>
+        </div>
+        <div class="c2p-step-title">Agregar nueva tarjeta</div>
+        <div class="c2p-step-desc">Tus datos se cifran en tu dispositivo. Éxito nunca almacena el número de tu tarjeta.</div>
+        <div class="modal-field" style="margin-top:16px;">
+          <label>Número de tarjeta</label>
+          <input type="text" placeholder="0000 0000 0000 0000" maxlength="19" oninput="fmtCard(this)">
+        </div>
+        <div class="modal-field-row">
+          <div class="modal-field"><label>Vencimiento</label><input type="text" placeholder="MM / AA" maxlength="7" oninput="fmtExp(this)"></div>
+          <div class="modal-field"><label>CVV</label><input type="text" placeholder="•••" maxlength="4"></div>
+        </div>
+        <div class="modal-field">
+          <label>Nombre en la tarjeta</label>
+          <input type="text" placeholder="Como aparece en tu tarjeta">
+        </div>
+        <div class="check-row">
+          <input type="checkbox" id="save-new-card" checked>
+          <label for="save-new-card">Guardar esta tarjeta en mi billetera Click to Pay</label>
+        </div>
+        <button class="btn-c2p-primary" onclick="goSuccess('MC','8821')">Guardar y pagar $475.020</button>
+        <div class="not-you">¿Prefieres otra tarjeta? <a onclick="backToCards()">Volver a mis tarjetas</a></div>
+        <div class="c2p-legal">Tu tarjeta se inscribe de forma tokenizada en la red de pago seleccionada. Aceptas los <a href="#" onclick="return false;">Términos</a> y la <a href="#" onclick="return false;">Política de privacidad</a> de Click to Pay.</div>
+      </div>
+
+      <!-- STEP: SUCCESS -->
+      <div class="c2p-step" id="step-success">
+        <div class="success-wrap">
+          <div class="success-circle">✓</div>
+          <div class="success-title">¡Pago exitoso!</div>
+          <div class="success-desc">Tu pedido fue procesado correctamente. Recibirás una confirmación a carlos.martinez@gmail.com.</div>
+          <div class="success-chip">
+            <svg width="44" height="28" viewBox="0 0 34 22" fill="none"><circle cx="12" cy="11" r="10" fill="#EB001B"/><circle cx="22" cy="11" r="10" fill="#F79E1B"/><path d="M17 4.8 A10 10 0 0 1 17 17.2 A10 10 0 0 1 17 4.8Z" fill="#FF5F00"/></svg>
+            <div>
+              <div id="success-card-label" style="font-size:13px;font-weight:700;color:#555;">Mastercard •••• 4892</div>
+              <div class="success-amount">$475.020</div>
+            </div>
+          </div>
+          <div class="success-order">N° de pedido: <strong>EX-2026-847291</strong></div>
+          <button class="btn-c2p-primary btn-c2p-success" onclick="closeC2P()">Ver mi pedido</button>
+          <div class="c2p-footer-note">Procesado con Click to Pay · EMVCo Secure Remote Commerce</div>
+        </div>
+      </div>
+
+    </div><!-- /modal-body -->
+  </div><!-- /modal -->
+</div><!-- /overlay -->
+<script>
+  let currentFlow = 'new';
+  let otpTimer = null;
+
+  /* ── FLOW SELECTOR ── */
+  const FLOW_CAPTION = {
+    recog:   '👤 <strong>Usuario reconocido</strong> — dispositivo de confianza: tus tarjetas aparecen al instante y pagas en 1 clic, sin OTP.',
+    unrecog: '✉️ <strong>Reconocido por correo / teléfono</strong> — te identificamos por tu correo o celular y validamos con un código (OTP).',
+    new:     '✨ <strong>Usuario nuevo</strong> — registras tu tarjeta cifrada en el dispositivo y quedas inscrito en Click to Pay.',
+    addcard: '➕ <strong>Agregar nueva tarjeta</strong> — un usuario reconocido añade una tarjeta a su billetera Click to Pay.'
+  };
+  function setFlow(f) {
+    currentFlow = f;
+    ['recog','unrecog','new','addcard'].forEach(t => {
+      document.getElementById('tab-'+t).classList.toggle('active', t===f);
+    });
+    var cap = document.getElementById('flow-caption'); if (cap) cap.innerHTML = FLOW_CAPTION[f];
+    const host = document.getElementById('c2p-inline-host');
+    if (host && host.style.display === 'block') showStep('start');
+  }
+
+  /* ── OPEN / CLOSE (panel INLINE, sin popup) ── */
+  function mountInlineC2P() {
+    const host = document.getElementById('c2p-inline-host');
+    const modal = document.getElementById('c2p-modal');
+    if (host && modal && modal.parentElement !== host) host.appendChild(modal);
+  }
+  function openC2P() {
+    mountInlineC2P();
+    showStep('start');
+    document.getElementById('c2p-inline-host').style.display = 'block';
+    const m = document.getElementById('manual-card'); if (m) m.style.display = 'none';
+    const t = document.querySelector('.c2p-trigger-wrap'); if (t) t.style.display = 'none';
+    document.getElementById('c2p-inline-host').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+  function closeC2P() {
+    document.getElementById('c2p-inline-host').style.display = 'none';
+    const m = document.getElementById('manual-card'); if (m) m.style.display = 'block';
+    const t = document.querySelector('.c2p-trigger-wrap'); if (t) t.style.display = 'block';
+    clearInterval(otpTimer);
+    resetOTP();
+  }
+
+  /* ── STEPS ── */
+  const ALL_STEPS = ['step-recog','step-unrecog-email','step-otp','step-cards-otp','step-new-user','step-add-card','step-success'];
+
+  function showStep(id) {
+    ALL_STEPS.forEach(s => document.getElementById(s).classList.remove('active'));
+    if (id === 'start') {
+      if (currentFlow === 'recog')        { document.getElementById('step-recog').classList.add('active'); setProg(2); }
+      else if (currentFlow === 'unrecog') { document.getElementById('step-unrecog-email').classList.add('active'); setProg(1); }
+      else if (currentFlow === 'addcard') { document.getElementById('step-add-card').classList.add('active'); setProg(2); }
+      else                                { document.getElementById('step-new-user').classList.add('active'); setProg(1); }
+    } else {
+      document.getElementById(id).classList.add('active');
+    }
+  }
+
+  /* ── ADD NEW CARD (caso 4) ── */
+  function openAddCard() {
+    showStep('step-add-card');
+    setProg(2);
+    document.getElementById('c2p-modal').scrollTop = 0;
+  }
+  function backToCards() {
+    if (currentFlow === 'unrecog' || currentFlow === 'new') showStep('step-cards-otp');
+    else showStep('step-recog');
+    setProg(currentFlow === 'unrecog' || currentFlow === 'new' ? 3 : 2);
+  }
+
+  function setProg(n) {
+    for (let i=1;i<=3;i++) document.getElementById('prog'+i).classList.toggle('done', i<=n);
+  }
+
+  /* ── OTP flow ── */
+  function goOTP() {
+    const via = document.querySelector('.via-btn.sel');
+    const viaText = via ? via.textContent.trim().split('\n')[0] : 'SMS';
+    document.getElementById('otp-desc').textContent = 'Ingresa el código de 6 dígitos que enviamos a tu '+viaText+'.';
+    showStep('step-otp');
+    setProg(2);
+    startOtpTimer();
+    setTimeout(()=>document.getElementById('otp0').focus(), 80);
+  }
+
+  function goOTPNew() {
+    document.getElementById('otp-desc').textContent = 'Ingresa el código de 6 dígitos que enviamos a tu celular para confirmar tu identidad.';
+    showStep('step-otp');
+    setProg(2);
+    startOtpTimer();
+    setTimeout(()=>document.getElementById('otp0').focus(), 80);
+  }
+
+  function verifyOTP() {
+    let filled = 0;
+    for(let i=0;i<6;i++) if(document.getElementById('otp'+i).value) filled++;
+    if (filled < 6) {
+      document.getElementById('otp0').style.borderColor='#C62828';
+      setTimeout(()=>{ document.getElementById('otp0').style.borderColor=''; }, 1200);
+      return;
+    }
+    clearInterval(otpTimer);
+    showStep('step-cards-otp');
+    setProg(3);
+  }
+
+  function goSuccess(net, last4) {
+    const label = net === 'MC' ? 'Mastercard ••••' : net + ' ••••';
+    document.getElementById('success-card-label').textContent = label + ' ' + last4;
+    showStep('step-success');
+    setProg(3);
+    clearInterval(otpTimer);
+  }
+
+  /* ── OTP helpers ── */
+  function otpIn(idx) {
+    const box = document.getElementById('otp'+idx);
+    const v = box.value.replace(/\D/g,'').slice(-1);
+    box.value = v;
+    box.classList.toggle('filled', !!v);
+    if (v && idx < 5) document.getElementById('otp'+(idx+1)).focus();
+    if (v && idx === 5) document.getElementById('otp-btn').focus();
+  }
+  function otpKey(e, idx) {
+    if (e.key==='Backspace' && !document.getElementById('otp'+idx).value && idx>0)
+      document.getElementById('otp'+(idx-1)).focus();
+  }
+  function resetOTP() {
+    for(let i=0;i<6;i++){ const b=document.getElementById('otp'+i); if(b){b.value='';b.classList.remove('filled');} }
+  }
+  function resendOTP() {
+    resetOTP();
+    startOtpTimer();
+    document.getElementById('otp0').focus();
+  }
+  function startOtpTimer() {
+    clearInterval(otpTimer);
+    let s = 59;
+    document.getElementById('otp-timer').textContent = '0:59';
+    otpTimer = setInterval(()=>{
+      s--;
+      const m=Math.floor(s/60), sec=s%60;
+      document.getElementById('otp-timer').textContent = m+':'+(sec<10?'0':'')+sec;
+      if(s<=0) clearInterval(otpTimer);
+    }, 1000);
+  }
+
+  /* ── Popup "Bienvenido a Click to Pay" (CX Guide · product education) ── */
+  function openWelcome() { document.getElementById('welcome-overlay').classList.add('open'); }
+  function closeWelcome() { document.getElementById('welcome-overlay').classList.remove('open'); }
+
+  /* ── Popup de disclosure anclado al icono "i" (CX Guide · PII) ── */
+  function toggleInfoTip(btn) {
+    var tip = btn.parentElement.querySelector('.info-tip');
+    if (!tip) return;
+    if (tip.classList.contains('show')) { tip.classList.remove('show'); return; }
+    var r = btn.getBoundingClientRect();
+    var w = 380;
+    var left = r.left + r.width / 2 - 40;          // la flecha (40px) queda bajo el icono
+    if (left + w > window.innerWidth - 12) left = window.innerWidth - 12 - w;
+    if (left < 12) left = 12;
+    var arrow = (r.left + r.width / 2) - left - 8;  // recalcula la flecha si se ajustó
+    tip.style.left = left + 'px';
+    tip.style.top = (r.bottom + 10) + 'px';
+    tip.style.setProperty('--tip-arrow', arrow + 'px');
+    tip.classList.add('show');
+  }
+  /* Cerrar el popup al hacer clic fuera */
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('.info-i') || e.target.closest('.info-tip')) return;
+    var open = document.querySelector('.info-tip.show');
+    if (open) open.classList.remove('show');
+  });
+
+  /* ── Acordeón de métodos de pago (estilo Éxito) ── */
+  function togglePM(header) {
+    const item = header.closest('.pm-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.pm-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+
+  /* La fila "Tarjeta crédito o débito" despliega Click to Pay directamente */
+  function openCardPM(header) {
+    const item = header.closest('.pm-item');
+    const host = document.getElementById('c2p-inline-host');
+    const showing = item.classList.contains('open') && host && host.style.display === 'block';
+    if (showing) {                 // ya está el panel abierto → colapsar
+      closeC2P();
+      item.classList.remove('open');
+    } else {                       // abrir este método y desplegar Click to Pay
+      document.querySelectorAll('.pm-item').forEach(i => i.classList.remove('open'));
+      item.classList.add('open');
+      openC2P();
+    }
+  }
+
+  /* ── Card & channel selection ── */
+  function pickCard(el) {
+    const list = el.closest('.card-list');
+    list.querySelectorAll('.c2p-card-item').forEach(c=>c.classList.remove('sel'));
+    el.classList.add('sel');
+  }
+  function selVia(t) {
+    ['sms','email','wa'].forEach(v=>{
+      const el=document.getElementById('via-'+v);
+      if(el) el.classList.toggle('sel', v===t);
+    });
+  }
+
+  /* ── Card/exp formatters ── */
+  function fmtCard(i) {
+    let v=i.value.replace(/\D/g,'').substring(0,16);
+    i.value=v.replace(/(.{4})/g,'$1 ').trim();
+  }
+  function fmtExp(i) {
+    let v=i.value.replace(/\D/g,'');
+    if(v.length>=3) v=v.substring(0,2)+' / '+v.substring(2,4);
+    i.value=v;
+  }
+
+  /* Montar el panel de Click to Pay inline al cargar (reubica el nodo fuera del overlay) */
+  mountInlineC2P();
+
+  /* Menú principal: resaltar enlace activo al hacer clic */
+  document.querySelectorAll('.site-links a').forEach(function(a){
+    a.addEventListener('click', function(){
+      document.querySelectorAll('.site-links a').forEach(function(x){ x.classList.remove('active'); });
+      this.classList.add('active');
+    });
+  });
+</script>
+
+</body>
+</html>

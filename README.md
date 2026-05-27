@@ -10,9 +10,10 @@ El menú principal son páginas independientes que comparten `styles.css` y el m
 
 - **`index.html`** — Inicio (portada).
 - **`ventajas.html`** — Ventajas de Click to Pay.
-- **`demo.html`** — Demo interactivo del checkout, del carrito a la finalización del pago.
+- **`demo.html`** — Demo interactivo del checkout. La sección "Tarjeta crédito o débito" está en blanco (`#usecase-canvas`) para construir los casos de uso desde cero.
 - **`metodos.html`** — Mapa de métodos JavaScript / API.
 - **`styles.css`** — Estilos compartidos por todas las páginas.
+- **`referencia-c2p.html`** — Archivo de referencia: flujo completo de Click to Pay (popup de bienvenida + modal con todos los casos de uso + JS) versionado desde el commit `bcab9aa`.
 - **`exito_checkout_c2p.html`** — Versión original todo-en-uno (archivada).
 
 ## Casos de uso
