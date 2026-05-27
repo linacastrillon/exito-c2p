@@ -4,10 +4,16 @@ Demo visual de una implementación de **Click to Pay** con **Unified Checkout So
 
 🔗 **Demo en vivo:** https://linacastrillon.github.io/exito-c2p/
 
-## Contenido
+## Estructura (sitio multipágina)
 
-- **`index.html`** — Demo del checkout con el flujo completo, del carrito a la finalización del pago.
-- **`Exito-ClickToPay-Demo.html`** — Presentación complementaria (slides).
+El menú principal son páginas independientes que comparten `styles.css` y el mismo header:
+
+- **`index.html`** — Inicio (portada).
+- **`ventajas.html`** — Ventajas de Click to Pay.
+- **`demo.html`** — Demo interactivo del checkout, del carrito a la finalización del pago.
+- **`metodos.html`** — Mapa de métodos JavaScript / API.
+- **`styles.css`** — Estilos compartidos por todas las páginas.
+- **`exito_checkout_c2p.html`** — Versión original todo-en-uno (archivada).
 
 ## Casos de uso
 
