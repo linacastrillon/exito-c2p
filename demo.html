@@ -122,7 +122,7 @@
 
           <!-- Tarjeta crédito o débito (abierta por defecto · aloja Click to Pay) -->
           <div class="pm-item open">
-            <div class="pm-header" onclick="togglePM(this)">
+            <div class="pm-header" onclick="openCardPM(this)">
               <span class="pm-ico c2p-mark">
                 <svg width="38" height="26" viewBox="0 0 40 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Click to Pay">
                   <path d="M5 4 H20 L28 14 L20 24 H5 Z" fill="#111" stroke="#111" stroke-width="3" stroke-linejoin="round"/>
@@ -803,6 +803,21 @@
     const isOpen = item.classList.contains('open');
     document.querySelectorAll('.pm-item').forEach(i => i.classList.remove('open'));
     if (!isOpen) item.classList.add('open');
+  }
+
+  /* La fila "Tarjeta crédito o débito" despliega Click to Pay directamente */
+  function openCardPM(header) {
+    const item = header.closest('.pm-item');
+    const host = document.getElementById('c2p-inline-host');
+    const showing = item.classList.contains('open') && host && host.style.display === 'block';
+    if (showing) {                 // ya está el panel abierto → colapsar
+      closeC2P();
+      item.classList.remove('open');
+    } else {                       // abrir este método y desplegar Click to Pay
+      document.querySelectorAll('.pm-item').forEach(i => i.classList.remove('open'));
+      item.classList.add('open');
+      openC2P();
+    }
   }
 
   /* ── Card & channel selection ── */
