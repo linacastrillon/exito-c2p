@@ -39,8 +39,9 @@
     z-index: 100;
     box-shadow: 0 2px 6px rgba(0,0,0,0.12);
   }
-  .header-row { display:flex; align-items:center; gap:20px; }
-  .header .uc-pills { gap:10px; }
+  .header-row { display:flex; align-items:center; gap:12px 16px; flex-wrap:wrap; }
+  .header .uc-pills { gap:8px; flex-wrap:wrap; }
+  .header .header-right { margin-left:auto; }
   .sim-caption { max-width:1100px; margin:0 auto; padding:12px 16px 0; }
   .sim-caption .flow-caption { margin:0; }
 
