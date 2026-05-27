@@ -121,7 +121,7 @@
 
           <!-- Tarjeta crédito o débito (abierta por defecto · aloja Click to Pay) -->
           <div class="pm-item open">
-            <div class="pm-header" onclick="openCardPM(this)">
+            <div class="pm-header" onclick="togglePM(this)">
               <span class="pm-ico c2p-mark">
                 <svg width="38" height="26" viewBox="0 0 40 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Click to Pay">
                   <path d="M5 4 H20 L28 14 L20 24 H5 Z" fill="#111" stroke="#111" stroke-width="3" stroke-linejoin="round"/>
@@ -138,69 +138,8 @@
               <span class="pm-chevron" style="margin-left:10px;">▾</span>
             </div>
             <div class="pm-body">
-
-              <!-- Panel INLINE de Click to Pay (se monta al hacer clic en el título "Tarjeta crédito o débito" de arriba) -->
-              <div id="c2p-inline-host"></div>
-
-              <!-- Formulario manual de tarjeta (se oculta al activar Click to Pay) -->
-              <div id="manual-card">
-              <div class="divider">
-                <div class="div-line"></div>
-                <div class="div-text">o ingresa los datos de tu tarjeta</div>
-                <div class="div-line"></div>
-              </div>
-
-              <!-- Formulario manual (layout Éxito) -->
-              <div class="cc-grid">
-                <div class="field">
-                  <label>*Número de la tarjeta</label>
-                  <div class="field-relative">
-                    <input type="text" placeholder="0000 0000 0000 0000" maxlength="19" oninput="fmtCard(this)">
-                    <div class="field-brands">
-                      <svg width="28" height="18" viewBox="0 0 34 22" fill="none"><circle cx="12" cy="11" r="10" fill="#EB001B"/><circle cx="22" cy="11" r="10" fill="#F79E1B"/><path d="M17 4.8 A10 10 0 0 1 17 17.2 A10 10 0 0 1 17 4.8Z" fill="#FF5F00"/></svg>
-                      <svg width="30" height="18" viewBox="0 0 36 22" fill="none"><rect width="36" height="22" rx="3" fill="#1A1F71"/><text x="18" y="15.5" text-anchor="middle" font-family="Arial Black" font-weight="900" font-size="11" fill="white">VISA</text></svg>
-                    </div>
-                  </div>
-                </div>
-                <div class="field">
-                  <label>*Número de cuotas</label>
-                  <select>
-                    <option>¿En cuántas cuotas deseas pagar?</option>
-                    <option>1 cuota</option>
-                    <option>3 cuotas</option>
-                    <option>6 cuotas</option>
-                    <option>12 cuotas sin interés</option>
-                    <option>24 cuotas</option>
-                    <option>36 cuotas</option>
-                  </select>
-                </div>
-                <div class="field">
-                  <label>*Nombre como aparece en la tarjeta</label>
-                  <input type="text" placeholder="Nombre completo">
-                </div>
-                <div class="cc-exp-wrap">
-                  <div class="field">
-                    <label>*Fecha de expiración</label>
-                    <div class="exp-row">
-                      <select><option>MM</option><option>01</option><option>02</option><option>03</option><option>04</option><option>05</option><option>06</option><option>07</option><option>08</option><option>09</option><option>10</option><option>11</option><option>12</option></select>
-                      <select><option>AA</option><option>26</option><option>27</option><option>28</option><option>29</option><option>30</option><option>31</option></select>
-                    </div>
-                  </div>
-                  <div class="field">
-                    <label>*Código de seguridad</label>
-                    <input type="text" placeholder="•••" maxlength="4">
-                  </div>
-                </div>
-              </div>
-
-              <div class="check-row">
-                <input type="checkbox" id="save-card" checked>
-                <label for="save-card">La dirección de la factura de la tarjeta es <strong>Calle 134a # 13 - 29 ...</strong></label>
-              </div>
-
-              <button class="btn-pay">Pagar $&#8203;475.020</button>
-              <div class="ssl-note">🔒 Pago protegido con cifrado SSL 256 bits · PCI DSS</div>
-              </div><!-- /#manual-card -->
+              <!-- Espacio en blanco · empezaremos de cero los casos de uso aquí -->
+              <div class="usecase-canvas" id="usecase-canvas"></div>
             </div><!-- /pm-body Tarjeta crédito o débito -->
           </div><!-- /pm-item Tarjeta crédito o débito -->
 
