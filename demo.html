@@ -140,48 +140,7 @@
             </div>
             <div class="pm-body">
 
-              <!-- Click to Pay express — CX Guide: presentado en el punto de entrada de la tarjeta -->
-              <div class="c2p-express-head">Paga más rápido y seguro <span class="pm-badge-1click">⚡ Pago en 1 clic</span></div>
-
-        <div class="c2p-trigger-wrap">
-          <button class="c2p-btn" id="c2p-main-btn" onclick="openC2P()" aria-label="Pagar con Click to Pay">
-            <!-- EMVCo Pentagon icon -->
-            <!-- Marca oficial Click to Pay (EMVCo): pentágono + símbolo de transición continua -->
-            <svg class="c2p-icon-svg" width="30" height="21" viewBox="0 0 40 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Click to Pay">
-              <path d="M5 4 H20 L28 14 L20 24 H5 Z" fill="#111" stroke="#111" stroke-width="3" stroke-linejoin="round"/>
-              <path d="M31 7 C35 11 35 17 31 21" fill="none" stroke="#111" stroke-width="3" stroke-linecap="round"/>
-            </svg>
-            <div class="c2p-vertical-sep"></div>
-            <div class="c2p-network-marks">
-              <!-- Mastercard circles -->
-              <svg width="34" height="22" viewBox="0 0 34 22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Mastercard">
-                <circle cx="12" cy="11" r="10" fill="#EB001B"/>
-                <circle cx="22" cy="11" r="10" fill="#F79E1B"/>
-                <path d="M17 4.8 A10 10 0 0 1 17 17.2 A10 10 0 0 1 17 4.8Z" fill="#FF5F00"/>
-              </svg>
-              <!-- Visa -->
-              <svg width="36" height="22" viewBox="0 0 36 22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Visa">
-                <rect width="36" height="22" rx="3" fill="#1A1F71"/>
-                <text x="18" y="15.5" text-anchor="middle" font-family="Arial Black,Arial" font-weight="900" font-size="11" fill="white" letter-spacing="0.5">VISA</text>
-              </svg>
-              <!-- Amex -->
-              <svg width="34" height="22" viewBox="0 0 34 22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="American Express">
-                <rect width="34" height="22" rx="3" fill="#007BC1"/>
-                <text x="17" y="15" text-anchor="middle" font-family="Arial Black,Arial" font-weight="900" font-size="8" fill="white" letter-spacing="0.3">AMEX</text>
-              </svg>
-              <!-- Discover -->
-              <svg width="34" height="22" viewBox="0 0 34 22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Discover">
-                <rect width="34" height="22" rx="3" fill="#231F20"/>
-                <circle cx="22" cy="11" r="9" fill="#FF6600"/>
-                <text x="9" y="15" font-family="Arial Black,Arial" font-weight="900" font-size="7" fill="white">DISC</text>
-              </svg>
-            </div>
-            <span class="c2p-label">Click to Pay</span>
-          </button>
-          <div class="c2p-learn">Pago rápido y seguro · <a href="#" onclick="return false;">¿Qué es Click to Pay?</a></div>
-        </div>
-
-              <!-- Panel INLINE de Click to Pay (el JS monta aquí los pasos; no es popup) -->
+              <!-- Panel INLINE de Click to Pay (se monta al hacer clic en el título "Tarjeta crédito o débito" de arriba) -->
               <div id="c2p-inline-host"></div>
 
               <!-- Formulario manual de tarjeta (se oculta al activar Click to Pay) -->
