@@ -134,8 +134,175 @@
               <span class="pm-chevron" style="margin-left:10px;">▾</span>
             </div>
             <div class="pm-body">
-              <!-- Espacio en blanco · empezaremos de cero los casos de uso aquí -->
-              <div class="usecase-canvas" id="usecase-canvas"></div>
+              <!-- Lienzo: cada pestaña (1-4) muestra su panel aquí -->
+              <div class="usecase-canvas" id="usecase-canvas">
+
+                <!-- ════ CASO 1 · NUEVO USUARIO ════ -->
+                <div class="uc-panel active" id="uc-new">
+                  <div class="c2p-step-title">Crea tu cuenta Click to Pay</div>
+                  <div class="c2p-step-desc">Es tu primera vez aquí. Registra tu tarjeta de forma cifrada y quedarás inscrito para pagar más rápido la próxima vez.</div>
+                  <div class="modal-field">
+                    <label>Correo electrónico</label>
+                    <input type="email" placeholder="tu@correo.com">
+                  </div>
+                  <div class="modal-field">
+                    <label>Número de celular</label>
+                    <div class="phone-row">
+                      <select><option>🇨🇴 +57</option><option>🇺🇸 +1</option><option>🇲🇽 +52</option></select>
+                      <input type="tel" placeholder="300 123 4567">
+                    </div>
+                  </div>
+                  <div class="modal-field">
+                    <label>Número de tarjeta</label>
+                    <input type="text" placeholder="0000 0000 0000 0000" maxlength="19" oninput="fmtCard(this)">
+                  </div>
+                  <div class="modal-field-row">
+                    <div class="modal-field"><label>Vencimiento</label><input type="text" placeholder="MM / AA" maxlength="7" oninput="fmtExp(this)"></div>
+                    <div class="modal-field"><label>CVV</label><input type="text" placeholder="•••" maxlength="4"></div>
+                  </div>
+                  <div class="modal-field">
+                    <label>Nombre completo</label>
+                    <input type="text" placeholder="Como aparece en tu tarjeta">
+                  </div>
+                  <div class="check-row">
+                    <input type="checkbox" id="uc-new-save" checked>
+                    <label for="uc-new-save">Inscribirme en Click to Pay para mis próximas compras</label>
+                  </div>
+                  <button class="btn-c2p-primary" type="button">Registrar y pagar $475.020</button>
+                  <div class="c2p-legal">Al registrarte aceptas los <a href="#" onclick="return false;">Términos</a> y la <a href="#" onclick="return false;">Política de privacidad</a> de Click to Pay y de la red de tu tarjeta.</div>
+                  <div class="api-note">
+                    <span class="api-badge ucs">UCS</span>
+                    <div><span class="cmt">// captura de contexto + montaje del componente</span><br>
+                    Sessions API <span class="arr">→</span> <span class="m">captureContext</span> · uc.<span class="m">mount()</span><br>
+                    <span class="cmt">// cifrado e inscripción de la nueva tarjeta</span><br>
+                    src.<span class="m">init()</span> <span class="arr">→</span> src.<span class="m">encryptCard()</span> <span class="arr">→</span> src.<span class="m">checkoutWithNewCard()</span></div>
+                  </div>
+                </div>
+
+                <!-- ════ CASO 2 · RECONOCIDO POR CORREO / TELÉFONO ════ -->
+                <div class="uc-panel" id="uc-unrecog">
+                  <div class="c2p-step-title">Confirma tu identidad</div>
+                  <div class="c2p-step-desc">Te identificamos por tu correo o celular. Te enviaremos un código de un solo uso (OTP) para confirmar que eres tú.</div>
+                  <div class="modal-field">
+                    <label>Correo o celular</label>
+                    <input type="text" value="carlos.martinez@gmail.com">
+                  </div>
+                  <div style="font-size:12px;font-weight:700;color:#555;text-transform:uppercase;letter-spacing:.4px;margin:2px 0 8px;">Enviar código por:</div>
+                  <div class="otp-via">
+                    <button class="via-btn sel" type="button" onclick="selVia(this)"><span class="via-icon">💬</span>SMS<br>••••7234</button>
+                    <button class="via-btn" type="button" onclick="selVia(this)"><span class="via-icon">📧</span>Email</button>
+                    <button class="via-btn" type="button" onclick="selVia(this)"><span class="via-icon">💚</span>WhatsApp</button>
+                  </div>
+                  <div class="otp-boxes">
+                    <input class="otp-box" type="text" inputmode="numeric" maxlength="1" oninput="otpNext(this)">
+                    <input class="otp-box" type="text" inputmode="numeric" maxlength="1" oninput="otpNext(this)">
+                    <input class="otp-box" type="text" inputmode="numeric" maxlength="1" oninput="otpNext(this)">
+                    <input class="otp-box" type="text" inputmode="numeric" maxlength="1" oninput="otpNext(this)">
+                    <input class="otp-box" type="text" inputmode="numeric" maxlength="1" oninput="otpNext(this)">
+                    <input class="otp-box" type="text" inputmode="numeric" maxlength="1" oninput="otpNext(this)">
+                  </div>
+                  <button class="btn-c2p-primary" type="button">Verificar y ver mis tarjetas</button>
+                  <div class="c2p-legal">El código expira en 10 minutos. Nunca lo compartas con nadie.</div>
+                  <div class="api-note">
+                    <span class="api-badge">SRC</span>
+                    <div><span class="cmt">// identificación por correo/celular y validación OTP</span><br>
+                    src.<span class="m">idLookup()</span> <span class="arr">→</span> src.<span class="m">initiateValidation()</span> <span class="arr">→</span> src.<span class="m">validate()</span> <span class="arr">→</span> src.<span class="m">getCards()</span></div>
+                  </div>
+                </div>
+
+                <!-- ════ CASO 3 · USUARIO RECONOCIDO ════ -->
+                <div class="uc-panel" id="uc-recog">
+                  <div class="recog-banner">
+                    <div class="recog-icon">✅</div>
+                    <div>
+                      <div class="recog-title">¡Hola, Carlos!</div>
+                      <div class="recog-sub">Dispositivo de confianza · sesión activa</div>
+                    </div>
+                  </div>
+                  <div class="c2p-step-title">Selecciona una tarjeta</div>
+                  <div class="c2p-step-desc">Tus tarjetas aparecen al instante. Total a pagar: <strong>$475.020</strong></div>
+                  <div class="card-list">
+                    <div class="c2p-card-item sel" onclick="pickCard(this)">
+                      <svg width="48" height="30" viewBox="0 0 34 22" fill="none"><circle cx="12" cy="11" r="10" fill="#EB001B"/><circle cx="22" cy="11" r="10" fill="#F79E1B"/><path d="M17 4.8 A10 10 0 0 1 17 17.2 A10 10 0 0 1 17 4.8Z" fill="#FF5F00"/></svg>
+                      <div class="c2p-card-info">
+                        <div class="c2p-card-name">Mastercard Platinum</div>
+                        <div class="c2p-card-num">•••• •••• •••• 4892</div>
+                        <div class="c2p-card-exp">Vence 03/27</div>
+                      </div>
+                      <div class="radio-circle"><div class="radio-dot"></div></div>
+                    </div>
+                    <div class="c2p-card-item" onclick="pickCard(this)">
+                      <svg width="48" height="30" viewBox="0 0 36 22" fill="none"><rect width="36" height="22" rx="3" fill="#1A1F71"/><text x="18" y="15.5" text-anchor="middle" font-family="Arial Black" font-weight="900" font-size="11" fill="white">VISA</text></svg>
+                      <div class="c2p-card-info">
+                        <div class="c2p-card-name">Visa Signature</div>
+                        <div class="c2p-card-num">•••• •••• •••• 3310</div>
+                        <div class="c2p-card-exp">Vence 11/26</div>
+                      </div>
+                      <div class="radio-circle"><div class="radio-dot"></div></div>
+                    </div>
+                    <div class="c2p-card-item" onclick="pickCard(this)">
+                      <svg width="48" height="30" viewBox="0 0 34 22" fill="none"><rect width="34" height="22" rx="3" fill="#007BC1"/><text x="17" y="15" text-anchor="middle" font-family="Arial Black" font-weight="900" font-size="8" fill="white">AMEX</text></svg>
+                      <div class="c2p-card-info">
+                        <div class="c2p-card-name">Amex Gold Card</div>
+                        <div class="c2p-card-num">•••• •••••• •7241</div>
+                        <div class="c2p-card-exp">Vence 08/28</div>
+                      </div>
+                      <div class="radio-circle"><div class="radio-dot"></div></div>
+                    </div>
+                  </div>
+                  <div class="cvv-section">
+                    <label>CVV de la tarjeta seleccionada</label>
+                    <div class="cvv-wrap">
+                      <input type="password" placeholder="•••" maxlength="4">
+                      <span class="cvv-hint">Requerido por el banco<br>emisor de tu tarjeta.</span>
+                    </div>
+                  </div>
+                  <button class="btn-c2p-primary" type="button">Pagar $475.020</button>
+                  <div class="not-you">¿No eres Carlos? <a href="#" onclick="return false;">Cerrar sesión</a></div>
+                  <div class="api-note">
+                    <span class="api-badge">SRC</span>
+                    <div><span class="cmt">// dispositivo reconocido: tarjetas al instante, sin OTP</span><br>
+                    src.<span class="m">isRecognized()</span> <span class="arr">→</span> src.<span class="m">getCards()</span> <span class="arr">→</span> src.<span class="m">checkoutWithCard()</span></div>
+                  </div>
+                </div>
+
+                <!-- ════ CASO 4 · AGREGAR NUEVA TARJETA ════ -->
+                <div class="uc-panel" id="uc-addcard">
+                  <div class="recog-banner">
+                    <div class="recog-icon">✅</div>
+                    <div>
+                      <div class="recog-title">¡Hola, Carlos!</div>
+                      <div class="recog-sub">Agrega una tarjeta a tu billetera Click to Pay</div>
+                    </div>
+                  </div>
+                  <div class="c2p-step-title">Agregar nueva tarjeta</div>
+                  <div class="c2p-step-desc">Tus datos se cifran en tu dispositivo. Éxito nunca almacena el número de tu tarjeta.</div>
+                  <div class="modal-field">
+                    <label>Número de tarjeta</label>
+                    <input type="text" placeholder="0000 0000 0000 0000" maxlength="19" oninput="fmtCard(this)">
+                  </div>
+                  <div class="modal-field-row">
+                    <div class="modal-field"><label>Vencimiento</label><input type="text" placeholder="MM / AA" maxlength="7" oninput="fmtExp(this)"></div>
+                    <div class="modal-field"><label>CVV</label><input type="text" placeholder="•••" maxlength="4"></div>
+                  </div>
+                  <div class="modal-field">
+                    <label>Nombre en la tarjeta</label>
+                    <input type="text" placeholder="Como aparece en tu tarjeta">
+                  </div>
+                  <div class="check-row">
+                    <input type="checkbox" id="uc-add-save" checked>
+                    <label for="uc-add-save">Guardar esta tarjeta en mi billetera Click to Pay</label>
+                  </div>
+                  <button class="btn-c2p-primary" type="button">Guardar y pagar $475.020</button>
+                  <div class="c2p-legal">Tu tarjeta se inscribe tokenizada en la red de pago. Aceptas los <a href="#" onclick="return false;">Términos</a> y la <a href="#" onclick="return false;">Política de privacidad</a> de Click to Pay.</div>
+                  <div class="api-note">
+                    <span class="api-badge">SRC</span>
+                    <div><span class="cmt">// usuario reconocido añade y tokeniza una tarjeta</span><br>
+                    src.<span class="m">encryptCard()</span> <span class="arr">→</span> src.<span class="m">checkoutWithNewCard()</span></div>
+                  </div>
+                </div>
+
+              </div><!-- /usecase-canvas -->
             </div><!-- /pm-body Tarjeta crédito o débito -->
           </div><!-- /pm-item Tarjeta crédito o débito -->
 
@@ -243,12 +410,13 @@
 </div><!-- /#demo -->
 
 <script>
-  /* Selector de casos de uso — por ahora solo resalta la pestaña activa.
-     El contenido de cada caso se construirá desde cero en #usecase-canvas. */
+  /* Selector de casos de uso: resalta la pestaña y muestra su panel en el lienzo */
   function setFlow(f) {
     ['new', 'unrecog', 'recog', 'addcard'].forEach(function (t) {
-      var el = document.getElementById('tab-' + t);
-      if (el) el.classList.toggle('active', t === f);
+      var tab = document.getElementById('tab-' + t);
+      if (tab) tab.classList.toggle('active', t === f);
+      var panel = document.getElementById('uc-' + t);
+      if (panel) panel.classList.toggle('active', t === f);
     });
   }
 
@@ -258,6 +426,38 @@
     var isOpen = item.classList.contains('open');
     document.querySelectorAll('.pm-item').forEach(function (i) { i.classList.remove('open'); });
     if (!isOpen) item.classList.add('open');
+  }
+
+  /* Selección de tarjeta en la lista (caso 3) */
+  function pickCard(el) {
+    var list = el.closest('.card-list');
+    list.querySelectorAll('.c2p-card-item').forEach(function (c) { c.classList.remove('sel'); });
+    el.classList.add('sel');
+  }
+
+  /* Canal de envío del OTP (caso 2) */
+  function selVia(btn) {
+    var row = btn.closest('.otp-via');
+    row.querySelectorAll('.via-btn').forEach(function (b) { b.classList.remove('sel'); });
+    btn.classList.add('sel');
+  }
+
+  /* Avance automático entre casillas del OTP (caso 2) */
+  function otpNext(box) {
+    box.value = box.value.replace(/\D/g, '').slice(0, 1);
+    box.classList.toggle('filled', !!box.value);
+    if (box.value && box.nextElementSibling) box.nextElementSibling.focus();
+  }
+
+  /* Formateo de número de tarjeta y vencimiento */
+  function fmtCard(i) {
+    var v = i.value.replace(/\D/g, '').substring(0, 16);
+    i.value = v.replace(/(.{4})/g, '$1 ').trim();
+  }
+  function fmtExp(i) {
+    var v = i.value.replace(/\D/g, '');
+    if (v.length >= 3) v = v.substring(0, 2) + ' / ' + v.substring(2, 4);
+    i.value = v;
   }
 </script>
 

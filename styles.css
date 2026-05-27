@@ -958,9 +958,12 @@
   .pm-nets { display:flex; align-items:center; gap:5px; margin-left:auto; }
   .pm-nets .pm-net-ph { width:26px; height:18px; border-radius:4px; background:#E4E4E7; display:inline-block; }
 
-  /* ── Lienzo en blanco para construir los casos de uso desde cero ── */
-  .usecase-canvas { min-height:240px; margin-top:6px; border:1.5px dashed #d4d4dc; border-radius:12px; background:#fff; display:flex; align-items:center; justify-content:center; }
+  /* ── Lienzo de casos de uso (un panel visible a la vez, lo controla setFlow) ── */
+  .usecase-canvas { margin-top:8px; }
+  .usecase-canvas:empty { min-height:240px; border:1.5px dashed #d4d4dc; border-radius:12px; background:#fff; display:flex; align-items:center; justify-content:center; }
   .usecase-canvas:empty::before { content:"Espacio de trabajo · casos de uso (vacío)"; color:#bcbcc6; font-size:13px; font-weight:700; }
+  .uc-panel { display:none; animation:fadeIn .18s ease; }
+  .uc-panel.active { display:block; }
 
   /* ── CTA de navegación entre páginas (sitio multipágina) ── */
   .pres-lead { font-size:16px; color:#52525b; line-height:1.6; max-width:680px; margin:0 0 26px; font-weight:500; }
