@@ -194,7 +194,7 @@
                       <div class="nu-legal">Al continuar, aceptas los <a onclick="return false;">Términos</a> de Mastercard y entiendes que tus datos se procesarán según el <a onclick="return false;">Aviso de Privacidad</a>.</div>
                     </div>
 
-                    <button class="btn-c2p-primary" type="button">🔒 Pagar $475.020</button>
+                    <button class="btn-c2p-primary" type="button" onclick="payNewUser()">🔒 Pagar $475.020</button>
                     <div class="api-note">
                       <span class="api-badge ucs">UCS</span>
                       <div><span class="cmt">// el componente de consentimiento recoge la inscripción</span><br>
@@ -456,6 +456,38 @@
   </div>
 </div>
 
+<!-- Procesamiento Click to Pay (DCF) · al pagar en el caso 1 -->
+<div class="dcf-overlay" id="dcf-overlay">
+  <div class="dcf-panel">
+    <div class="dcf-mark">
+      <svg width="24" height="17" viewBox="0 0 40 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Click to Pay">
+        <path d="M5 4 H20 L28 14 L20 24 H5 Z" fill="#111" stroke="#111" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M31 7 C35 11 35 17 31 21" fill="none" stroke="#111" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+      <span class="dcf-sep"></span>
+      <svg width="26" height="16" viewBox="0 0 34 22" fill="none" aria-label="Mastercard"><circle cx="12" cy="11" r="10" fill="#EB001B"/><circle cx="22" cy="11" r="10" fill="#F79E1B"/><path d="M17 4.8 A10 10 0 0 1 17 17.2 A10 10 0 0 1 17 4.8Z" fill="#FF5F00"/></svg>
+    </div>
+    <div class="dcf-body">
+      <!-- 1 · Asegurando el pago -->
+      <div class="dcf-state active" id="dcf-1">
+        <div class="dcf-mc"><svg width="64" height="40" viewBox="0 0 64 40" fill="none" aria-label="Mastercard"><circle cx="24" cy="20" r="18" fill="#EB001B"/><circle cx="40" cy="20" r="18" fill="#F79E1B"/><path d="M32 6.5 A18 18 0 0 1 32 33.5 A18 18 0 0 1 32 6.5Z" fill="#FF5F00"/></svg></div>
+        <div class="dcf-text">Asegurando la información de tu pago…</div>
+      </div>
+      <!-- 2 · Creando el perfil -->
+      <div class="dcf-state" id="dcf-2">
+        <div class="dcf-mc"><svg width="64" height="40" viewBox="0 0 64 40" fill="none" aria-label="Mastercard"><circle cx="24" cy="20" r="18" fill="#EB001B"/><circle cx="40" cy="20" r="18" fill="#F79E1B"/><path d="M32 6.5 A18 18 0 0 1 32 33.5 A18 18 0 0 1 32 6.5Z" fill="#FF5F00"/></svg></div>
+        <div class="dcf-text">Creando tu perfil Click to Pay…</div>
+      </div>
+      <!-- 3 · Perfil creado -->
+      <div class="dcf-state" id="dcf-3">
+        <div class="dcf-check"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-label="Listo"><path d="M5 12.5 L10 17.5 L19 7" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="dcf-text"><strong>Creaste un perfil Click to Pay</strong><br><br>Volviendo a Éxito…</div>
+      </div>
+    </div>
+    <div class="dcf-foot">TÉRMINOS · PRIVACIDAD</div>
+  </div>
+</div>
+
 <script>
   var currentFlow = 'new';
   var nuTimer = null;
@@ -530,6 +562,23 @@
   }
   function closeNuWelcome() {
     var w = document.getElementById('nu-welcome'); if (w) w.classList.remove('open');
+  }
+
+  /* ── Procesamiento Click to Pay (DCF) al pagar (caso 1) ── */
+  var dcfTimers = [];
+  function dcfState(id) {
+    ['dcf-1', 'dcf-2', 'dcf-3'].forEach(function (s) {
+      var e = document.getElementById(s); if (e) e.classList.toggle('active', s === id);
+    });
+  }
+  function payNewUser() {
+    dcfTimers.forEach(clearTimeout); dcfTimers = [];
+    var o = document.getElementById('dcf-overlay'); if (!o) return;
+    o.classList.add('open');
+    dcfState('dcf-1');                                                            // Asegurando el pago…
+    dcfTimers.push(setTimeout(function () { dcfState('dcf-2'); }, 1600));         // Creando el perfil…
+    dcfTimers.push(setTimeout(function () { dcfState('dcf-3'); }, 3400));         // Perfil creado ✓
+    dcfTimers.push(setTimeout(function () { o.classList.remove('open'); }, 6000)); // Volviendo a Éxito…
   }
 
   /* Abrir "Tarjeta crédito o débito": en el caso Nuevo usuario arranca el card loader */

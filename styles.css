@@ -989,6 +989,22 @@
   .nu-legal { font-size:11.5px; color:#8a8a93; line-height:1.55; margin-top:10px; }
   .nu-legal a { color:#3a3a42; text-decoration:underline; cursor:pointer; }
 
+  /* ── Procesamiento Click to Pay (DCF) · caso 1 al pagar ── */
+  .dcf-overlay { display:none; position:fixed; inset:0; z-index:700; background:rgba(0,0,0,.45); }
+  .dcf-overlay.open { display:block; }
+  .dcf-panel { position:absolute; top:0; right:0; height:100%; width:430px; max-width:100%; background:#fff; box-shadow:-8px 0 40px rgba(0,0,0,.2); display:flex; flex-direction:column; padding:26px 30px 22px; animation:dcfslide .28s ease; }
+  @keyframes dcfslide { from { transform:translateX(48px); opacity:.3; } to { transform:none; opacity:1; } }
+  .dcf-mark { display:flex; align-items:center; gap:9px; }
+  .dcf-mark .dcf-sep { width:1px; height:18px; background:#cfcfd6; }
+  .dcf-body { flex:1; display:flex; flex-direction:column; justify-content:center; align-items:flex-start; }
+  .dcf-state { display:none; text-align:left; }
+  .dcf-state.active { display:block; animation:fadeIn .25s ease; }
+  .dcf-mc { margin-bottom:22px; }
+  .dcf-check { width:54px; height:54px; border-radius:50%; background:#5E8C3F; display:grid; place-items:center; margin-bottom:20px; }
+  .dcf-text { font-size:21px; color:#1d1d1f; line-height:1.4; font-weight:500; max-width:300px; }
+  .dcf-text strong { font-weight:800; }
+  .dcf-foot { font-size:11px; letter-spacing:.1em; color:#9a9aa3; font-weight:700; }
+
   /* ── CTA de navegación entre páginas (sitio multipágina) ── */
   .pres-lead { font-size:16px; color:#52525b; line-height:1.6; max-width:680px; margin:0 0 26px; font-weight:500; }
   .pres-cta-row { display:flex; gap:12px; flex-wrap:wrap; }
