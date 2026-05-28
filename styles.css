@@ -973,8 +973,11 @@
   .cl-net-ph { width:22px; height:14px; border-radius:3px; background:#E4E4E7; display:inline-block; }
   .cl-body { padding:42px 24px 46px; display:flex; flex-direction:column; align-items:center; gap:28px; text-align:center; }
   .cl-text { font-size:14px; color:#5a5a63; font-weight:600; max-width:230px; line-height:1.5; }
+  .cl-spinner { position:relative; width:64px; height:64px; display:grid; place-items:center; }
+  .cl-ring { position:absolute; inset:0; border:3px solid #ECECEF; border-top-color:var(--azul-c2p); border-radius:50%; animation:clspin .8s linear infinite; }
+  @keyframes clspin { to { transform:rotate(360deg); } }
   .cl-shield { animation:clpulse 1.4s ease-in-out infinite; }
-  @keyframes clpulse { 0%,100% { opacity:.4; } 50% { opacity:1; } }
+  @keyframes clpulse { 0%,100% { opacity:.45; } 50% { opacity:1; } }
   /* Pasos del caso 1 (loader → entrada manual + consentimiento) */
   .nu-step { display:none; }
   .nu-step.active { display:block; animation:fadeIn .18s ease; }
