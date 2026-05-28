@@ -1071,6 +1071,43 @@
   .exc-total-row.big { font-size:18px; font-weight:800; color:var(--texto); border-top:1px solid #d8dee5; margin-top:8px; padding-top:12px; }
   @media (max-width:820px) { .exc-wrap { grid-template-columns:1fr; } .exc-main { padding:32px 22px; } }
 
+  /* ── Página de Revisión · caso 2 (estilo Éxito + Mastercard) ── */
+  .rv-title { font-size:38px; font-weight:800; color:var(--texto); letter-spacing:-.02em; margin-bottom:6px; }
+  .rv-breadcrumb { display:flex; align-items:center; gap:6px; font-size:14px; margin-bottom:26px; }
+  .rv-bc { color:var(--verde); font-weight:700; }
+  .rv-bc.active { color:var(--texto); }
+  .rv-bc-sep { color:#cfcfd6; }
+  .rv-section { border-top:1px solid var(--gris-borde); padding:20px 0; }
+  .rv-section:first-of-type { border-top:none; padding-top:8px; }
+  .rv-section-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+  .rv-section-head h3 { font-size:15px; font-weight:700; color:var(--texto); margin:0; }
+  .rv-edit { font-size:14px; color:var(--verde); font-weight:700; text-decoration:none; cursor:pointer; }
+  .rv-edit:hover { text-decoration:underline; }
+  .rv-section p { font-size:14px; color:#444; line-height:1.65; margin:0; }
+  .rv-pay-block .rv-pay-nets { display:flex; align-items:center; gap:8px; margin-bottom:16px; }
+  .rv-pay-nets .rv-sep { width:1px; height:18px; background:#cfcfd6; }
+  .rv-not-cards { display:inline-block; font-size:13.5px; color:var(--texto); text-decoration:underline; margin-bottom:16px; cursor:pointer; font-weight:600; }
+  .rv-card { display:flex; align-items:center; gap:14px; padding:6px 0; }
+  .rv-radio { width:22px; height:22px; border-radius:50%; border:2px solid var(--verde); display:grid; place-items:center; flex-shrink:0; }
+  .rv-radio .rv-radio-dot { width:11px; height:11px; border-radius:50%; background:var(--verde); opacity:0; transition:opacity .12s; }
+  .rv-radio.sel .rv-radio-dot { opacity:1; }
+  .rv-card-art { width:60px; height:38px; border-radius:6px; flex-shrink:0; overflow:hidden; }
+  .rv-card-art svg { width:100%; height:100%; display:block; }
+  .rv-card-info { flex:1; }
+  .rv-card-name { font-size:15px; font-weight:600; color:var(--texto); }
+  .rv-card-num { font-size:13px; color:var(--gris-texto); font-weight:500; margin-top:2px; letter-spacing:1px; }
+  .rv-view-all { display:inline-block; margin-left:36px; margin-top:8px; font-size:14px; color:var(--texto); text-decoration:underline; font-weight:600; cursor:pointer; }
+  .rv-other { display:flex; align-items:center; justify-content:space-between; padding:4px 0; font-size:15px; font-weight:700; color:var(--texto); cursor:pointer; }
+  .rv-chevron { color:#9aa0a6; font-size:14px; }
+  .rv-place-order { background:var(--amarillo); color:var(--texto); border:none; border-radius:999px; padding:16px 36px; font-size:16px; font-weight:800; cursor:pointer; margin-top:24px; font-family:var(--font); box-shadow:0 2px 8px rgba(0,0,0,.08); }
+  .rv-place-order:hover { background:var(--amarillo-dark); }
+  .rv-summary-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
+  .rv-summary-head h3 { font-size:15px; font-weight:700; color:var(--gris-texto); margin:0; }
+  .rv-promo { padding:18px 0; border-top:1px solid #d8dee5; margin-top:14px; }
+  .rv-promo label { font-size:13px; color:var(--gris-texto); display:block; margin-bottom:8px; font-weight:500; }
+  .rv-promo input { width:100%; padding:11px 14px; border:1px solid var(--gris-borde); border-radius:8px; font-size:14px; background:#fff; font-family:var(--font); outline:none; }
+  .rv-promo input:focus { border-color:var(--verde); }
+
   /* ── CTA de navegación entre páginas (sitio multipágina) ── */
   .pres-lead { font-size:16px; color:#52525b; line-height:1.6; max-width:680px; margin:0 0 26px; font-weight:500; }
   .pres-cta-row { display:flex; gap:12px; flex-wrap:wrap; }

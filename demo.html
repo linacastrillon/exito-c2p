@@ -254,57 +254,6 @@
                     <div class="ru-manual"><a href="#" onclick="return false;">Ingresar tarjeta manualmente</a></div>
                   </div>
 
-                  <!-- Tarjetas guardadas + pago -->
-                  <div class="ru-step" id="ru-cards">
-                    <div class="recog-banner">
-                      <div class="recog-icon">✅</div>
-                      <div>
-                        <div class="recog-title">¡Hola, Lina!</div>
-                        <div class="recog-sub">Identidad verificada · tus tarjetas Click to Pay</div>
-                      </div>
-                    </div>
-                    <div class="c2p-step-title">Selecciona una tarjeta</div>
-                    <div class="c2p-step-desc">Total a pagar: <strong>$475.020</strong></div>
-                    <div class="card-list">
-                      <div class="c2p-card-item sel" onclick="pickCard(this)">
-                        <svg width="48" height="30" viewBox="0 0 34 22" fill="none"><circle cx="12" cy="11" r="10" fill="#EB001B"/><circle cx="22" cy="11" r="10" fill="#F79E1B"/><path d="M17 4.8 A10 10 0 0 1 17 17.2 A10 10 0 0 1 17 4.8Z" fill="#FF5F00"/></svg>
-                        <div class="c2p-card-info">
-                          <div class="c2p-card-name">Mastercard Platinum</div>
-                          <div class="c2p-card-num">•••• •••• •••• 4892</div>
-                          <div class="c2p-card-exp">Vence 03/27</div>
-                        </div>
-                        <div class="radio-circle"><div class="radio-dot"></div></div>
-                      </div>
-                      <div class="c2p-card-item" onclick="pickCard(this)">
-                        <svg width="48" height="30" viewBox="0 0 36 22" fill="none"><rect width="36" height="22" rx="3" fill="#1A1F71"/><text x="18" y="15.5" text-anchor="middle" font-family="Arial Black" font-weight="900" font-size="11" fill="white">VISA</text></svg>
-                        <div class="c2p-card-info">
-                          <div class="c2p-card-name">Visa Signature</div>
-                          <div class="c2p-card-num">•••• •••• •••• 3310</div>
-                          <div class="c2p-card-exp">Vence 11/26</div>
-                        </div>
-                        <div class="radio-circle"><div class="radio-dot"></div></div>
-                      </div>
-                      <div class="c2p-card-item" onclick="pickCard(this)">
-                        <svg width="48" height="30" viewBox="0 0 34 22" fill="none"><rect width="34" height="22" rx="3" fill="#007BC1"/><text x="17" y="15" text-anchor="middle" font-family="Arial Black" font-weight="900" font-size="8" fill="white">AMEX</text></svg>
-                        <div class="c2p-card-info">
-                          <div class="c2p-card-name">Amex Gold Card</div>
-                          <div class="c2p-card-num">•••• •••••• •7241</div>
-                          <div class="c2p-card-exp">Vence 08/28</div>
-                        </div>
-                        <div class="radio-circle"><div class="radio-dot"></div></div>
-                      </div>
-                    </div>
-                    <div class="cvv-section">
-                      <label>CVV de la tarjeta seleccionada</label>
-                      <div class="cvv-wrap">
-                        <input type="password" placeholder="•••" maxlength="4" onfocus="this.value='123'">
-                        <span class="cvv-hint">Requerido por el banco<br>emisor de tu tarjeta.</span>
-                      </div>
-                    </div>
-                    <button class="btn-c2p-primary" type="button" onclick="payClickToPay('existing')">🔒 Pagar $475.020</button>
-                    <div class="not-you">¿No son tus tarjetas? <a href="#" onclick="return false;">Cerrar sesión</a></div>
-                  </div>
-
                 </div>
 
                 <!-- ════ CASO 3 · USUARIO RECONOCIDO ════ -->
@@ -529,6 +478,128 @@
   </div>
 </div>
 
+<!-- Página de Revisión · caso 2 (post-OTP, con tarjeta pre-cargada · estilo Éxito) -->
+<div class="ex-confirm-overlay" id="ru-review">
+  <div class="exc-header">
+    <span class="exc-menu">☰</span>
+    <a class="header-logo exc-logo" href="#" onclick="return false;">éxito<em>.</em></a>
+    <span class="exc-cart">🛒<span class="exc-badge">3</span></span>
+    <button class="exc-close" type="button" onclick="ruCloseReview()">✕ Cerrar</button>
+  </div>
+
+  <div class="exc-wrap">
+    <div class="exc-main">
+      <h1 class="rv-title">Checkout</h1>
+      <div class="rv-breadcrumb">
+        <span class="rv-bc">Envío</span>
+        <span class="rv-bc-sep">/</span>
+        <span class="rv-bc">Pago</span>
+        <span class="rv-bc-sep">/</span>
+        <span class="rv-bc active">Revisión</span>
+      </div>
+
+      <div class="rv-section">
+        <div class="rv-section-head">
+          <h3>Información de contacto</h3>
+          <a class="rv-edit" href="#" onclick="return false;">Editar</a>
+        </div>
+        <p>linacastrillon@gmail.com<br>+57 301 496 9966</p>
+      </div>
+
+      <div class="rv-section">
+        <div class="rv-section-head">
+          <h3>Dirección de envío</h3>
+          <a class="rv-edit" href="#" onclick="return false;">Editar</a>
+        </div>
+        <p>Lina Castrillón<br>Cra. 43A #1-50, El Poblado, Medellín</p>
+      </div>
+
+      <div class="rv-section rv-pay-block">
+        <div class="rv-pay-nets">
+          <svg width="22" height="15" viewBox="0 0 40 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Click to Pay">
+            <path d="M5 4 H20 L28 14 L20 24 H5 Z" fill="#111" stroke="#111" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M31 7 C35 11 35 17 31 21" fill="none" stroke="#111" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+          <span class="rv-sep"></span>
+          <svg width="28" height="18" viewBox="0 0 34 22" fill="none" aria-label="Mastercard"><circle cx="12" cy="11" r="10" fill="#EB001B"/><circle cx="22" cy="11" r="10" fill="#F79E1B"/><path d="M17 4.8 A10 10 0 0 1 17 17.2 A10 10 0 0 1 17 4.8Z" fill="#FF5F00"/></svg>
+          <svg width="30" height="18" viewBox="0 0 36 22" fill="none" aria-label="Visa"><rect width="36" height="22" rx="3" fill="#1A1F71"/><text x="18" y="15.5" text-anchor="middle" font-family="Arial Black" font-weight="900" font-size="11" fill="white">VISA</text></svg>
+          <svg width="28" height="18" viewBox="0 0 34 22" fill="none" aria-label="American Express"><rect width="34" height="22" rx="3" fill="#007BC1"/><text x="17" y="15" text-anchor="middle" font-family="Arial Black" font-weight="900" font-size="8" fill="white">AMEX</text></svg>
+          <svg width="28" height="18" viewBox="0 0 34 22" fill="none" aria-label="Discover"><rect width="34" height="22" rx="3" fill="#231F20"/><circle cx="22" cy="11" r="9" fill="#FF6600"/><text x="9" y="15" font-family="Arial Black" font-weight="900" font-size="7" fill="white">DISC</text></svg>
+        </div>
+        <a class="rv-not-cards" href="#" onclick="ruNotYou(); return false;">¿No son tus tarjetas?</a>
+
+        <div class="rv-card">
+          <div class="rv-radio sel"><div class="rv-radio-dot"></div></div>
+          <div class="rv-card-art">
+            <svg width="60" height="38" viewBox="0 0 60 38" xmlns="http://www.w3.org/2000/svg" aria-label="Tarjeta">
+              <rect width="60" height="38" rx="4" fill="#15402a"/>
+              <text x="6" y="13" font-family="Arial" font-size="6" fill="#F5A800" font-weight="800">éxito</text>
+              <circle cx="44" cy="26" r="6" fill="#EB001B"/>
+              <circle cx="50" cy="26" r="6" fill="#F79E1B"/>
+            </svg>
+          </div>
+          <div class="rv-card-info">
+            <div class="rv-card-name">Mastercard Platinum</div>
+            <div class="rv-card-num">•••• 4892</div>
+          </div>
+        </div>
+
+        <a class="rv-view-all" href="#" onclick="return false;">Ver todas las tarjetas</a>
+      </div>
+
+      <div class="rv-section">
+        <div class="rv-other">
+          <span>Otros métodos de pago</span>
+          <span class="rv-chevron">▾</span>
+        </div>
+      </div>
+
+      <button class="rv-place-order" type="button" onclick="ruPlaceOrder()">Realizar pedido · $475.020</button>
+    </div>
+
+    <aside class="exc-aside">
+      <div class="rv-summary-head">
+        <h3>Resumen del pedido</h3>
+        <a class="rv-edit" href="#" onclick="return false;">Editar carrito</a>
+      </div>
+      <div class="exc-item">
+        <div class="exc-thumb">📺</div>
+        <div style="flex:1;">
+          <div class="exc-item-name">TV Samsung 55" QLED 4K Smart</div>
+          <div class="exc-item-qty">Cantidad: 1</div>
+        </div>
+        <div class="exc-item-price">$389.900</div>
+      </div>
+      <div class="exc-item">
+        <div class="exc-thumb">🎮</div>
+        <div style="flex:1;">
+          <div class="exc-item-name">Control PS5 DualSense Blanco</div>
+          <div class="exc-item-qty">Cantidad: 1</div>
+        </div>
+        <div class="exc-item-price">$99.900</div>
+      </div>
+      <div class="exc-item">
+        <div class="exc-thumb">🔌</div>
+        <div style="flex:1;">
+          <div class="exc-item-name">Cable HDMI 4K 2m Philips</div>
+          <div class="exc-item-qty">Cantidad: 2</div>
+        </div>
+        <div class="exc-item-price">$38.000</div>
+      </div>
+      <div class="rv-promo">
+        <label>¿Tienes una tarjeta de regalo o código promocional?</label>
+        <input type="text" placeholder="Ingresa el código">
+      </div>
+      <div class="exc-totals">
+        <div class="exc-total-row"><span>Subtotal</span><span>$527.800</span></div>
+        <div class="exc-total-row"><span>Envío</span><span class="green">Gratis</span></div>
+        <div class="exc-total-row"><span>Descuento Éxito Más</span><span class="green">−$52.780</span></div>
+        <div class="exc-total-row big"><span>Total</span><span>$475.020</span></div>
+      </div>
+    </aside>
+  </div>
+</div>
+
 <!-- Procesamiento Click to Pay (DCF) · al pagar en el caso 1 -->
 <div class="dcf-overlay" id="dcf-overlay">
   <div class="dcf-panel">
@@ -544,7 +615,7 @@
       <!-- 1 · Asegurando el pago -->
       <div class="dcf-state active" id="dcf-1">
         <div class="dcf-mc"><svg width="64" height="40" viewBox="0 0 64 40" fill="none" aria-label="Mastercard"><circle cx="24" cy="20" r="18" fill="#EB001B"/><circle cx="40" cy="20" r="18" fill="#F79E1B"/><path d="M32 6.5 A18 18 0 0 1 32 33.5 A18 18 0 0 1 32 6.5Z" fill="#FF5F00"/></svg></div>
-        <div class="dcf-text">Asegurando la información de tu pago…</div>
+        <div class="dcf-text"><strong>Asegurando la información de tu pago</strong><br><br>Continuarás con <strong>Éxito</strong> en un momento…</div>
       </div>
       <!-- 2 · Creando el perfil -->
       <div class="dcf-state" id="dcf-2">
@@ -778,7 +849,7 @@
   }
 
   function ruShowStep(id) {
-    ['ru-loader', 'ru-otp', 'ru-cards'].forEach(function (s) {
+    ['ru-loader', 'ru-otp'].forEach(function (s) {
       var e = document.getElementById(s);
       if (e) e.classList.toggle('active', s === id);
     });
@@ -808,7 +879,17 @@
   }
   function ruVerifyOTP() {
     clearInterval(ruOtpInterval);
-    ruShowStep('ru-cards');                                   // → tarjetas guardadas
+    openRuReview();                                           // → página de Revisión Éxito
+  }
+  function openRuReview() {
+    var r = document.getElementById('ru-review'); if (r) r.classList.add('open');
+  }
+  function ruCloseReview() {
+    var r = document.getElementById('ru-review'); if (r) r.classList.remove('open');
+  }
+  function ruPlaceOrder() {
+    ruCloseReview();
+    payClickToPay('existing');                                // → DCF → confirmación Éxito
   }
   function ruResetOtp() {
     document.querySelectorAll('#ru-otp .otp-box').forEach(function (b) { b.value = ''; b.classList.remove('filled'); });
