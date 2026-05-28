@@ -975,6 +975,19 @@
   .cl-text { font-size:14px; color:#5a5a63; font-weight:600; max-width:230px; line-height:1.5; }
   .cl-shield { animation:clpulse 1.4s ease-in-out infinite; }
   @keyframes clpulse { 0%,100% { opacity:.4; } 50% { opacity:1; } }
+  /* Pasos del caso 1 (loader → entrada manual + consentimiento) */
+  .nu-step { display:none; }
+  .nu-step.active { display:block; animation:fadeIn .18s ease; }
+  /* Caja de consentimiento de inscripción (05.2) */
+  .nu-consent { background:#F7F7F8; border-radius:10px; padding:14px 16px; margin:8px 0 16px; }
+  .nu-consent-marks { display:flex; align-items:center; gap:9px; margin-bottom:12px; }
+  .nu-consent-marks .ncm-sep { width:1px; height:18px; background:#cfcfd6; }
+  .nu-consent .check-row { margin:0; align-items:flex-start; }
+  .nu-consent .check-row label { font-weight:600; color:#2b2b30; font-size:13px; }
+  .nu-c2p-link { color:#1a1a1a; text-decoration:underline; cursor:pointer; font-weight:700; }
+  .nu-c2p-link:hover { color:#000; }
+  .nu-legal { font-size:11.5px; color:#8a8a93; line-height:1.55; margin-top:10px; }
+  .nu-legal a { color:#3a3a42; text-decoration:underline; cursor:pointer; }
 
   /* ── CTA de navegación entre páginas (sitio multipágina) ── */
   .pres-lead { font-size:16px; color:#52525b; line-height:1.6; max-width:680px; margin:0 0 26px; font-weight:500; }

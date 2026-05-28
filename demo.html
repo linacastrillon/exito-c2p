@@ -117,7 +117,7 @@
 
           <!-- Tarjeta crédito o débito (abierta por defecto · aloja Click to Pay) -->
           <div class="pm-item open">
-            <div class="pm-header" onclick="togglePM(this)">
+            <div class="pm-header" onclick="openCard(this)">
               <span class="pm-ico c2p-mark">
                 <svg width="38" height="26" viewBox="0 0 40 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Click to Pay">
                   <path d="M5 4 H20 L28 14 L20 24 H5 Z" fill="#111" stroke="#111" stroke-width="3" stroke-linejoin="round"/>
@@ -139,21 +139,67 @@
 
                 <!-- ════ CASO 1 · NUEVO USUARIO · Card Loader (CX Guide) ════ -->
                 <div class="uc-panel active" id="uc-new">
-                  <div class="cardloader">
-                    <div class="cl-body">
-                      <div class="cl-text">Click to Pay is looking for your linked cards...</div>
-                      <svg class="cl-shield" width="42" height="46" viewBox="0 0 42 46" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Buscando de forma segura">
-                        <path d="M21 3 L37 8.5 V21 C37 32 30 39.5 21 43 C12 39.5 5 32 5 21 V8.5 Z" fill="none" stroke="#9aa0a6" stroke-width="2" stroke-linejoin="round"/>
-                        <rect x="14.5" y="21" width="13" height="10.5" rx="2.2" fill="none" stroke="#9aa0a6" stroke-width="2"/>
-                        <path d="M17 21 V17.5 a4 4 0 0 1 8 0 V21" fill="none" stroke="#9aa0a6" stroke-width="2"/>
-                        <circle cx="21" cy="25.4" r="1.7" fill="#9aa0a6"/>
-                      </svg>
+
+                  <!-- 04 · Card loader -->
+                  <div class="nu-step active" id="nu-loader">
+                    <div class="cardloader">
+                      <div class="cl-body">
+                        <div class="cl-text">Click to Pay is looking for your linked cards...</div>
+                        <svg class="cl-shield" width="42" height="46" viewBox="0 0 42 46" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Buscando de forma segura">
+                          <path d="M21 3 L37 8.5 V21 C37 32 30 39.5 21 43 C12 39.5 5 32 5 21 V8.5 Z" fill="none" stroke="#9aa0a6" stroke-width="2" stroke-linejoin="round"/>
+                          <rect x="14.5" y="21" width="13" height="10.5" rx="2.2" fill="none" stroke="#9aa0a6" stroke-width="2"/>
+                          <path d="M17 21 V17.5 a4 4 0 0 1 8 0 V21" fill="none" stroke="#9aa0a6" stroke-width="2"/>
+                          <circle cx="21" cy="25.4" r="1.7" fill="#9aa0a6"/>
+                        </svg>
+                      </div>
+                    </div>
+                    <div class="api-note">
+                      <span class="api-badge ucs">UCS</span>
+                      <div><span class="cmt">// pantalla de carga mientras Click to Pay busca/identifica las tarjetas</span><br>
+                      SRC <span class="m">Loader</span> <span class="arr">→</span> ¿cuenta encontrada?</div>
                     </div>
                   </div>
-                  <div class="api-note">
-                    <span class="api-badge ucs">UCS</span>
-                    <div><span class="cmt">// pantalla de carga mientras Click to Pay busca/identifica las tarjetas</span><br>
-                    SRC <span class="m">Loader</span> <span class="arr">→</span> ¿cuenta encontrada?</div>
+
+                  <!-- 05 · Entrada manual de tarjeta + consentimiento de inscripción -->
+                  <div class="nu-step" id="nu-manual">
+                    <div class="modal-field">
+                      <label>Número de tarjeta</label>
+                      <div class="field-relative">
+                        <input type="text" placeholder="0000 0000 0000 0000" maxlength="19" oninput="fmtCard(this)">
+                        <div class="field-brands">
+                          <svg width="28" height="18" viewBox="0 0 34 22" fill="none" aria-label="Mastercard"><circle cx="12" cy="11" r="10" fill="#EB001B"/><circle cx="22" cy="11" r="10" fill="#F79E1B"/><path d="M17 4.8 A10 10 0 0 1 17 17.2 A10 10 0 0 1 17 4.8Z" fill="#FF5F00"/></svg>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="modal-field-row">
+                      <div class="modal-field"><label>Vencimiento</label><input type="text" placeholder="MM / AA" maxlength="7" oninput="fmtExp(this)"></div>
+                      <div class="modal-field"><label>CVC</label><input type="text" placeholder="•••" maxlength="4"></div>
+                    </div>
+
+                    <!-- Consentimiento de inscripción (disclaimer en español) -->
+                    <div class="nu-consent">
+                      <div class="nu-consent-marks">
+                        <svg width="26" height="18" viewBox="0 0 40 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Click to Pay">
+                          <path d="M5 4 H20 L28 14 L20 24 H5 Z" fill="#111" stroke="#111" stroke-width="3" stroke-linejoin="round"/>
+                          <path d="M31 7 C35 11 35 17 31 21" fill="none" stroke="#111" stroke-width="3" stroke-linecap="round"/>
+                        </svg>
+                        <span class="ncm-sep"></span>
+                        <svg width="26" height="16" viewBox="0 0 34 22" fill="none" aria-label="Mastercard"><circle cx="12" cy="11" r="10" fill="#EB001B"/><circle cx="22" cy="11" r="10" fill="#F79E1B"/><path d="M17 4.8 A10 10 0 0 1 17 17.2 A10 10 0 0 1 17 4.8Z" fill="#FF5F00"/></svg>
+                      </div>
+                      <div class="check-row">
+                        <input type="checkbox" id="nu-consent-chk">
+                        <label for="nu-consent-chk">Guardar mi información con Mastercard <a class="nu-c2p-link" onclick="openNuWelcome()">Click to Pay</a> para un pago rápido y seguro</label>
+                      </div>
+                      <div class="nu-legal">Tu correo electrónico o número de celular se usará para verificarte. Pueden aplicar tarifas de mensajes/datos.</div>
+                      <div class="nu-legal">Al continuar, aceptas los <a onclick="return false;">Términos</a> de Mastercard y entiendes que tus datos se procesarán según el <a onclick="return false;">Aviso de Privacidad</a>.</div>
+                    </div>
+
+                    <button class="btn-c2p-primary" type="button">🔒 Pagar $475.020</button>
+                    <div class="api-note">
+                      <span class="api-badge ucs">UCS</span>
+                      <div><span class="cmt">// el componente de consentimiento recoge la inscripción</span><br>
+                      SRC <span class="m">Consent</span> <span class="arr">→</span> src.<span class="m">checkoutWithNewCard()</span> + <span class="m">ComplianceSettings</span></div>
+                    </div>
                   </div>
                 </div>
 
@@ -387,15 +433,44 @@
 
 </div><!-- /#demo -->
 
+<!-- Popup "Bienvenido a Click to Pay" · se abre desde el enlace del consentimiento (caso 1) -->
+<div class="welcome-overlay" id="nu-welcome" role="dialog" aria-modal="true" aria-label="Bienvenido a Click to Pay" onclick="if(event.target===this) closeNuWelcome()">
+  <div class="welcome-modal">
+    <h2 class="welcome-title">Bienvenido a<br><span>Click to Pay</span></h2>
+    <p class="welcome-sub">Un método de pago rápido y seguro, compatible con Mastercard, Visa, American Express y Discover.</p>
+    <div class="welcome-nets">
+      <svg width="30" height="21" viewBox="0 0 40 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Click to Pay">
+        <path d="M5 4 H20 L28 14 L20 24 H5 Z" fill="#111" stroke="#111" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M31 7 C35 11 35 17 31 21" fill="none" stroke="#111" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+      <span class="wn-sep"></span>
+      <svg width="30" height="21" viewBox="0 0 34 22" fill="none" aria-label="Mastercard"><circle cx="12" cy="11" r="10" fill="#EB001B"/><circle cx="22" cy="11" r="10" fill="#F79E1B"/><path d="M17 4.8 A10 10 0 0 1 17 17.2 A10 10 0 0 1 17 4.8Z" fill="#FF5F00"/></svg>
+      <span class="wn-ph"></span><span class="wn-ph"></span><span class="wn-ph"></span>
+    </div>
+    <ul class="welcome-list">
+      <li>Mantén tu información protegida y segura</li>
+      <li>Úsalo en comercios de todo el mundo</li>
+      <li>Configúralo una vez para pagar sin complicaciones en el futuro</li>
+    </ul>
+    <button class="welcome-ok" onclick="closeNuWelcome()">OK</button>
+  </div>
+</div>
+
 <script>
+  var currentFlow = 'new';
+  var nuTimer = null;
+
   /* Selector de casos de uso: resalta la pestaña y muestra su panel en el lienzo */
   function setFlow(f) {
+    currentFlow = f;
     ['new', 'unrecog', 'recog', 'addcard'].forEach(function (t) {
       var tab = document.getElementById('tab-' + t);
       if (tab) tab.classList.toggle('active', t === f);
       var panel = document.getElementById('uc-' + t);
       if (panel) panel.classList.toggle('active', t === f);
     });
+    if (f === 'new') { if (isCardOpen()) startNewUserFlow(); }
+    else { clearTimeout(nuTimer); closeNuWelcome(); }
   }
 
   /* Acordeón de métodos de pago (estilo Éxito) */
@@ -404,6 +479,39 @@
     var isOpen = item.classList.contains('open');
     document.querySelectorAll('.pm-item').forEach(function (i) { i.classList.remove('open'); });
     if (!isOpen) item.classList.add('open');
+  }
+
+  /* ── Caso "Nuevo usuario": loader → entrada manual + consentimiento ── */
+  function isCardOpen() {
+    var p = document.getElementById('uc-new');
+    var item = p ? p.closest('.pm-item') : null;
+    return !!(item && item.classList.contains('open'));
+  }
+  function showNu(id) {
+    ['nu-loader', 'nu-manual'].forEach(function (s) {
+      var e = document.getElementById(s);
+      if (e) e.classList.toggle('active', s === id);
+    });
+  }
+  function startNewUserFlow() {
+    clearTimeout(nuTimer);
+    closeNuWelcome();
+    showNu('nu-loader');                                 // 04 · card loader
+    nuTimer = setTimeout(function () { showNu('nu-manual'); }, 1800);  // → entrada manual + consentimiento
+  }
+  function openNuWelcome() {
+    var w = document.getElementById('nu-welcome'); if (w) w.classList.add('open');
+  }
+  function closeNuWelcome() {
+    var w = document.getElementById('nu-welcome'); if (w) w.classList.remove('open');
+  }
+
+  /* Abrir "Tarjeta crédito o débito": en el caso Nuevo usuario arranca el card loader */
+  function openCard(header) {
+    var item = header.closest('.pm-item');
+    var willOpen = !item.classList.contains('open');
+    togglePM(header);
+    if (willOpen && item.classList.contains('open') && currentFlow === 'new') startNewUserFlow();
   }
 
   /* Selección de tarjeta en la lista (caso 3) */
@@ -437,6 +545,9 @@
     if (v.length >= 3) v = v.substring(0, 2) + ' / ' + v.substring(2, 4);
     i.value = v;
   }
+
+  /* Al cargar: tarjeta abierta + caso Nuevo usuario → muestra el loader y luego el cuadro */
+  if (isCardOpen() && currentFlow === 'new') startNewUserFlow();
 </script>
 
 </body>
