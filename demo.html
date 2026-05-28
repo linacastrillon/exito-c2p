@@ -165,7 +165,7 @@
                     <div class="modal-field">
                       <label>Número de tarjeta</label>
                       <div class="field-relative">
-                        <input type="text" placeholder="0000 0000 0000 0000" maxlength="19" oninput="fmtCard(this)">
+                        <input type="text" id="nu-cardnum" placeholder="0000 0000 0000 0000" maxlength="19" onfocus="nuCardFocus(this)" oninput="nuCardInput(this)">
                         <div class="field-brands">
                           <svg width="28" height="18" viewBox="0 0 34 22" fill="none" aria-label="Mastercard"><circle cx="12" cy="11" r="10" fill="#EB001B"/><circle cx="22" cy="11" r="10" fill="#F79E1B"/><path d="M17 4.8 A10 10 0 0 1 17 17.2 A10 10 0 0 1 17 4.8Z" fill="#FF5F00"/></svg>
                         </div>
@@ -176,8 +176,8 @@
                       <div class="modal-field"><label>CVC</label><input type="text" placeholder="•••" maxlength="4"></div>
                     </div>
 
-                    <!-- Consentimiento de inscripción (disclaimer en español) -->
-                    <div class="nu-consent">
+                    <!-- Consentimiento de inscripción · aparece tras los primeros 4 dígitos -->
+                    <div class="nu-consent" id="nu-consent" style="display:none;">
                       <div class="nu-consent-marks">
                         <svg width="26" height="18" viewBox="0 0 40 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Click to Pay">
                           <path d="M5 4 H20 L28 14 L20 24 H5 Z" fill="#111" stroke="#111" stroke-width="3" stroke-linejoin="round"/>
@@ -496,8 +496,23 @@
   function startNewUserFlow() {
     clearTimeout(nuTimer);
     closeNuWelcome();
+    var cn = document.getElementById('nu-cardnum'); if (cn) cn.value = '';
+    nuConsent(false);
     showNu('nu-loader');                                 // 04 · card loader
-    nuTimer = setTimeout(function () { showNu('nu-manual'); }, 1800);  // → entrada manual + consentimiento
+    nuTimer = setTimeout(function () { showNu('nu-manual'); }, 1800);  // → entrada manual
+  }
+  /* El consentimiento aparece solo tras los primeros 4 dígitos */
+  function nuConsent(show) {
+    var c = document.getElementById('nu-consent');
+    if (c) c.style.display = show ? 'block' : 'none';
+  }
+  function nuCardInput(inp) {
+    fmtCard(inp);
+    nuConsent(inp.value.replace(/\D/g, '').length >= 4);
+  }
+  /* Simulación: al hacer clic en el campo, se ingresan 4 dígitos y aparece el consentimiento */
+  function nuCardFocus(inp) {
+    if (inp.value.replace(/\D/g, '').length < 4) { inp.value = '5555'; nuConsent(true); }
   }
   function openNuWelcome() {
     var w = document.getElementById('nu-welcome'); if (w) w.classList.add('open');
