@@ -423,7 +423,7 @@
                       </div>
                     </div>
 
-                    <button class="btn-c2p-primary ac-pay" type="button" onclick="payClickToPay('existing')">🔒 Pagar $475.020</button>
+                    <button class="btn-c2p-primary ac-pay" type="button" onclick="openAuthPopup('existing')">🔒 Pagar $475.020</button>
                   </div>
 
                 </div>
@@ -562,6 +562,16 @@
 <div class="tds-overlay" id="tds-overlay">
   <div class="tds-box">
     <div class="tds-text">Puede requerirse verificación adicional</div>
+  </div>
+</div>
+
+<!-- Popup informativo: posible autenticación adicional del banco (CX Guide) -->
+<div class="auth-popup-overlay" id="auth-popup" role="dialog" aria-modal="true" aria-label="Posible autenticación adicional" onclick="if(event.target===this) closeAuthPopup()">
+  <div class="auth-popup-modal">
+    <div class="auth-popup-icon">🔒</div>
+    <h3>Posible autenticación adicional</h3>
+    <p>Tu banco puede solicitarte una verificación adicional (por ejemplo, un código de un solo uso) para confirmar este pago.</p>
+    <button class="auth-popup-ok" type="button" onclick="closeAuthPopup()">Continuar</button>
   </div>
 </div>
 
@@ -790,6 +800,17 @@
   }
   function closeTDS() {
     var t = document.getElementById('tds-overlay'); if (t) t.classList.remove('open');
+  }
+
+  /* Popup informativo · posible autenticación adicional (al pulsar Pagar) */
+  var authPendingFlow = null;
+  function openAuthPopup(kind) {
+    authPendingFlow = kind;
+    var p = document.getElementById('auth-popup'); if (p) p.classList.add('open');
+  }
+  function closeAuthPopup() {
+    var p = document.getElementById('auth-popup'); if (p) p.classList.remove('open');
+    if (authPendingFlow) { var k = authPendingFlow; authPendingFlow = null; payClickToPay(k); }
   }
   /* Caso 1: el botón Pagar conserva su nombre como alias del flujo "new" */
   function payNewUser() { payClickToPay('new'); }
