@@ -1099,8 +1099,8 @@
   .rv-view-all { display:inline-block; margin-left:36px; margin-top:8px; font-size:14px; color:var(--texto); text-decoration:underline; font-weight:600; cursor:pointer; }
   .rv-other { display:flex; align-items:center; justify-content:space-between; padding:4px 0; font-size:15px; font-weight:700; color:var(--texto); cursor:pointer; }
   .rv-chevron { color:#9aa0a6; font-size:14px; }
-  .rv-place-order { background:var(--amarillo); color:var(--texto); border:none; border-radius:999px; padding:16px 36px; font-size:16px; font-weight:800; cursor:pointer; margin-top:24px; font-family:var(--font); box-shadow:0 2px 8px rgba(0,0,0,.08); }
-  .rv-place-order:hover { background:var(--amarillo-dark); }
+  .rv-place-order { background:var(--verde); color:#fff; border:none; border-radius:999px; padding:16px 44px; font-size:16px; font-weight:800; cursor:pointer; margin-top:24px; font-family:var(--font); box-shadow:0 2px 8px rgba(0,0,0,.08); }
+  .rv-place-order:hover { background:#1B5E20; }
   .rv-summary-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
   .rv-summary-head h3 { font-size:15px; font-weight:700; color:var(--gris-texto); margin:0; }
   .rv-promo { padding:18px 0; border-top:1px solid #d8dee5; margin-top:14px; }
