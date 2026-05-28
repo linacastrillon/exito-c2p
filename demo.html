@@ -488,32 +488,78 @@
   </div>
 </div>
 
-<!-- Pedido confirmado (lado Éxito) · tras el procesamiento Click to Pay (caso 1) -->
+<!-- Pedido confirmado · página completa (estilo Éxito) · tras Click to Pay (caso 1) -->
 <div class="ex-confirm-overlay" id="ex-confirm">
-  <div class="ex-confirm-card">
-    <div class="ex-confirm-top">
-      <span class="header-logo">éxito<em>.</em></span>
-    </div>
-    <div class="ex-confirm-body">
-      <div class="ex-check">
-        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" aria-label="Confirmado"><path d="M5 12.5 L10 17.5 L19 7" stroke="#2E7D32" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <div class="exc-header">
+    <span class="exc-menu">☰</span>
+    <a class="header-logo exc-logo" href="#" onclick="return false;">éxito<em>.</em></a>
+    <span class="exc-cart">🛒<span class="exc-badge">3</span></span>
+    <button class="exc-close" type="button" onclick="closeExConfirm()">✕ Cerrar</button>
+  </div>
+
+  <div class="exc-wrap">
+    <!-- Detalle del pedido -->
+    <div class="exc-main">
+      <div class="exc-title">¡Tu pedido está confirmado!</div>
+      <div class="exc-order-no">Pedido #: EX-2026-847291</div>
+      <div class="exc-note">Te enviaremos una notificación por correo en breve.</div>
+
+      <div class="exc-sec">
+        <h3>Información de contacto</h3>
+        <p>carlos.martinez@gmail.com<br>+57 310 234 5678</p>
       </div>
-      <h2>¡Pedido confirmado!</h2>
-      <p>Gracias por tu compra, Carlos. Enviamos la confirmación a carlos.martinez@gmail.com.</p>
-      <div class="ex-order-box">
-        <div class="ex-order-row"><span>N° de pedido</span><strong>EX-2026-847291</strong></div>
-        <div class="ex-order-row"><span>Total pagado</span><strong>$475.020</strong></div>
-        <div class="ex-order-row"><span>Método de pago</span><strong>
-          <svg width="20" height="14" viewBox="0 0 40 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Click to Pay">
-            <path d="M5 4 H20 L28 14 L20 24 H5 Z" fill="#111" stroke="#111" stroke-width="3" stroke-linejoin="round"/>
-            <path d="M31 7 C35 11 35 17 31 21" fill="none" stroke="#111" stroke-width="3" stroke-linecap="round"/>
-          </svg>
-          Click to Pay · Mastercard •••• 8785</strong></div>
-        <div class="ex-order-row"><span>Entrega estimada</span><strong>Mañana antes de las 8 pm</strong></div>
+      <div class="exc-sec">
+        <h3>Dirección de envío</h3>
+        <p>Carlos Martínez<br>Cra. 43A #1-50, El Poblado, Medellín</p>
       </div>
-      <button class="btn-pay" type="button" onclick="closeExConfirm()">Ver mi pedido</button>
-      <div class="ssl-note">🔒 Pago procesado con Click to Pay · EMVCo Secure Remote Commerce</div>
+      <div class="exc-sec">
+        <h3>Pago</h3>
+        <div class="exc-pay">
+          <span class="exc-card-ico">
+            <svg width="22" height="15" viewBox="0 0 40 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Click to Pay">
+              <path d="M5 4 H20 L28 14 L20 24 H5 Z" fill="#fff" stroke="#fff" stroke-width="3" stroke-linejoin="round"/>
+              <path d="M31 7 C35 11 35 17 31 21" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+          </span>
+          Click to Pay · Mastercard •••• 8785
+        </div>
+      </div>
     </div>
+
+    <!-- Resumen del pedido -->
+    <aside class="exc-aside">
+      <h3>Resumen del pedido</h3>
+      <div class="exc-item">
+        <div class="exc-thumb">📺</div>
+        <div style="flex:1;">
+          <div class="exc-item-name">TV Samsung 55" QLED 4K Smart</div>
+          <div class="exc-item-qty">Cantidad: 1</div>
+        </div>
+        <div class="exc-item-price">$389.900</div>
+      </div>
+      <div class="exc-item">
+        <div class="exc-thumb">🎮</div>
+        <div style="flex:1;">
+          <div class="exc-item-name">Control PS5 DualSense Blanco</div>
+          <div class="exc-item-qty">Cantidad: 1</div>
+        </div>
+        <div class="exc-item-price">$99.900</div>
+      </div>
+      <div class="exc-item">
+        <div class="exc-thumb">🔌</div>
+        <div style="flex:1;">
+          <div class="exc-item-name">Cable HDMI 4K 2m Philips</div>
+          <div class="exc-item-qty">Cantidad: 2</div>
+        </div>
+        <div class="exc-item-price">$38.000</div>
+      </div>
+      <div class="exc-totals">
+        <div class="exc-total-row"><span>Subtotal</span><span>$527.800</span></div>
+        <div class="exc-total-row"><span>Envío</span><span class="green">Gratis</span></div>
+        <div class="exc-total-row"><span>Descuento Éxito Más</span><span class="green">−$52.780</span></div>
+        <div class="exc-total-row big"><span>Total</span><span>$475.020</span></div>
+      </div>
+    </aside>
   </div>
 </div>
 
