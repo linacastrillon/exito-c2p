@@ -223,12 +223,12 @@
                     <!-- 1. Display ID enmascarado + 2. ¿No eres tú? -->
                     <div class="ru-id-row">
                       <span class="ru-id-masked">li••••••on@gmail.com</span>
-                      <a class="ru-not-you" href="#" onclick="return false;">¿No eres tú?</a>
+                      <a class="ru-not-you" href="#" onclick="ruNotYou(); return false;">¿No eres tú?</a>
                     </div>
                     <!-- 3. H1 -->
                     <div class="c2p-step-title">Click to Pay encontró tus tarjetas vinculadas</div>
                     <!-- 4. H2 -->
-                    <div class="c2p-step-desc">Ingresa el código que Mastercard envió a <strong>+57&nbsp;•••&nbsp;•••&nbsp;9966</strong> para confirmar que eres tú.</div>
+                    <div class="c2p-step-desc">Ingresa el código que Mastercard envió a <strong id="ru-otp-channel">+57&nbsp;•••&nbsp;•••&nbsp;9966</strong> para confirmar que eres tú.</div>
                     <!-- 5. Passcode input -->
                     <div class="otp-boxes">
                       <input class="otp-box" type="text" inputmode="numeric" maxlength="1" onfocus="ruFillOTP()" oninput="ruOtpNext(this)">
@@ -763,6 +763,20 @@
   }
 
   /* ── Caso "Reconocido por correo/teléfono" (repeat user unrecognized · UCS) ── */
+  /* Canales de validación (estructura `supportedValidationChannels` del componente <src-otp-input>) */
+  var ruChannels = [
+    { validationChannelId: 'SMS',   identityType: 'SMS',   maskedValidationChannel: '+57 ••• ••• 9966' },
+    { validationChannelId: 'EMAIL', identityType: 'EMAIL', maskedValidationChannel: 'li••••••on@gmail.com' }
+  ];
+  var ruActiveChannel = 'SMS';                                // canal por defecto
+
+  function ruSetDesc() {
+    var ch = null;
+    for (var i = 0; i < ruChannels.length; i++) if (ruChannels[i].validationChannelId === ruActiveChannel) ch = ruChannels[i];
+    var el = document.getElementById('ru-otp-channel');
+    if (ch && el) el.innerHTML = ch.maskedValidationChannel;
+  }
+
   function ruShowStep(id) {
     ['ru-loader', 'ru-otp', 'ru-cards'].forEach(function (s) {
       var e = document.getElementById(s);
@@ -772,6 +786,8 @@
   function startUnrecogFlow() {
     clearTimeout(ruTimer); clearInterval(ruOtpInterval);
     ruResetOtp();
+    ruActiveChannel = 'SMS';
+    ruSetDesc();
     var tip = document.getElementById('ru-tip'); if (tip) tip.classList.remove('show');
     ruShowStep('ru-loader');                                  // 04 · Card Loader
     ruTimer = setTimeout(function () {                        // → OTP (CX Guide one-time passcode)
@@ -797,10 +813,19 @@
   function ruResetOtp() {
     document.querySelectorAll('#ru-otp .otp-box').forEach(function (b) { b.value = ''; b.classList.remove('filled'); });
   }
+  /* Reenvío del OTP por canal (simula el evento `resendOtp` del componente <src-otp-input>) */
   function ruResend(channel) {
+    ruActiveChannel = (channel === 'email') ? 'EMAIL' : 'SMS';
+    ruSetDesc();
     ruResetOtp();
     ruStartOtpTimer();
     var f = document.querySelector('#ru-otp .otp-box'); if (f) f.focus();
+  }
+  /* "¿No eres tú?" (simula el evento `notYouRequested` del componente <src-otp-input>) */
+  function ruNotYou() {
+    ruActiveChannel = 'SMS';
+    ruSetDesc();
+    startUnrecogFlow();                                       // reinicia con el card loader
   }
   function ruStartOtpTimer() {
     clearInterval(ruOtpInterval);
