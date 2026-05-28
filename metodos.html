@@ -38,8 +38,67 @@
 <section id="metodos" class="pres-section">
   <span class="eyebrow">Punto 5</span>
   <h2>Métodos JavaScript / API</h2>
-  <p class="pres-lead">Mapa de métodos de Unified Checkout y del SDK de SRC (EMVCo) por paso de la jornada.</p>
-  <div class="pres-ph">Mapa de métodos JS/API por paso de la jornada — sección por completar.</div>
+  <p class="pres-lead">Mapa de métodos de Unified Checkout (UCS) y del SDK de SRC (EMVCo) por paso de la jornada.</p>
+
+  <h3 class="flow-title">Caso 1 · Nuevo usuario</h3>
+  <p class="flow-lead">Flujo del patrón <strong>Card Loader</strong> (CX Guide): del clic en "Tarjeta crédito o débito" al pedido confirmado de Éxito. Las cajas oscuras sobre las flechas son los métodos que se ejecutan en cada paso.</p>
+
+  <div class="flow-diagram">
+
+    <div class="flow-node start">Carrito · paso de pago</div>
+    <div class="flow-arrow-wrap">
+      <div class="flow-line"></div>
+      <div class="flow-method"><span class="cmt">// captura de contexto + montaje del componente</span><br>Sessions API <span class="arr">→</span> <span class="m">captureContext</span> · uc.<span class="m">mount()</span></div>
+      <div class="flow-line-head"></div>
+    </div>
+
+    <div class="flow-node">Clic en "Tarjeta crédito o débito"</div>
+    <div class="flow-arrow-wrap">
+      <div class="flow-line"></div>
+      <div class="flow-method">src.<span class="m">init()</span></div>
+      <div class="flow-line-head"></div>
+    </div>
+
+    <div class="flow-node">Card Loader<small>"Click to Pay is looking for your linked cards…" · SRC Loader UI con escudo + spinner</small></div>
+    <div class="flow-arrow-wrap">
+      <div class="flow-line"></div>
+      <div class="flow-method">src.<span class="m">isRecognized()</span> · src.<span class="m">idLookup()</span></div>
+      <div class="flow-line-head"></div>
+    </div>
+
+    <div class="flow-decision">◆ ¿Cuenta encontrada?<small>SÍ → ver Caso 3 (Usuario reconocido)</small></div>
+
+    <div class="flow-arrow-wrap">
+      <div class="flow-arrow-label">NO</div>
+      <div class="flow-line"></div>
+      <div class="flow-method">detección de red por BIN <span class="cmt">(primeros 4 dígitos)</span></div>
+      <div class="flow-line-head"></div>
+    </div>
+
+    <div class="flow-node">Entrada manual de tarjeta<small>Número · vencimiento · CVC</small></div>
+    <div class="flow-arrow-wrap">
+      <div class="flow-line"></div>
+      <div class="flow-method"><span class="cmt">// componente que recoge el consentimiento de inscripción + Términos / Aviso de Privacidad</span><br>SRC <span class="m">Consent</span></div>
+      <div class="flow-line-head"></div>
+    </div>
+
+    <div class="flow-node">Consentimiento de inscripción<small>Casilla "Guardar mi información con Click to Pay" + disclaimer</small></div>
+    <div class="flow-arrow-wrap">
+      <div class="flow-line"></div>
+      <div class="flow-method"><span class="cmt">// cifrado de la tarjeta + checkout con nueva tarjeta + cumplimiento</span><br>src.<span class="m">encryptCard()</span> <span class="arr">→</span> src.<span class="m">checkoutWithNewCard()</span> + <span class="m">ComplianceSettings</span></div>
+      <div class="flow-line-head"></div>
+    </div>
+
+    <div class="flow-node">Procesamiento Click to Pay (DCF)<small>Asegurando el pago → Creando perfil → Perfil creado</small></div>
+    <div class="flow-arrow-wrap">
+      <div class="flow-line"></div>
+      <div class="flow-method">autorización backend <span class="cmt">(server-side)</span> + <span class="m">3DS</span></div>
+      <div class="flow-line-head"></div>
+    </div>
+
+    <div class="flow-node end">Pedido confirmado · Éxito</div>
+
+  </div>
 </section>
 
 </body>

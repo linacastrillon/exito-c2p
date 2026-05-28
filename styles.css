@@ -1052,3 +1052,27 @@
   .feat-card .fc-ico { font-size:24px; }
   .feat-card h3 { font-size:15px; font-weight:800; margin:10px 0 6px; color:#1d1d1f; }
   .feat-card p { font-size:13.5px; color:#52525b; line-height:1.55; font-weight:500; }
+
+  /* ── Diagrama de flujo de métodos (página Métodos) ── */
+  .flow-title { font-size:24px; font-weight:800; color:#1d1d1f; margin-top:36px; margin-bottom:6px; }
+  .flow-lead { color:#52525b; font-size:14.5px; line-height:1.6; margin-bottom:22px; max-width:760px; font-weight:500; }
+  .flow-diagram { display:flex; flex-direction:column; align-items:center; gap:0; max-width:760px; margin:14px auto 40px; }
+  .flow-node { background:#fff; border:2px solid #d4d4dc; border-radius:12px; padding:14px 22px; font-weight:700; color:#1d1d1f; min-width:340px; max-width:560px; text-align:center; box-shadow:0 1px 3px rgba(0,0,0,.06); font-size:14px; }
+  .flow-node small { display:block; font-size:12px; font-weight:500; color:#6a6a72; margin-top:5px; line-height:1.45; }
+  .flow-node.start { background:#FFE800; border-color:#d4b900; }
+  .flow-node.end { background:#E8F5E9; border-color:#2E7D32; color:#1B5E20; }
+  .flow-decision { background:#FFF8E1; border:2px solid #FFD54F; border-radius:8px; padding:14px 24px; font-weight:800; color:#5a4500; font-size:14.5px; text-align:center; min-width:300px; }
+  .flow-decision small { display:block; font-size:11.5px; font-weight:600; color:#8a6d00; margin-top:4px; font-style:italic; }
+  .flow-arrow-wrap { display:flex; flex-direction:column; align-items:center; gap:0; padding:6px 0; }
+  .flow-line { width:2px; height:16px; background:#9aa0a6; }
+  .flow-line-head { width:2px; height:18px; background:#9aa0a6; position:relative; }
+  .flow-line-head::after { content:""; position:absolute; bottom:-1px; left:50%; transform:translateX(-50%); border-left:7px solid transparent; border-right:7px solid transparent; border-top:10px solid #9aa0a6; }
+  .flow-method { background:#0B1F33; color:#CFE8FF; font-family:'SF Mono',ui-monospace,Menlo,monospace; font-size:11.5px; line-height:1.6; padding:8px 14px; border-radius:6px; border-left:3px solid #1565C0; box-shadow:0 2px 8px rgba(0,0,0,.1); margin:4px 0; max-width:560px; text-align:left; }
+  .flow-method .m { color:#FFD479; font-weight:700; }
+  .flow-method .cmt { color:#6FB3E0; font-style:italic; }
+  .flow-method .arr { color:#8899A6; }
+  .flow-arrow-label { background:#fff; border:1.5px solid #d4d4dc; border-radius:999px; padding:2px 12px; font-size:11px; font-weight:800; color:#1d1d1f; margin-bottom:2px; }
+  @media (max-width:680px) {
+    .flow-node, .flow-decision { min-width:0; width:100%; }
+    .flow-method { font-size:11px; padding:7px 10px; }
+  }
