@@ -365,36 +365,65 @@
                     </div>
                   </div>
 
-                  <!-- Formulario para agregar nueva tarjeta a la billetera -->
-                  <div class="ac-step" id="ac-form">
-                    <div class="c2p-step-title">Agregar nueva tarjeta</div>
-                    <div class="c2p-step-desc">Tus datos se cifran en tu dispositivo. Éxito nunca almacena el número de tu tarjeta.</div>
+                  <!-- Panel integrado: tarjeta guardada + 'Ingresar tarjeta manualmente' que expande el formulario -->
+                  <div class="ac-step" id="ac-cards">
+                    <a class="ru-not-cards-link" href="#" onclick="return false;">¿No son tus tarjetas?</a>
 
-                    <div class="modal-field">
-                      <label>Número de tarjeta</label>
-                      <div class="field-relative">
-                        <input type="text" id="ac-cardnum" placeholder="0000 0000 0000 0000" maxlength="19" onfocus="acFill(this,'card')" oninput="fmtCard(this)">
-                        <div class="field-brands">
-                          <svg width="28" height="18" viewBox="0 0 34 22" fill="none" aria-label="Mastercard"><circle cx="12" cy="11" r="10" fill="#EB001B"/><circle cx="22" cy="11" r="10" fill="#F79E1B"/><path d="M17 4.8 A10 10 0 0 1 17 17.2 A10 10 0 0 1 17 4.8Z" fill="#FF5F00"/></svg>
-                        </div>
+                    <div class="ru-card-row" id="ac-row-saved" onclick="acPickCard('saved')">
+                      <div class="ru-card-radio"><div class="ru-card-dot"></div></div>
+                      <div class="ru-card-art-mini">
+                        <svg width="50" height="32" viewBox="0 0 50 32" xmlns="http://www.w3.org/2000/svg" aria-label="Tarjeta">
+                          <rect width="50" height="32" rx="4" fill="#1a3026"/>
+                          <text x="4" y="11" font-family="Arial" font-size="5" fill="#F5A800" font-weight="800">éxito</text>
+                          <circle cx="36" cy="22" r="5" fill="#EB001B"/>
+                          <circle cx="41" cy="22" r="5" fill="#F79E1B"/>
+                        </svg>
+                      </div>
+                      <div class="ru-card-meta">
+                        <div class="ru-card-meta-name">Mastercard Platinum</div>
+                        <div class="ru-card-meta-num">•••• 4892</div>
                       </div>
                     </div>
-                    <div class="modal-field-row">
-                      <div class="modal-field"><label>Vencimiento</label><input type="text" placeholder="MM / AA" maxlength="7" onfocus="acFill(this,'exp')" oninput="fmtExp(this)"></div>
-                      <div class="modal-field"><label>CVC</label><input type="text" placeholder="•••" maxlength="4" onfocus="acFill(this,'cvc')"></div>
-                    </div>
-                    <div class="modal-field">
-                      <label>Nombre en la tarjeta</label>
-                      <input type="text" placeholder="Como aparece en tu tarjeta" onfocus="acFill(this,'name')">
+
+                    <a class="ru-more-cards" href="#" onclick="return false;">Más tarjetas (+2)</a>
+
+                    <div class="ru-cards-divider"></div>
+
+                    <div class="ru-card-row" id="ac-row-manual" onclick="acPickCard('manual')">
+                      <div class="ru-card-radio"><div class="ru-card-dot"></div></div>
+                      <div class="ru-card-manual-label">Ingresar tarjeta manualmente</div>
                     </div>
 
-                    <div class="check-row">
-                      <input type="checkbox" id="ac-save" checked>
-                      <label for="ac-save">Guardar esta tarjeta en mi billetera <strong>Click to Pay</strong></label>
+                    <!-- Formulario inline · aparece al seleccionar 'Ingresar tarjeta manualmente' (datos simulados) -->
+                    <div class="ac-manual-form" id="ac-manual-form">
+                      <div class="modal-field">
+                        <label>Número de tarjeta</label>
+                        <div class="field-relative">
+                          <input type="text" id="ac-num" placeholder="0000 0000 0000 0000" value="5555 0000 0000 1234" readonly>
+                          <div class="field-brands">
+                            <svg width="28" height="18" viewBox="0 0 34 22" fill="none" aria-label="Mastercard"><circle cx="12" cy="11" r="10" fill="#EB001B"/><circle cx="22" cy="11" r="10" fill="#F79E1B"/><path d="M17 4.8 A10 10 0 0 1 17 17.2 A10 10 0 0 1 17 4.8Z" fill="#FF5F00"/></svg>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="modal-field-row">
+                        <div class="modal-field"><label>Vencimiento</label><input type="text" id="ac-exp" value="02 / 27" readonly></div>
+                        <div class="modal-field"><label>CVC</label><input type="text" id="ac-cvc" value="123" readonly></div>
+                      </div>
+                      <div class="ac-marks">
+                        <svg width="26" height="18" viewBox="0 0 40 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Click to Pay">
+                          <path d="M5 4 H20 L28 14 L20 24 H5 Z" fill="#111" stroke="#111" stroke-width="3" stroke-linejoin="round"/>
+                          <path d="M31 7 C35 11 35 17 31 21" fill="none" stroke="#111" stroke-width="3" stroke-linecap="round"/>
+                        </svg>
+                        <span class="ncm-sep"></span>
+                        <svg width="26" height="16" viewBox="0 0 34 22" fill="none" aria-label="Mastercard"><circle cx="12" cy="11" r="10" fill="#EB001B"/><circle cx="22" cy="11" r="10" fill="#F79E1B"/><path d="M17 4.8 A10 10 0 0 1 17 17.2 A10 10 0 0 1 17 4.8Z" fill="#FF5F00"/></svg>
+                      </div>
+                      <div class="check-row ac-consent">
+                        <input type="checkbox" id="ac-consent-chk">
+                        <label for="ac-consent-chk">Sí, quiero agregar esta tarjeta a <strong>Click to Pay</strong>. Éxito compartirá los datos de mi tarjeta y la dirección de facturación con Mastercard.</label>
+                      </div>
                     </div>
 
-                    <button class="btn-c2p-primary ac-pay" type="button" onclick="payClickToPay('existing')">🔒 Guardar y pagar $475.020</button>
-                    <div class="c2p-legal">Tu tarjeta se inscribe tokenizada en la red de pago. Aceptas los <a href="#" onclick="return false;">Términos</a> y la <a href="#" onclick="return false;">Política de privacidad</a> de Click to Pay.</div>
+                    <button class="btn-c2p-primary ac-pay" type="button" onclick="payClickToPay('existing')">🔒 Pagar $475.020</button>
                   </div>
 
                 </div>
@@ -806,30 +835,34 @@
 
   /* ── Caso "Agregar nueva tarjeta" (usuario reconocido añade tarjeta a su billetera) ── */
   function acShowStep(id) {
-    ['ac-loader', 'ac-form'].forEach(function (s) {
+    ['ac-loader', 'ac-cards'].forEach(function (s) {
       var e = document.getElementById(s);
       if (e) e.classList.toggle('active', s === id);
     });
   }
   function startAddCardFlow() {
     clearTimeout(acTimer);
-    var form = document.getElementById('ac-form');
-    if (form) form.querySelectorAll('input[type="text"]').forEach(function (i) { i.value = ''; });
+    // Resetea selección y consentimiento al reiniciar el flujo
+    var saved   = document.getElementById('ac-row-saved');   if (saved)   saved.classList.remove('sel');
+    var manual  = document.getElementById('ac-row-manual');  if (manual)  manual.classList.remove('sel');
+    var form    = document.getElementById('ac-manual-form'); if (form)    form.style.display = 'none';
+    var consent = document.getElementById('ac-consent-chk'); if (consent) consent.checked = false;
     acShowStep('ac-loader');                                  // 04 · Card Loader
-    acTimer = setTimeout(function () { acShowStep('ac-form'); }, 1500);  // → formulario para nueva tarjeta
+    acTimer = setTimeout(function () { acShowStep('ac-cards'); }, 1500);  // → panel integrado (Imagen #44)
   }
-  /* Simulación: al hacer clic en un campo se rellena con datos aleatorios */
-  function acFill(inp, type) {
-    if (inp.value) return;
-    if (type === 'card') {
-      inp.value = nuRand(16).replace(/(.{4})/g, '$1 ').trim();
-    } else if (type === 'exp') {
-      var mm = ('0' + (Math.floor(Math.random() * 12) + 1)).slice(-2);
-      inp.value = mm + ' / ' + (26 + Math.floor(Math.random() * 6));
-    } else if (type === 'cvc') {
-      inp.value = nuRand(3);
-    } else if (type === 'name') {
-      inp.value = 'LINA CASTRILLÓN';
+  /* Selección de tarjeta guardada o entrada manual (despliega el formulario simulado · Imagen #45) */
+  function acPickCard(which) {
+    var saved  = document.getElementById('ac-row-saved');
+    var manual = document.getElementById('ac-row-manual');
+    var form   = document.getElementById('ac-manual-form');
+    if (which === 'saved') {
+      if (saved)  saved.classList.add('sel');
+      if (manual) manual.classList.remove('sel');
+      if (form)   form.style.display = 'none';
+    } else {
+      if (manual) manual.classList.add('sel');
+      if (saved)  saved.classList.remove('sel');
+      if (form)   form.style.display = 'block';
     }
   }
 

@@ -987,6 +987,13 @@
   .rg-step.active { display:block; animation:fadeIn .18s ease; }
   .ac-step { display:none; }
   .ac-step.active { display:block; animation:fadeIn .18s ease; }
+  /* Caso 4 · Formulario inline al seleccionar 'Ingresar tarjeta manualmente' (Imagen #45) */
+  .ac-manual-form { display:none; padding:8px 0 4px 32px; animation:fadeIn .2s ease; }
+  .ac-marks { display:flex; align-items:center; gap:9px; margin:12px 0 6px; }
+  .ac-marks .ncm-sep { width:1px; height:18px; background:#cfcfd6; }
+  .ac-consent { padding:4px 0 10px; align-items:flex-start; gap:9px; }
+  .ac-consent label { font-size:12px; color:#52525b; line-height:1.5; font-weight:500; }
+  .ac-consent label strong { color:var(--texto); font-weight:700; }
   .ru-via-label { font-size:12px; font-weight:700; color:#555; text-transform:uppercase; letter-spacing:.4px; margin:2px 0 8px; }
   /* OTP · CX Guide (One-time passcode) — estilo Imagen #36 */
   .ru-id-row { display:flex; align-items:center; gap:10px; margin:2px 0 10px; padding:0; background:none; border:none; }
