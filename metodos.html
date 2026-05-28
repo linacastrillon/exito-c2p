@@ -38,65 +38,118 @@
 <section id="metodos" class="pres-section">
   <span class="eyebrow">Punto 5</span>
   <h2>Métodos JavaScript / API</h2>
-  <p class="pres-lead">Mapa de métodos de Unified Checkout (UCS) y del SDK de SRC (EMVCo) por paso de la jornada.</p>
+  <p class="pres-lead">Recorrido de integración: a la izquierda lo que llama el integrador, a la derecha lo que ve el cliente.</p>
 
   <h3 class="flow-title">Caso 1 · Nuevo usuario</h3>
-  <p class="flow-lead">Flujo del patrón <strong>Card Loader</strong> (CX Guide): del clic en "Tarjeta crédito o débito" al pedido confirmado de Éxito. Las cajas oscuras sobre las flechas son los métodos que se ejecutan en cada paso.</p>
 
-  <div class="flow-diagram">
+  <div class="int-flow">
 
-    <div class="flow-node start">Carrito · paso de pago</div>
-    <div class="flow-arrow-wrap">
-      <div class="flow-line"></div>
-      <div class="flow-method"><span class="cmt">// captura de contexto + montaje del componente</span><br>Sessions API <span class="arr">→</span> <span class="m">captureContext</span> · uc.<span class="m">mount()</span></div>
-      <div class="flow-line-head"></div>
+    <!-- Integration header -->
+    <div class="int-header-block">
+      <div class="int-icon" aria-hidden="true">⚙</div>
+      <div class="int-h">Integración</div>
     </div>
 
-    <div class="flow-node">Clic en "Tarjeta crédito o débito"</div>
-    <div class="flow-arrow-wrap">
-      <div class="flow-line"></div>
-      <div class="flow-method">src.<span class="m">init()</span></div>
-      <div class="flow-line-head"></div>
+    <!-- ════ Paso 1 ════ -->
+    <div class="int-step">
+      <div class="int-step-title">Paso 1</div>
+      <p>El integrador llama a <em>init()</em> e <em>isRecognized()</em> / <em>idLookup()</em> para determinar si el consumidor ya tiene un perfil Click to Pay.<br><br>Si no se encuentra, el consumidor entra al flujo de nuevo usuario.</p>
+    </div>
+    <div class="int-phone">
+      <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
+      <div class="int-phone-screen">
+        <div class="int-mini-header">éxito<em>.</em></div>
+        <div class="int-mini-body">
+          <div class="int-mini-subtitle">Pago</div>
+          <div class="int-mini-cardloader">
+            <div class="int-mini-spinner">
+              <span class="int-mini-ring"></span>
+              <svg width="18" height="20" viewBox="0 0 42 46" fill="none" aria-label="Seguro">
+                <path d="M21 3 L37 8.5 V21 C37 32 30 39.5 21 43 C12 39.5 5 32 5 21 V8.5 Z" fill="none" stroke="#9aa0a6" stroke-width="2" stroke-linejoin="round"/>
+                <rect x="14.5" y="21" width="13" height="10.5" rx="2.2" fill="none" stroke="#9aa0a6" stroke-width="2"/>
+                <path d="M17 21 V17.5 a4 4 0 0 1 8 0 V21" fill="none" stroke="#9aa0a6" stroke-width="2"/>
+              </svg>
+            </div>
+            <p>Click to Pay está buscando tus tarjetas vinculadas…</p>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="flow-node">Card Loader<small>"Click to Pay is looking for your linked cards…" · SRC Loader UI con escudo + spinner</small></div>
-    <div class="flow-arrow-wrap">
-      <div class="flow-line"></div>
-      <div class="flow-method">src.<span class="m">isRecognized()</span> · src.<span class="m">idLookup()</span></div>
-      <div class="flow-line-head"></div>
+    <div class="int-arrow"></div>
+
+    <!-- ════ Paso 2 ════ -->
+    <div class="int-step">
+      <div class="int-step-title">Paso 2</div>
+      <p>Tras los primeros 4 dígitos de la tarjeta, el integrador monta el componente <em>SRC Consent</em>, que recoge el consentimiento de inscripción junto con Términos y Aviso de Privacidad.</p>
+    </div>
+    <div class="int-phone">
+      <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
+      <div class="int-phone-screen">
+        <div class="int-mini-header">éxito<em>.</em></div>
+        <div class="int-mini-body">
+          <div class="int-mini-field">
+            <label>Número de tarjeta</label>
+            <div class="int-mini-input">5555 ▮▮▮▮ ▮▮▮▮ ▮▮▮▮</div>
+          </div>
+          <div class="int-mini-field-row">
+            <div class="int-mini-field"><label>Vence</label><div class="int-mini-input">02 / 27</div></div>
+            <div class="int-mini-field"><label>CVC</label><div class="int-mini-input">•••</div></div>
+          </div>
+          <div class="int-mini-consent">
+            <span class="ic-chk">✓</span>
+            <span>Guardar mi info con <strong>Click to Pay</strong></span>
+          </div>
+          <div class="int-mini-pay">🔒 Pagar $475.020</div>
+        </div>
+      </div>
     </div>
 
-    <div class="flow-decision">◆ ¿Cuenta encontrada?<small>SÍ → ver Caso 3 (Usuario reconocido)</small></div>
+    <div class="int-arrow"></div>
 
-    <div class="flow-arrow-wrap">
-      <div class="flow-arrow-label">NO</div>
-      <div class="flow-line"></div>
-      <div class="flow-method">detección de red por BIN <span class="cmt">(primeros 4 dígitos)</span></div>
-      <div class="flow-line-head"></div>
+    <!-- ════ Paso 3 ════ -->
+    <div class="int-step">
+      <div class="int-step-title">Paso 3</div>
+      <p>Al pulsar Pagar, el integrador llama a <em>encryptCard()</em> para cifrar la tarjeta y a <em>checkoutWithNewCard()</em> con <em>ComplianceSettings</em> para procesar el pago e inscribir el perfil.</p>
+    </div>
+    <div class="int-phone">
+      <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
+      <div class="int-phone-screen int-dcf-screen">
+        <div class="int-mini-dcf-mark">
+          <svg width="18" height="13" viewBox="0 0 40 28" fill="none" aria-label="Click to Pay">
+            <path d="M5 4 H20 L28 14 L20 24 H5 Z" fill="#111" stroke="#111" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M31 7 C35 11 35 17 31 21" fill="none" stroke="#111" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+          <span class="ic-sep"></span>
+          <svg width="20" height="13" viewBox="0 0 34 22" fill="none" aria-label="Mastercard"><circle cx="12" cy="11" r="10" fill="#EB001B"/><circle cx="22" cy="11" r="10" fill="#F79E1B"/><path d="M17 4.8 A10 10 0 0 1 17 17.2 A10 10 0 0 1 17 4.8Z" fill="#FF5F00"/></svg>
+        </div>
+        <div class="int-mini-dcf-body">
+          <svg class="int-mini-mc-big" width="48" height="30" viewBox="0 0 64 40" fill="none" aria-label="Mastercard"><circle cx="24" cy="20" r="18" fill="#EB001B"/><circle cx="40" cy="20" r="18" fill="#F79E1B"/><path d="M32 6.5 A18 18 0 0 1 32 33.5 A18 18 0 0 1 32 6.5Z" fill="#FF5F00"/></svg>
+          <div class="int-mini-dcf-text"><strong>Creando tu perfil<br>Click to Pay…</strong></div>
+        </div>
+      </div>
     </div>
 
-    <div class="flow-node">Entrada manual de tarjeta<small>Número · vencimiento · CVC</small></div>
-    <div class="flow-arrow-wrap">
-      <div class="flow-line"></div>
-      <div class="flow-method"><span class="cmt">// componente que recoge el consentimiento de inscripción + Términos / Aviso de Privacidad</span><br>SRC <span class="m">Consent</span></div>
-      <div class="flow-line-head"></div>
-    </div>
+    <div class="int-arrow"></div>
 
-    <div class="flow-node">Consentimiento de inscripción<small>Casilla "Guardar mi información con Click to Pay" + disclaimer</small></div>
-    <div class="flow-arrow-wrap">
-      <div class="flow-line"></div>
-      <div class="flow-method"><span class="cmt">// cifrado de la tarjeta + checkout con nueva tarjeta + cumplimiento</span><br>src.<span class="m">encryptCard()</span> <span class="arr">→</span> src.<span class="m">checkoutWithNewCard()</span> + <span class="m">ComplianceSettings</span></div>
-      <div class="flow-line-head"></div>
+    <!-- ════ Paso 4 ════ -->
+    <div class="int-step">
+      <div class="int-step-title">Paso 4</div>
+      <p>El backend autoriza el pago (server-side + <em>3DS</em>) y Éxito muestra al consumidor la página de pedido confirmado.</p>
     </div>
-
-    <div class="flow-node">Procesamiento Click to Pay (DCF)<small>Asegurando el pago → Creando perfil → Perfil creado</small></div>
-    <div class="flow-arrow-wrap">
-      <div class="flow-line"></div>
-      <div class="flow-method">autorización backend <span class="cmt">(server-side)</span> + <span class="m">3DS</span></div>
-      <div class="flow-line-head"></div>
+    <div class="int-phone">
+      <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
+      <div class="int-phone-screen">
+        <div class="int-mini-header">éxito<em>.</em></div>
+        <div class="int-mini-confirm">
+          <div class="int-mini-check">✓</div>
+          <div class="int-mini-confirm-title">¡Tu pedido está confirmado!</div>
+          <p>Pedido #: EX-2026-847291</p>
+          <div class="int-mini-pay-summary">Total · $475.020</div>
+          <div class="int-mini-confirm-pay">Click to Pay · Mastercard •••• 8785</div>
+        </div>
+      </div>
     </div>
-
-    <div class="flow-node end">Pedido confirmado · Éxito</div>
 
   </div>
 </section>
