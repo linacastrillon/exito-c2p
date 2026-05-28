@@ -1125,6 +1125,47 @@
     .flow-method { font-size:11px; padding:7px 10px; }
   }
 
+  /* ── Métodos · sub-menú de casos ── */
+  .cases-nav { display:flex; gap:8px; margin:18px 0 28px; flex-wrap:wrap; }
+  .case-tab { background:#fff; border:1.5px solid #e0e0e6; border-radius:999px; padding:9px 18px; font-size:13.5px; font-weight:700; color:#3a3a42; cursor:pointer; font-family:var(--font); transition:all .15s; }
+  .case-tab:hover { border-color:#bdbdbd; }
+  .case-tab.active { background:#111; color:#fff; border-color:#111; }
+  .case-section { display:none; }
+  .case-section.active { display:block; animation:fadeIn .25s ease; }
+  .case-stub { background:#FFF8E1; border:1px dashed #FFD54F; border-radius:14px; padding:22px 26px; color:#5a4500; font-size:14px; font-weight:600; line-height:1.6; }
+  .case-stub em { color:var(--rojo); font-style:italic; font-weight:700; }
+
+  /* ── Mini-OTP (Métodos · Caso 2 · phone) ── */
+  .int-mini-otp-id { font-size:9.5px; color:var(--texto); margin-bottom:8px; font-weight:500; }
+  .int-mini-not-you { color:var(--texto); text-decoration:underline; margin-left:4px; font-weight:700; }
+  .int-mini-otp-h1 { font-size:11.5px; font-weight:800; color:var(--texto); margin-bottom:6px; line-height:1.2; }
+  .int-mini-otp-h2 { font-size:9.5px; color:var(--texto); margin-bottom:8px; line-height:1.4; }
+  .int-mini-otp-boxes { display:flex; gap:3px; margin:8px 0; }
+  .int-mini-otp-boxes span { width:22px; height:26px; border:1px solid #9aa0a6; border-radius:3px; display:grid; place-items:center; font-size:13px; font-weight:700; color:var(--texto); background:#fff; }
+  .int-mini-otp-resend { font-size:9.5px; color:var(--texto); margin:6px 0; font-weight:500; }
+  .int-mini-otp-resend u { font-weight:700; }
+  .int-mini-otp-remember { font-size:10px; color:var(--texto); margin:8px 0 6px; display:flex; align-items:center; gap:6px; font-weight:500; }
+  .int-mini-chk { background:#111; color:#fff; width:13px; height:13px; border-radius:3px; display:inline-grid; place-items:center; font-size:9px; font-weight:800; flex-shrink:0; }
+  .int-mini-pay-green { background:#2F5D5A; color:#fff; text-align:center; padding:9px; border-radius:6px; font-size:11px; font-weight:800; margin-top:6px; }
+
+  /* ── Mini selección de tarjeta (Métodos · Caso 2 · phone) ── */
+  .int-mini-pm-row { display:flex; align-items:center; gap:6px; padding:5px 0 8px; border-bottom:1px solid #eee; margin-bottom:8px; }
+  .int-mini-pm-row span { font-size:10.5px; font-weight:700; color:var(--texto); }
+  .int-mini-not-cards { display:block; font-size:9.5px; color:var(--texto); text-decoration:underline; margin:4px 0 8px; font-weight:600; cursor:pointer; }
+  .int-mini-card-row { display:flex; align-items:center; gap:8px; padding:5px 0; }
+  .int-mini-radio { width:13px; height:13px; border:1.5px solid #BDBDBD; border-radius:50%; display:grid; place-items:center; flex-shrink:0; }
+  .int-mini-card-row.sel .int-mini-radio { border-color:#111; }
+  .int-mini-radio-dot { width:6px; height:6px; border-radius:50%; background:#111; opacity:0; }
+  .int-mini-card-row.sel .int-mini-radio-dot { opacity:1; }
+  .int-mini-card-art { width:36px; height:22px; border-radius:3px; overflow:hidden; flex-shrink:0; }
+  .int-mini-card-art svg { width:100%; height:100%; display:block; }
+  .int-mini-card-meta { flex:1; }
+  .int-mini-card-meta-name { font-size:10px; font-weight:600; color:var(--texto); }
+  .int-mini-card-meta-num { font-size:9px; color:var(--gris-texto); letter-spacing:.5px; font-weight:500; }
+  .int-mini-more { font-size:9.5px; color:var(--texto); text-decoration:underline; margin:4px 0 4px 22px; font-weight:600; cursor:pointer; }
+  .int-mini-divider { height:1px; background:#e0e0e0; margin:8px 0; }
+  .int-mini-card-row > span { font-size:10px; font-weight:600; color:var(--texto); }
+
   /* ── Métodos · estilo "Integración" (paso a paso horizontal, marca Éxito) ── */
   .int-flow { display:flex; align-items:center; gap:14px; padding:30px 6px 40px; overflow-x:auto; }
   .int-header-block { display:flex; flex-direction:column; align-items:center; gap:8px; flex-shrink:0; width:90px; }

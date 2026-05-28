@@ -38,121 +38,280 @@
 <section id="metodos" class="pres-section">
   <span class="eyebrow">Punto 5</span>
   <h2>Métodos JavaScript / API</h2>
-  <p class="pres-lead">Recorrido de integración: a la izquierda lo que llama el integrador, a la derecha lo que ve el cliente.</p>
+  <p class="pres-lead">Recorrido de integración por caso de uso: a la izquierda lo que llama el integrador, a la derecha lo que ve el cliente.</p>
 
-  <h3 class="flow-title">Caso 1 · Nuevo usuario</h3>
+  <!-- Sub-menú de casos -->
+  <nav class="cases-nav" role="tablist" aria-label="Casos de uso">
+    <button class="case-tab active" id="case-tab-new"     type="button" onclick="showCase('new')">1 · Nuevo usuario</button>
+    <button class="case-tab"        id="case-tab-unrecog" type="button" onclick="showCase('unrecog')">2 · Reconocido por correo/teléfono</button>
+    <button class="case-tab"        id="case-tab-recog"   type="button" onclick="showCase('recog')">3 · Usuario reconocido</button>
+    <button class="case-tab"        id="case-tab-addcard" type="button" onclick="showCase('addcard')">4 · Agregar nueva tarjeta</button>
+  </nav>
 
-  <div class="int-flow">
+  <!-- ════ CASO 1 · NUEVO USUARIO ════ -->
+  <section class="case-section active" id="case-new">
+    <h3 class="flow-title">Caso 1 · Nuevo usuario</h3>
+    <p class="flow-lead">Flujo del patrón <strong>Card Loader</strong> (CX Guide): del clic en "Tarjeta crédito o débito" al pedido confirmado de Éxito. Las cajas oscuras sobre las flechas son los métodos que se ejecutan en cada paso.</p>
 
-    <!-- Integration header -->
-    <div class="int-header-block">
-      <div class="int-icon" aria-hidden="true">⚙</div>
-      <div class="int-h">Integración</div>
-    </div>
+    <div class="int-flow">
+      <div class="int-header-block">
+        <div class="int-icon" aria-hidden="true">⚙</div>
+        <div class="int-h">Integración</div>
+      </div>
 
-    <!-- ════ Paso 1 ════ -->
-    <div class="int-step">
-      <div class="int-step-title">Paso 1</div>
-      <p>El integrador llama a <em>init()</em> e <em>isRecognized()</em> / <em>idLookup()</em> para determinar si el consumidor ya tiene un perfil Click to Pay.<br><br>Si no se encuentra, el consumidor entra al flujo de nuevo usuario.</p>
-    </div>
-    <div class="int-phone">
-      <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
-      <div class="int-phone-screen">
-        <div class="int-mini-header">éxito<em>.</em></div>
-        <div class="int-mini-body">
-          <div class="int-mini-subtitle">Pago</div>
-          <div class="int-mini-cardloader">
-            <div class="int-mini-spinner">
-              <span class="int-mini-ring"></span>
-              <svg width="18" height="20" viewBox="0 0 42 46" fill="none" aria-label="Seguro">
-                <path d="M21 3 L37 8.5 V21 C37 32 30 39.5 21 43 C12 39.5 5 32 5 21 V8.5 Z" fill="none" stroke="#9aa0a6" stroke-width="2" stroke-linejoin="round"/>
-                <rect x="14.5" y="21" width="13" height="10.5" rx="2.2" fill="none" stroke="#9aa0a6" stroke-width="2"/>
-                <path d="M17 21 V17.5 a4 4 0 0 1 8 0 V21" fill="none" stroke="#9aa0a6" stroke-width="2"/>
-              </svg>
+      <div class="int-step">
+        <div class="int-step-title">Paso 1</div>
+        <p>El integrador llama a <em>init()</em> e <em>isRecognized()</em> / <em>idLookup()</em> para determinar si el consumidor ya tiene un perfil Click to Pay.<br><br>Si no se encuentra, el consumidor entra al flujo de nuevo usuario.</p>
+      </div>
+      <div class="int-phone">
+        <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
+        <div class="int-phone-screen">
+          <div class="int-mini-header">éxito<em>.</em></div>
+          <div class="int-mini-body">
+            <div class="int-mini-subtitle">Pago</div>
+            <div class="int-mini-cardloader">
+              <div class="int-mini-spinner">
+                <span class="int-mini-ring"></span>
+                <svg width="18" height="20" viewBox="0 0 42 46" fill="none" aria-label="Seguro">
+                  <path d="M21 3 L37 8.5 V21 C37 32 30 39.5 21 43 C12 39.5 5 32 5 21 V8.5 Z" fill="none" stroke="#9aa0a6" stroke-width="2" stroke-linejoin="round"/>
+                  <rect x="14.5" y="21" width="13" height="10.5" rx="2.2" fill="none" stroke="#9aa0a6" stroke-width="2"/>
+                  <path d="M17 21 V17.5 a4 4 0 0 1 8 0 V21" fill="none" stroke="#9aa0a6" stroke-width="2"/>
+                </svg>
+              </div>
+              <p>Click to Pay está buscando tus tarjetas vinculadas…</p>
             </div>
-            <p>Click to Pay está buscando tus tarjetas vinculadas…</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="int-arrow"></div>
+
+      <div class="int-step">
+        <div class="int-step-title">Paso 2</div>
+        <p>Tras los primeros 4 dígitos de la tarjeta, el integrador monta el componente <em>SRC Consent</em>, que recoge el consentimiento de inscripción junto con Términos y Aviso de Privacidad.</p>
+      </div>
+      <div class="int-phone">
+        <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
+        <div class="int-phone-screen">
+          <div class="int-mini-header">éxito<em>.</em></div>
+          <div class="int-mini-body">
+            <div class="int-mini-field">
+              <label>Número de tarjeta</label>
+              <div class="int-mini-input">5555 ▮▮▮▮ ▮▮▮▮ ▮▮▮▮</div>
+            </div>
+            <div class="int-mini-field-row">
+              <div class="int-mini-field"><label>Vence</label><div class="int-mini-input">02 / 27</div></div>
+              <div class="int-mini-field"><label>CVC</label><div class="int-mini-input">•••</div></div>
+            </div>
+            <div class="int-mini-consent">
+              <span class="ic-chk">✓</span>
+              <span>Guardar mi info con <strong>Click to Pay</strong></span>
+            </div>
+            <div class="int-mini-pay">🔒 Pagar $475.020</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="int-arrow"></div>
+
+      <div class="int-step">
+        <div class="int-step-title">Paso 3</div>
+        <p>Al pulsar Pagar, el integrador llama a <em>encryptCard()</em> para cifrar la tarjeta y a <em>checkoutWithNewCard()</em> con <em>ComplianceSettings</em> para procesar el pago e inscribir el perfil.</p>
+      </div>
+      <div class="int-phone">
+        <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
+        <div class="int-phone-screen int-dcf-screen">
+          <div class="int-mini-dcf-mark">
+            <svg width="18" height="13" viewBox="0 0 40 28" fill="none" aria-label="Click to Pay">
+              <path d="M5 4 H20 L28 14 L20 24 H5 Z" fill="#111" stroke="#111" stroke-width="3" stroke-linejoin="round"/>
+              <path d="M31 7 C35 11 35 17 31 21" fill="none" stroke="#111" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+            <span class="ic-sep"></span>
+            <svg width="20" height="13" viewBox="0 0 34 22" fill="none" aria-label="Mastercard"><circle cx="12" cy="11" r="10" fill="#EB001B"/><circle cx="22" cy="11" r="10" fill="#F79E1B"/><path d="M17 4.8 A10 10 0 0 1 17 17.2 A10 10 0 0 1 17 4.8Z" fill="#FF5F00"/></svg>
+          </div>
+          <div class="int-mini-dcf-body">
+            <svg class="int-mini-mc-big" width="48" height="30" viewBox="0 0 64 40" fill="none" aria-label="Mastercard"><circle cx="24" cy="20" r="18" fill="#EB001B"/><circle cx="40" cy="20" r="18" fill="#F79E1B"/><path d="M32 6.5 A18 18 0 0 1 32 33.5 A18 18 0 0 1 32 6.5Z" fill="#FF5F00"/></svg>
+            <div class="int-mini-dcf-text"><strong>Creando tu perfil<br>Click to Pay…</strong></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="int-arrow"></div>
+
+      <div class="int-step">
+        <div class="int-step-title">Paso 4</div>
+        <p>El backend autoriza el pago (server-side + <em>3DS</em>) y Éxito muestra al consumidor la página de pedido confirmado.</p>
+      </div>
+      <div class="int-phone">
+        <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
+        <div class="int-phone-screen">
+          <div class="int-mini-header">éxito<em>.</em></div>
+          <div class="int-mini-confirm">
+            <div class="int-mini-check">✓</div>
+            <div class="int-mini-confirm-title">¡Tu pedido está confirmado!</div>
+            <p>Pedido #: EX-2026-847291</p>
+            <div class="int-mini-pay-summary">Total · $475.020</div>
+            <div class="int-mini-confirm-pay">Click to Pay · Mastercard •••• 8785</div>
           </div>
         </div>
       </div>
     </div>
+  </section>
 
-    <div class="int-arrow"></div>
+  <!-- ════ CASO 2 · RECONOCIDO POR CORREO/TELÉFONO ════ -->
+  <section class="case-section" id="case-unrecog">
+    <h3 class="flow-title">Caso 2 · Reconocido por correo / teléfono</h3>
+    <p class="flow-lead">El dispositivo no está reconocido pero el correo / teléfono sí tiene un perfil Click to Pay. El integrador identifica al usuario, valida con un OTP y muestra las tarjetas tokenizadas.</p>
 
-    <!-- ════ Paso 2 ════ -->
-    <div class="int-step">
-      <div class="int-step-title">Paso 2</div>
-      <p>Tras los primeros 4 dígitos de la tarjeta, el integrador monta el componente <em>SRC Consent</em>, que recoge el consentimiento de inscripción junto con Términos y Aviso de Privacidad.</p>
-    </div>
-    <div class="int-phone">
-      <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
-      <div class="int-phone-screen">
-        <div class="int-mini-header">éxito<em>.</em></div>
-        <div class="int-mini-body">
-          <div class="int-mini-field">
-            <label>Número de tarjeta</label>
-            <div class="int-mini-input">5555 ▮▮▮▮ ▮▮▮▮ ▮▮▮▮</div>
+    <div class="int-flow">
+      <div class="int-header-block">
+        <div class="int-icon" aria-hidden="true">⚙</div>
+        <div class="int-h">Integración</div>
+      </div>
+
+      <div class="int-step">
+        <div class="int-step-title">Paso 1</div>
+        <p>El integrador llama a <em>init()</em>, <em>isRecognized()</em> (false) y <em>idLookup(email)</em>. SRC encuentra el perfil pero el dispositivo no está reconocido.</p>
+      </div>
+      <div class="int-phone">
+        <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
+        <div class="int-phone-screen">
+          <div class="int-mini-header">éxito<em>.</em></div>
+          <div class="int-mini-body">
+            <div class="int-mini-subtitle">Pago</div>
+            <div class="int-mini-cardloader">
+              <div class="int-mini-spinner">
+                <span class="int-mini-ring"></span>
+                <svg width="18" height="20" viewBox="0 0 42 46" fill="none" aria-label="Seguro">
+                  <path d="M21 3 L37 8.5 V21 C37 32 30 39.5 21 43 C12 39.5 5 32 5 21 V8.5 Z" fill="none" stroke="#9aa0a6" stroke-width="2" stroke-linejoin="round"/>
+                  <rect x="14.5" y="21" width="13" height="10.5" rx="2.2" fill="none" stroke="#9aa0a6" stroke-width="2"/>
+                  <path d="M17 21 V17.5 a4 4 0 0 1 8 0 V21" fill="none" stroke="#9aa0a6" stroke-width="2"/>
+                </svg>
+              </div>
+              <p>Click to Pay está buscando tus tarjetas vinculadas…</p>
+            </div>
           </div>
-          <div class="int-mini-field-row">
-            <div class="int-mini-field"><label>Vence</label><div class="int-mini-input">02 / 27</div></div>
-            <div class="int-mini-field"><label>CVC</label><div class="int-mini-input">•••</div></div>
+        </div>
+      </div>
+
+      <div class="int-arrow"></div>
+
+      <div class="int-step">
+        <div class="int-step-title">Paso 2</div>
+        <p>Se monta el componente <em>&lt;src-otp-input&gt;</em> con <em>loadSupportedValidationChannels</em> (SMS / EMAIL). El usuario ingresa el código y se invoca <em>validate(otpCode)</em>.</p>
+      </div>
+      <div class="int-phone">
+        <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
+        <div class="int-phone-screen">
+          <div class="int-mini-header">éxito<em>.</em></div>
+          <div class="int-mini-body">
+            <div class="int-mini-otp-id">li••••@gmail.com <span class="int-mini-not-you">¿No eres tú?</span></div>
+            <div class="int-mini-otp-h1">Click to Pay encontró tus tarjetas</div>
+            <div class="int-mini-otp-h2">Código enviado a <strong>+57 ••• 9966</strong></div>
+            <div class="int-mini-otp-boxes">
+              <span>7</span><span>6</span><span>2</span><span>0</span><span>9</span><span>4</span>
+            </div>
+            <div class="int-mini-otp-resend">Reenviar: <u>Móvil</u> | <u>Email</u></div>
+            <div class="int-mini-otp-remember"><span class="int-mini-chk">✓</span> Recordarme en este navegador</div>
+            <div class="int-mini-pay-green">Continuar</div>
           </div>
-          <div class="int-mini-consent">
-            <span class="ic-chk">✓</span>
-            <span>Guardar mi info con <strong>Click to Pay</strong></span>
+        </div>
+      </div>
+
+      <div class="int-arrow"></div>
+
+      <div class="int-step">
+        <div class="int-step-title">Paso 3</div>
+        <p><em>getCards()</em> devuelve las tarjetas tokenizadas; el usuario selecciona una y el integrador llama a <em>checkoutWithCard(srcDigitalCardId, ComplianceSettings)</em>.</p>
+      </div>
+      <div class="int-phone">
+        <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
+        <div class="int-phone-screen">
+          <div class="int-mini-header">éxito<em>.</em></div>
+          <div class="int-mini-body">
+            <div class="int-mini-pm-row">
+              <svg width="14" height="10" viewBox="0 0 40 28" fill="none" aria-label="Click to Pay">
+                <path d="M5 4 H20 L28 14 L20 24 H5 Z" fill="#111" stroke="#111" stroke-width="3" stroke-linejoin="round"/>
+                <path d="M31 7 C35 11 35 17 31 21" fill="none" stroke="#111" stroke-width="3" stroke-linecap="round"/>
+              </svg>
+              <span>Crédito/Débito</span>
+              <svg width="16" height="11" viewBox="0 0 34 22" fill="none" aria-label="Mastercard" style="margin-left:auto;"><circle cx="12" cy="11" r="10" fill="#EB001B"/><circle cx="22" cy="11" r="10" fill="#F79E1B"/><path d="M17 4.8 A10 10 0 0 1 17 17.2 A10 10 0 0 1 17 4.8Z" fill="#FF5F00"/></svg>
+            </div>
+            <a class="int-mini-not-cards">¿No son tus tarjetas?</a>
+            <div class="int-mini-card-row sel">
+              <div class="int-mini-radio"><div class="int-mini-radio-dot"></div></div>
+              <div class="int-mini-card-art">
+                <svg width="36" height="22" viewBox="0 0 50 32" xmlns="http://www.w3.org/2000/svg" aria-label="Tarjeta">
+                  <rect width="50" height="32" rx="4" fill="#1a3026"/>
+                  <text x="4" y="11" font-family="Arial" font-size="5" fill="#F5A800" font-weight="800">éxito</text>
+                  <circle cx="36" cy="22" r="5" fill="#EB001B"/>
+                  <circle cx="41" cy="22" r="5" fill="#F79E1B"/>
+                </svg>
+              </div>
+              <div class="int-mini-card-meta">
+                <div class="int-mini-card-meta-name">Mastercard Platinum</div>
+                <div class="int-mini-card-meta-num">•••• 4892</div>
+              </div>
+            </div>
+            <div class="int-mini-more">Más tarjetas (+2)</div>
+            <div class="int-mini-divider"></div>
+            <div class="int-mini-card-row">
+              <div class="int-mini-radio"><div class="int-mini-radio-dot"></div></div>
+              <span>Ingresar tarjeta manualmente</span>
+            </div>
+            <div class="int-mini-pay-green" style="margin-top:8px;">🔒 Pagar $475.020</div>
           </div>
-          <div class="int-mini-pay">🔒 Pagar $475.020</div>
+        </div>
+      </div>
+
+      <div class="int-arrow"></div>
+
+      <div class="int-step">
+        <div class="int-step-title">Paso 4</div>
+        <p>El backend autoriza el pago (server-side + <em>3DS</em>) y Éxito muestra al consumidor la página de pedido confirmado.</p>
+      </div>
+      <div class="int-phone">
+        <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
+        <div class="int-phone-screen">
+          <div class="int-mini-header">éxito<em>.</em></div>
+          <div class="int-mini-confirm">
+            <div class="int-mini-check">✓</div>
+            <div class="int-mini-confirm-title">¡Tu pedido está confirmado!</div>
+            <p>Pedido #: EX-2026-847291</p>
+            <div class="int-mini-pay-summary">Total · $475.020</div>
+            <div class="int-mini-confirm-pay">Click to Pay · Mastercard •••• 4892</div>
+          </div>
         </div>
       </div>
     </div>
+  </section>
 
-    <div class="int-arrow"></div>
+  <!-- ════ CASO 3 · USUARIO RECONOCIDO ════ -->
+  <section class="case-section" id="case-recog">
+    <h3 class="flow-title">Caso 3 · Usuario reconocido</h3>
+    <p class="flow-lead">Dispositivo de confianza: el integrador recupera las tarjetas al instante y no requiere OTP.</p>
+    <div class="case-stub">Diagrama por construir — pasos: <em>init()</em> + <em>isRecognized()</em> (true) → <em>getCards()</em> → <em>checkoutWithCard()</em>.</div>
+  </section>
 
-    <!-- ════ Paso 3 ════ -->
-    <div class="int-step">
-      <div class="int-step-title">Paso 3</div>
-      <p>Al pulsar Pagar, el integrador llama a <em>encryptCard()</em> para cifrar la tarjeta y a <em>checkoutWithNewCard()</em> con <em>ComplianceSettings</em> para procesar el pago e inscribir el perfil.</p>
-    </div>
-    <div class="int-phone">
-      <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
-      <div class="int-phone-screen int-dcf-screen">
-        <div class="int-mini-dcf-mark">
-          <svg width="18" height="13" viewBox="0 0 40 28" fill="none" aria-label="Click to Pay">
-            <path d="M5 4 H20 L28 14 L20 24 H5 Z" fill="#111" stroke="#111" stroke-width="3" stroke-linejoin="round"/>
-            <path d="M31 7 C35 11 35 17 31 21" fill="none" stroke="#111" stroke-width="3" stroke-linecap="round"/>
-          </svg>
-          <span class="ic-sep"></span>
-          <svg width="20" height="13" viewBox="0 0 34 22" fill="none" aria-label="Mastercard"><circle cx="12" cy="11" r="10" fill="#EB001B"/><circle cx="22" cy="11" r="10" fill="#F79E1B"/><path d="M17 4.8 A10 10 0 0 1 17 17.2 A10 10 0 0 1 17 4.8Z" fill="#FF5F00"/></svg>
-        </div>
-        <div class="int-mini-dcf-body">
-          <svg class="int-mini-mc-big" width="48" height="30" viewBox="0 0 64 40" fill="none" aria-label="Mastercard"><circle cx="24" cy="20" r="18" fill="#EB001B"/><circle cx="40" cy="20" r="18" fill="#F79E1B"/><path d="M32 6.5 A18 18 0 0 1 32 33.5 A18 18 0 0 1 32 6.5Z" fill="#FF5F00"/></svg>
-          <div class="int-mini-dcf-text"><strong>Creando tu perfil<br>Click to Pay…</strong></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="int-arrow"></div>
-
-    <!-- ════ Paso 4 ════ -->
-    <div class="int-step">
-      <div class="int-step-title">Paso 4</div>
-      <p>El backend autoriza el pago (server-side + <em>3DS</em>) y Éxito muestra al consumidor la página de pedido confirmado.</p>
-    </div>
-    <div class="int-phone">
-      <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
-      <div class="int-phone-screen">
-        <div class="int-mini-header">éxito<em>.</em></div>
-        <div class="int-mini-confirm">
-          <div class="int-mini-check">✓</div>
-          <div class="int-mini-confirm-title">¡Tu pedido está confirmado!</div>
-          <p>Pedido #: EX-2026-847291</p>
-          <div class="int-mini-pay-summary">Total · $475.020</div>
-          <div class="int-mini-confirm-pay">Click to Pay · Mastercard •••• 8785</div>
-        </div>
-      </div>
-    </div>
-
-  </div>
+  <!-- ════ CASO 4 · AGREGAR NUEVA TARJETA ════ -->
+  <section class="case-section" id="case-addcard">
+    <h3 class="flow-title">Caso 4 · Agregar nueva tarjeta</h3>
+    <p class="flow-lead">Un usuario reconocido añade una nueva tarjeta a su billetera Click to Pay.</p>
+    <div class="case-stub">Diagrama por construir — pasos: <em>encryptCard()</em> → <em>checkoutWithNewCard()</em> + <em>ComplianceSettings</em>.</div>
+  </section>
 </section>
+
+<script>
+  /* Sub-menú de casos en la página Métodos */
+  function showCase(c) {
+    ['new', 'unrecog', 'recog', 'addcard'].forEach(function (k) {
+      var sec = document.getElementById('case-' + k);
+      if (sec) sec.classList.toggle('active', k === c);
+      var tab = document.getElementById('case-tab-' + k);
+      if (tab) tab.classList.toggle('active', k === c);
+    });
+  }
+</script>
 
 </body>
 </html>
