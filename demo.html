@@ -199,33 +199,118 @@
 
                 <!-- ════ CASO 2 · RECONOCIDO POR CORREO / TELÉFONO ════ -->
                 <div class="uc-panel" id="uc-unrecog">
-                  <div class="c2p-step-title">Confirma tu identidad</div>
-                  <div class="c2p-step-desc">Te identificamos por tu correo o celular. Te enviaremos un código de un solo uso (OTP) para confirmar que eres tú.</div>
-                  <div class="modal-field">
-                    <label>Correo o celular</label>
-                    <input type="text" value="linacastrillon@gmail.com">
+
+                  <!-- Card Loader (común a todos los flujos) -->
+                  <div class="ru-step active" id="ru-loader">
+                    <div class="cardloader">
+                      <div class="cl-body">
+                        <div class="cl-text">Click to Pay is looking for your linked cards...</div>
+                        <div class="cl-spinner">
+                          <span class="cl-ring"></span>
+                          <svg class="cl-shield" width="34" height="38" viewBox="0 0 42 46" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Buscando de forma segura">
+                            <path d="M21 3 L37 8.5 V21 C37 32 30 39.5 21 43 C12 39.5 5 32 5 21 V8.5 Z" fill="none" stroke="#9aa0a6" stroke-width="2" stroke-linejoin="round"/>
+                            <rect x="14.5" y="21" width="13" height="10.5" rx="2.2" fill="none" stroke="#9aa0a6" stroke-width="2"/>
+                            <path d="M17 21 V17.5 a4 4 0 0 1 8 0 V21" fill="none" stroke="#9aa0a6" stroke-width="2"/>
+                            <circle cx="21" cy="25.4" r="1.7" fill="#9aa0a6"/>
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div style="font-size:12px;font-weight:700;color:#555;text-transform:uppercase;letter-spacing:.4px;margin:2px 0 8px;">Enviar código por:</div>
-                  <div class="otp-via">
-                    <button class="via-btn sel" type="button" onclick="selVia(this)"><span class="via-icon">💬</span>SMS<br>••••7234</button>
-                    <button class="via-btn" type="button" onclick="selVia(this)"><span class="via-icon">📧</span>Email</button>
-                    <button class="via-btn" type="button" onclick="selVia(this)"><span class="via-icon">💚</span>WhatsApp</button>
+
+                  <!-- Identidad encontrada · enviar OTP -->
+                  <div class="ru-step" id="ru-identity">
+                    <div class="recog-banner">
+                      <div class="recog-icon">✉️</div>
+                      <div>
+                        <div class="recog-title">¡Hola de nuevo!</div>
+                        <div class="recog-sub">Encontramos tu perfil Click to Pay</div>
+                      </div>
+                    </div>
+                    <div class="c2p-step-title">Confirma tu identidad</div>
+                    <div class="c2p-step-desc">Te enviaremos un código de un solo uso a uno de tus canales registrados para confirmar que eres tú.</div>
+                    <div class="modal-field">
+                      <label>Cuenta detectada</label>
+                      <input type="text" value="li••••••on@gmail.com" disabled>
+                    </div>
+                    <div class="ru-via-label">Enviar código por:</div>
+                    <div class="otp-via">
+                      <button class="via-btn sel" type="button" onclick="selVia(this)"><span class="via-icon">💬</span>SMS<br>••••9966</button>
+                      <button class="via-btn" type="button" onclick="selVia(this)"><span class="via-icon">📧</span>Email</button>
+                      <button class="via-btn" type="button" onclick="selVia(this)"><span class="via-icon">💚</span>WhatsApp</button>
+                    </div>
+                    <button class="btn-c2p-primary" type="button" onclick="ruSendCode()">Enviar código</button>
+                    <div class="not-you">¿No eres Lina? <a href="#" onclick="return false;">Cerrar sesión</a></div>
                   </div>
-                  <div class="otp-boxes">
-                    <input class="otp-box" type="text" inputmode="numeric" maxlength="1" oninput="otpNext(this)">
-                    <input class="otp-box" type="text" inputmode="numeric" maxlength="1" oninput="otpNext(this)">
-                    <input class="otp-box" type="text" inputmode="numeric" maxlength="1" oninput="otpNext(this)">
-                    <input class="otp-box" type="text" inputmode="numeric" maxlength="1" oninput="otpNext(this)">
-                    <input class="otp-box" type="text" inputmode="numeric" maxlength="1" oninput="otpNext(this)">
-                    <input class="otp-box" type="text" inputmode="numeric" maxlength="1" oninput="otpNext(this)">
+
+                  <!-- Ingresar OTP -->
+                  <div class="ru-step" id="ru-otp">
+                    <div class="c2p-step-title">Código de verificación</div>
+                    <div class="c2p-step-desc">Ingresa el código de 6 dígitos que enviamos a tu SMS <strong>••••9966</strong>.</div>
+                    <div class="otp-boxes">
+                      <input class="otp-box" type="text" inputmode="numeric" maxlength="1" onfocus="ruFillOTP()" oninput="ruOtpNext(this)">
+                      <input class="otp-box" type="text" inputmode="numeric" maxlength="1" oninput="ruOtpNext(this)">
+                      <input class="otp-box" type="text" inputmode="numeric" maxlength="1" oninput="ruOtpNext(this)">
+                      <input class="otp-box" type="text" inputmode="numeric" maxlength="1" oninput="ruOtpNext(this)">
+                      <input class="otp-box" type="text" inputmode="numeric" maxlength="1" oninput="ruOtpNext(this)">
+                      <input class="otp-box" type="text" inputmode="numeric" maxlength="1" oninput="ruOtpNext(this)">
+                    </div>
+                    <div class="otp-resend">¿No recibiste el código? <a onclick="ruResend()">Reenviar</a> &nbsp;·&nbsp; <span id="ru-otp-timer">0:59</span></div>
+                    <button class="btn-c2p-primary" type="button" onclick="ruVerifyOTP()">Verificar</button>
+                    <div class="c2p-legal">El código expira en 10 minutos. Nunca lo compartas con nadie.</div>
                   </div>
-                  <button class="btn-c2p-primary" type="button">Verificar y ver mis tarjetas</button>
-                  <div class="c2p-legal">El código expira en 10 minutos. Nunca lo compartas con nadie.</div>
-                  <div class="api-note">
-                    <span class="api-badge">SRC</span>
-                    <div><span class="cmt">// identificación por correo/celular y validación OTP</span><br>
-                    src.<span class="m">idLookup()</span> <span class="arr">→</span> src.<span class="m">initiateValidation()</span> <span class="arr">→</span> src.<span class="m">validate()</span> <span class="arr">→</span> src.<span class="m">getCards()</span></div>
+
+                  <!-- Tarjetas guardadas + pago -->
+                  <div class="ru-step" id="ru-cards">
+                    <div class="recog-banner">
+                      <div class="recog-icon">✅</div>
+                      <div>
+                        <div class="recog-title">¡Hola, Lina!</div>
+                        <div class="recog-sub">Identidad verificada · tus tarjetas Click to Pay</div>
+                      </div>
+                    </div>
+                    <div class="c2p-step-title">Selecciona una tarjeta</div>
+                    <div class="c2p-step-desc">Total a pagar: <strong>$475.020</strong></div>
+                    <div class="card-list">
+                      <div class="c2p-card-item sel" onclick="pickCard(this)">
+                        <svg width="48" height="30" viewBox="0 0 34 22" fill="none"><circle cx="12" cy="11" r="10" fill="#EB001B"/><circle cx="22" cy="11" r="10" fill="#F79E1B"/><path d="M17 4.8 A10 10 0 0 1 17 17.2 A10 10 0 0 1 17 4.8Z" fill="#FF5F00"/></svg>
+                        <div class="c2p-card-info">
+                          <div class="c2p-card-name">Mastercard Platinum</div>
+                          <div class="c2p-card-num">•••• •••• •••• 4892</div>
+                          <div class="c2p-card-exp">Vence 03/27</div>
+                        </div>
+                        <div class="radio-circle"><div class="radio-dot"></div></div>
+                      </div>
+                      <div class="c2p-card-item" onclick="pickCard(this)">
+                        <svg width="48" height="30" viewBox="0 0 36 22" fill="none"><rect width="36" height="22" rx="3" fill="#1A1F71"/><text x="18" y="15.5" text-anchor="middle" font-family="Arial Black" font-weight="900" font-size="11" fill="white">VISA</text></svg>
+                        <div class="c2p-card-info">
+                          <div class="c2p-card-name">Visa Signature</div>
+                          <div class="c2p-card-num">•••• •••• •••• 3310</div>
+                          <div class="c2p-card-exp">Vence 11/26</div>
+                        </div>
+                        <div class="radio-circle"><div class="radio-dot"></div></div>
+                      </div>
+                      <div class="c2p-card-item" onclick="pickCard(this)">
+                        <svg width="48" height="30" viewBox="0 0 34 22" fill="none"><rect width="34" height="22" rx="3" fill="#007BC1"/><text x="17" y="15" text-anchor="middle" font-family="Arial Black" font-weight="900" font-size="8" fill="white">AMEX</text></svg>
+                        <div class="c2p-card-info">
+                          <div class="c2p-card-name">Amex Gold Card</div>
+                          <div class="c2p-card-num">•••• •••••• •7241</div>
+                          <div class="c2p-card-exp">Vence 08/28</div>
+                        </div>
+                        <div class="radio-circle"><div class="radio-dot"></div></div>
+                      </div>
+                    </div>
+                    <div class="cvv-section">
+                      <label>CVV de la tarjeta seleccionada</label>
+                      <div class="cvv-wrap">
+                        <input type="password" placeholder="•••" maxlength="4" onfocus="this.value='123'">
+                        <span class="cvv-hint">Requerido por el banco<br>emisor de tu tarjeta.</span>
+                      </div>
+                    </div>
+                    <button class="btn-c2p-primary" type="button" onclick="payClickToPay('existing')">🔒 Pagar $475.020</button>
+                    <div class="not-you">¿No son tus tarjetas? <a href="#" onclick="return false;">Cerrar sesión</a></div>
                   </div>
+
                 </div>
 
                 <!-- ════ CASO 3 · USUARIO RECONOCIDO ════ -->
@@ -560,8 +645,10 @@
 <script>
   var currentFlow = 'new';
   var nuTimer = null;
+  var ruTimer = null;
+  var ruOtpInterval = null;
 
-  /* Selector de casos de uso: resalta la pestaña y muestra su panel en el lienzo */
+  /* Selector de casos de uso: resalta la pestaña, muestra su panel y arranca el flujo */
   function setFlow(f) {
     currentFlow = f;
     ['new', 'unrecog', 'recog', 'addcard'].forEach(function (t) {
@@ -570,8 +657,12 @@
       var panel = document.getElementById('uc-' + t);
       if (panel) panel.classList.toggle('active', t === f);
     });
-    if (f === 'new') { if (isCardOpen()) startNewUserFlow(); }
-    else { clearTimeout(nuTimer); closeNuWelcome(); }
+    if (f !== 'new')     { clearTimeout(nuTimer); closeNuWelcome(); }
+    if (f !== 'unrecog') { clearTimeout(ruTimer); clearInterval(ruOtpInterval); }
+    if (isCardOpen()) {
+      if (f === 'new')     startNewUserFlow();
+      else if (f === 'unrecog') startUnrecogFlow();
+    }
   }
 
   /* Acordeón de métodos de pago (estilo Éxito) */
@@ -640,15 +731,25 @@
       var e = document.getElementById(s); if (e) e.classList.toggle('active', s === id);
     });
   }
-  function payNewUser() {
+  function payClickToPay(kind) {
     dcfTimers.forEach(clearTimeout); dcfTimers = [];
     var o = document.getElementById('dcf-overlay'); if (!o) return;
+    // Textos según el flujo: nuevo perfil (caso 1) vs perfil existente (caso 2)
+    var texts = (kind === 'new')
+      ? { s2: 'Creando tu perfil Click to Pay…',
+          s3: '<strong>Creaste un perfil Click to Pay</strong><br><br>Volviendo a Éxito…' }
+      : { s2: 'Procesando tu pago…',
+          s3: '<strong>¡Pago aprobado!</strong><br><br>Volviendo a Éxito…' };
+    var t2 = document.querySelector('#dcf-2 .dcf-text'); if (t2) t2.innerHTML = texts.s2;
+    var t3 = document.querySelector('#dcf-3 .dcf-text'); if (t3) t3.innerHTML = texts.s3;
     o.classList.add('open');
     dcfState('dcf-1');                                                            // Asegurando el pago…
-    dcfTimers.push(setTimeout(function () { dcfState('dcf-2'); }, 1600));         // Creando el perfil…
-    dcfTimers.push(setTimeout(function () { dcfState('dcf-3'); }, 3400));         // Perfil creado ✓
-    dcfTimers.push(setTimeout(function () { o.classList.remove('open'); openExConfirm(); }, 6000)); // Volviendo a Éxito…
+    dcfTimers.push(setTimeout(function () { dcfState('dcf-2'); }, 1600));
+    dcfTimers.push(setTimeout(function () { dcfState('dcf-3'); }, 3400));
+    dcfTimers.push(setTimeout(function () { o.classList.remove('open'); openExConfirm(); }, 6000));
   }
+  /* Caso 1: el botón Pagar conserva su nombre como alias del flujo "new" */
+  function payNewUser() { payClickToPay('new'); }
   function openExConfirm() {
     var e = document.getElementById('ex-confirm'); if (e) e.classList.add('open');
   }
@@ -656,12 +757,70 @@
     var e = document.getElementById('ex-confirm'); if (e) e.classList.remove('open');
   }
 
-  /* Abrir "Tarjeta crédito o débito": en el caso Nuevo usuario arranca el card loader */
+  /* Abrir "Tarjeta crédito o débito": arranca el flujo del caso activo */
   function openCard(header) {
     var item = header.closest('.pm-item');
     var willOpen = !item.classList.contains('open');
     togglePM(header);
-    if (willOpen && item.classList.contains('open') && currentFlow === 'new') startNewUserFlow();
+    if (willOpen && item.classList.contains('open')) {
+      if (currentFlow === 'new')          startNewUserFlow();
+      else if (currentFlow === 'unrecog') startUnrecogFlow();
+    }
+  }
+
+  /* ── Caso "Reconocido por correo/teléfono" (repeat user unrecognized · UCS) ── */
+  function ruShowStep(id) {
+    ['ru-loader', 'ru-identity', 'ru-otp', 'ru-cards'].forEach(function (s) {
+      var e = document.getElementById(s);
+      if (e) e.classList.toggle('active', s === id);
+    });
+  }
+  function startUnrecogFlow() {
+    clearTimeout(ruTimer); clearInterval(ruOtpInterval);
+    ruResetOtp();
+    ruShowStep('ru-loader');                                  // 04 · Card Loader
+    ruTimer = setTimeout(function () { ruShowStep('ru-identity'); }, 1800);  // → identidad encontrada
+  }
+  function ruSendCode() {
+    clearTimeout(ruTimer);
+    ruShowStep('ru-otp');                                     // → ingresar OTP
+    ruStartOtpTimer();
+    setTimeout(function () { var f = document.querySelector('#ru-otp .otp-box'); if (f) f.focus(); }, 80);
+  }
+  function ruOtpNext(box) {
+    box.value = box.value.replace(/\D/g, '').slice(0, 1);
+    box.classList.toggle('filled', !!box.value);
+    if (box.value && box.nextElementSibling && box.nextElementSibling.classList.contains('otp-box')) box.nextElementSibling.focus();
+  }
+  /* Simulación: al hacer clic en la primera casilla del OTP se rellena con 6 dígitos aleatorios */
+  function ruFillOTP() {
+    var boxes = document.querySelectorAll('#ru-otp .otp-box');
+    if (!boxes.length || boxes[0].value) return;
+    boxes.forEach(function (b) { b.value = Math.floor(Math.random() * 10); b.classList.add('filled'); });
+  }
+  function ruVerifyOTP() {
+    clearInterval(ruOtpInterval);
+    ruShowStep('ru-cards');                                   // → tarjetas guardadas
+  }
+  function ruResetOtp() {
+    document.querySelectorAll('#ru-otp .otp-box').forEach(function (b) { b.value = ''; b.classList.remove('filled'); });
+  }
+  function ruResend() {
+    ruResetOtp();
+    ruStartOtpTimer();
+    var f = document.querySelector('#ru-otp .otp-box'); if (f) f.focus();
+  }
+  function ruStartOtpTimer() {
+    clearInterval(ruOtpInterval);
+    var s = 59;
+    var el = document.getElementById('ru-otp-timer');
+    if (el) el.textContent = '0:59';
+    ruOtpInterval = setInterval(function () {
+      s--;
+      var m = Math.floor(s / 60), sec = s % 60;
+      if (el) el.textContent = m + ':' + (sec < 10 ? '0' : '') + sec;
+      if (s <= 0) clearInterval(ruOtpInterval);
+    }, 1000);
   }
 
   /* Selección de tarjeta en la lista (caso 3) */

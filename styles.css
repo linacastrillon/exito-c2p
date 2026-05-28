@@ -981,6 +981,9 @@
   /* Pasos del caso 1 (loader → entrada manual + consentimiento) */
   .nu-step { display:none; }
   .nu-step.active { display:block; animation:fadeIn .18s ease; }
+  .ru-step { display:none; }
+  .ru-step.active { display:block; animation:fadeIn .18s ease; }
+  .ru-via-label { font-size:12px; font-weight:700; color:#555; text-transform:uppercase; letter-spacing:.4px; margin:2px 0 8px; }
   /* Caja de consentimiento de inscripción (05.2) */
   .nu-consent { background:#F7F7F8; border-radius:10px; padding:14px 16px; margin:8px 0 16px; }
   .nu-consent-marks { display:flex; align-items:center; gap:9px; margin-bottom:12px; }
