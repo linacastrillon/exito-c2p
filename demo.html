@@ -218,46 +218,40 @@
                     </div>
                   </div>
 
-                  <!-- Identidad encontrada · enviar OTP -->
-                  <div class="ru-step" id="ru-identity">
-                    <div class="recog-banner">
-                      <div class="recog-icon">✉️</div>
-                      <div>
-                        <div class="recog-title">¡Hola de nuevo!</div>
-                        <div class="recog-sub">Encontramos tu perfil Click to Pay</div>
-                      </div>
-                    </div>
-                    <div class="c2p-step-title">Confirma tu identidad</div>
-                    <div class="c2p-step-desc">Te enviaremos un código de un solo uso a uno de tus canales registrados para confirmar que eres tú.</div>
-                    <div class="modal-field">
-                      <label>Cuenta detectada</label>
-                      <input type="text" value="li••••••on@gmail.com" disabled>
-                    </div>
-                    <div class="ru-via-label">Enviar código por:</div>
-                    <div class="otp-via">
-                      <button class="via-btn sel" type="button" onclick="selVia(this)"><span class="via-icon">💬</span>SMS<br>••••9966</button>
-                      <button class="via-btn" type="button" onclick="selVia(this)"><span class="via-icon">📧</span>Email</button>
-                      <button class="via-btn" type="button" onclick="selVia(this)"><span class="via-icon">💚</span>WhatsApp</button>
-                    </div>
-                    <button class="btn-c2p-primary" type="button" onclick="ruSendCode()">Enviar código</button>
-                    <div class="not-you">¿No eres Lina? <a href="#" onclick="return false;">Cerrar sesión</a></div>
-                  </div>
-
-                  <!-- Ingresar OTP -->
+                  <!-- OTP · patrón CX Guide (One-time passcode) -->
                   <div class="ru-step" id="ru-otp">
-                    <div class="c2p-step-title">Código de verificación</div>
-                    <div class="c2p-step-desc">Ingresa el código de 6 dígitos que enviamos a tu SMS <strong>••••9966</strong>.</div>
+                    <!-- 1. Display ID enmascarado + 2. ¿No eres tú? -->
+                    <div class="ru-id-row">
+                      <span class="ru-id-masked">li••••••on@gmail.com</span>
+                      <a class="ru-not-you" href="#" onclick="return false;">¿No eres tú?</a>
+                    </div>
+                    <!-- 3. H1 -->
+                    <div class="c2p-step-title">Click to Pay encontró tus tarjetas vinculadas</div>
+                    <!-- 4. H2 -->
+                    <div class="c2p-step-desc">Ingresa el código que Mastercard envió a <strong>+57&nbsp;•••&nbsp;•••&nbsp;9966</strong> para confirmar que eres tú.</div>
+                    <!-- 5. Passcode input -->
                     <div class="otp-boxes">
                       <input class="otp-box" type="text" inputmode="numeric" maxlength="1" onfocus="ruFillOTP()" oninput="ruOtpNext(this)">
-                      <input class="otp-box" type="text" inputmode="numeric" maxlength="1" oninput="ruOtpNext(this)">
-                      <input class="otp-box" type="text" inputmode="numeric" maxlength="1" oninput="ruOtpNext(this)">
-                      <input class="otp-box" type="text" inputmode="numeric" maxlength="1" oninput="ruOtpNext(this)">
-                      <input class="otp-box" type="text" inputmode="numeric" maxlength="1" oninput="ruOtpNext(this)">
-                      <input class="otp-box" type="text" inputmode="numeric" maxlength="1" oninput="ruOtpNext(this)">
+                      <input class="otp-box" type="text" inputmode="numeric" maxlength="1" onfocus="ruFillOTP()" oninput="ruOtpNext(this)">
+                      <input class="otp-box" type="text" inputmode="numeric" maxlength="1" onfocus="ruFillOTP()" oninput="ruOtpNext(this)">
+                      <input class="otp-box" type="text" inputmode="numeric" maxlength="1" onfocus="ruFillOTP()" oninput="ruOtpNext(this)">
+                      <input class="otp-box" type="text" inputmode="numeric" maxlength="1" onfocus="ruFillOTP()" oninput="ruOtpNext(this)">
+                      <input class="otp-box" type="text" inputmode="numeric" maxlength="1" onfocus="ruFillOTP()" oninput="ruOtpNext(this)">
                     </div>
-                    <div class="otp-resend">¿No recibiste el código? <a onclick="ruResend()">Reenviar</a> &nbsp;·&nbsp; <span id="ru-otp-timer">0:59</span></div>
-                    <button class="btn-c2p-primary" type="button" onclick="ruVerifyOTP()">Verificar</button>
-                    <div class="c2p-legal">El código expira en 10 minutos. Nunca lo compartas con nadie.</div>
+                    <!-- 6. Reenviar código -->
+                    <div class="ru-resend">Reenviar código: <a onclick="ruResend('mobile')">Móvil</a> <span class="ru-resend-sep">|</span> <a onclick="ruResend('email')">Email</a> <span class="ru-resend-timer">· <span id="ru-otp-timer">0:59</span></span></div>
+                    <!-- 7. Recordarme en este navegador -->
+                    <div class="ru-remember">
+                      <input type="checkbox" id="ru-remember-chk" checked>
+                      <label for="ru-remember-chk">Recordarme en este navegador</label>
+                      <button class="info-i" type="button" onclick="ruToggleTip()" aria-label="¿Por qué?">i</button>
+                    </div>
+                    <div class="ru-tip" id="ru-tip">Usaremos una cookie para recordarte y que puedas acceder a tus tarjetas sin volver a ingresar el código.<br><br>No se recomienda en dispositivos públicos o compartidos. Consulta el aviso de privacidad de Éxito y de tu red de pago.</div>
+                    <!-- 8. CTA -->
+                    <button class="btn-c2p-primary" type="button" onclick="ruVerifyOTP()">Continuar</button>
+                    <!-- OR / entrada manual -->
+                    <div class="ru-or"><span>O bien</span></div>
+                    <div class="ru-manual"><a href="#" onclick="return false;">Ingresar tarjeta manualmente</a></div>
                   </div>
 
                   <!-- Tarjetas guardadas + pago -->
@@ -770,7 +764,7 @@
 
   /* ── Caso "Reconocido por correo/teléfono" (repeat user unrecognized · UCS) ── */
   function ruShowStep(id) {
-    ['ru-loader', 'ru-identity', 'ru-otp', 'ru-cards'].forEach(function (s) {
+    ['ru-loader', 'ru-otp', 'ru-cards'].forEach(function (s) {
       var e = document.getElementById(s);
       if (e) e.classList.toggle('active', s === id);
     });
@@ -778,21 +772,19 @@
   function startUnrecogFlow() {
     clearTimeout(ruTimer); clearInterval(ruOtpInterval);
     ruResetOtp();
+    var tip = document.getElementById('ru-tip'); if (tip) tip.classList.remove('show');
     ruShowStep('ru-loader');                                  // 04 · Card Loader
-    ruTimer = setTimeout(function () { ruShowStep('ru-identity'); }, 1800);  // → identidad encontrada
-  }
-  function ruSendCode() {
-    clearTimeout(ruTimer);
-    ruShowStep('ru-otp');                                     // → ingresar OTP
-    ruStartOtpTimer();
-    setTimeout(function () { var f = document.querySelector('#ru-otp .otp-box'); if (f) f.focus(); }, 80);
+    ruTimer = setTimeout(function () {                        // → OTP (CX Guide one-time passcode)
+      ruShowStep('ru-otp');
+      ruStartOtpTimer();
+    }, 1800);
   }
   function ruOtpNext(box) {
     box.value = box.value.replace(/\D/g, '').slice(0, 1);
     box.classList.toggle('filled', !!box.value);
     if (box.value && box.nextElementSibling && box.nextElementSibling.classList.contains('otp-box')) box.nextElementSibling.focus();
   }
-  /* Simulación: al hacer clic en la primera casilla del OTP se rellena con 6 dígitos aleatorios */
+  /* Simulación: al hacer clic en cualquier casilla del OTP se rellena con 6 dígitos aleatorios */
   function ruFillOTP() {
     var boxes = document.querySelectorAll('#ru-otp .otp-box');
     if (!boxes.length || boxes[0].value) return;
@@ -805,7 +797,7 @@
   function ruResetOtp() {
     document.querySelectorAll('#ru-otp .otp-box').forEach(function (b) { b.value = ''; b.classList.remove('filled'); });
   }
-  function ruResend() {
+  function ruResend(channel) {
     ruResetOtp();
     ruStartOtpTimer();
     var f = document.querySelector('#ru-otp .otp-box'); if (f) f.focus();
@@ -821,6 +813,10 @@
       if (el) el.textContent = m + ':' + (sec < 10 ? '0' : '') + sec;
       if (s <= 0) clearInterval(ruOtpInterval);
     }, 1000);
+  }
+  function ruToggleTip() {
+    var t = document.getElementById('ru-tip');
+    if (t) t.classList.toggle('show');
   }
 
   /* Selección de tarjeta en la lista (caso 3) */
