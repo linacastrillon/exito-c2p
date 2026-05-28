@@ -346,38 +346,57 @@
 
                 <!-- ════ CASO 4 · AGREGAR NUEVA TARJETA ════ -->
                 <div class="uc-panel" id="uc-addcard">
-                  <div class="recog-banner">
-                    <div class="recog-icon">✅</div>
-                    <div>
-                      <div class="recog-title">¡Hola, Lina!</div>
-                      <div class="recog-sub">Agrega una tarjeta a tu billetera Click to Pay</div>
+
+                  <!-- Card Loader (común a todos los flujos) -->
+                  <div class="ac-step active" id="ac-loader">
+                    <div class="cardloader">
+                      <div class="cl-body">
+                        <div class="cl-text">Click to Pay is looking for your linked cards...</div>
+                        <div class="cl-spinner">
+                          <span class="cl-ring"></span>
+                          <svg class="cl-shield" width="34" height="38" viewBox="0 0 42 46" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Buscando de forma segura">
+                            <path d="M21 3 L37 8.5 V21 C37 32 30 39.5 21 43 C12 39.5 5 32 5 21 V8.5 Z" fill="none" stroke="#9aa0a6" stroke-width="2" stroke-linejoin="round"/>
+                            <rect x="14.5" y="21" width="13" height="10.5" rx="2.2" fill="none" stroke="#9aa0a6" stroke-width="2"/>
+                            <path d="M17 21 V17.5 a4 4 0 0 1 8 0 V21" fill="none" stroke="#9aa0a6" stroke-width="2"/>
+                            <circle cx="21" cy="25.4" r="1.7" fill="#9aa0a6"/>
+                          </svg>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  <div class="c2p-step-title">Agregar nueva tarjeta</div>
-                  <div class="c2p-step-desc">Tus datos se cifran en tu dispositivo. Éxito nunca almacena el número de tu tarjeta.</div>
-                  <div class="modal-field">
-                    <label>Número de tarjeta</label>
-                    <input type="text" placeholder="0000 0000 0000 0000" maxlength="19" oninput="fmtCard(this)">
+
+                  <!-- Formulario para agregar nueva tarjeta a la billetera -->
+                  <div class="ac-step" id="ac-form">
+                    <div class="c2p-step-title">Agregar nueva tarjeta</div>
+                    <div class="c2p-step-desc">Tus datos se cifran en tu dispositivo. Éxito nunca almacena el número de tu tarjeta.</div>
+
+                    <div class="modal-field">
+                      <label>Número de tarjeta</label>
+                      <div class="field-relative">
+                        <input type="text" id="ac-cardnum" placeholder="0000 0000 0000 0000" maxlength="19" onfocus="acFill(this,'card')" oninput="fmtCard(this)">
+                        <div class="field-brands">
+                          <svg width="28" height="18" viewBox="0 0 34 22" fill="none" aria-label="Mastercard"><circle cx="12" cy="11" r="10" fill="#EB001B"/><circle cx="22" cy="11" r="10" fill="#F79E1B"/><path d="M17 4.8 A10 10 0 0 1 17 17.2 A10 10 0 0 1 17 4.8Z" fill="#FF5F00"/></svg>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="modal-field-row">
+                      <div class="modal-field"><label>Vencimiento</label><input type="text" placeholder="MM / AA" maxlength="7" onfocus="acFill(this,'exp')" oninput="fmtExp(this)"></div>
+                      <div class="modal-field"><label>CVC</label><input type="text" placeholder="•••" maxlength="4" onfocus="acFill(this,'cvc')"></div>
+                    </div>
+                    <div class="modal-field">
+                      <label>Nombre en la tarjeta</label>
+                      <input type="text" placeholder="Como aparece en tu tarjeta" onfocus="acFill(this,'name')">
+                    </div>
+
+                    <div class="check-row">
+                      <input type="checkbox" id="ac-save" checked>
+                      <label for="ac-save">Guardar esta tarjeta en mi billetera <strong>Click to Pay</strong></label>
+                    </div>
+
+                    <button class="btn-c2p-primary ac-pay" type="button" onclick="payClickToPay('existing')">🔒 Guardar y pagar $475.020</button>
+                    <div class="c2p-legal">Tu tarjeta se inscribe tokenizada en la red de pago. Aceptas los <a href="#" onclick="return false;">Términos</a> y la <a href="#" onclick="return false;">Política de privacidad</a> de Click to Pay.</div>
                   </div>
-                  <div class="modal-field-row">
-                    <div class="modal-field"><label>Vencimiento</label><input type="text" placeholder="MM / AA" maxlength="7" oninput="fmtExp(this)"></div>
-                    <div class="modal-field"><label>CVV</label><input type="text" placeholder="•••" maxlength="4"></div>
-                  </div>
-                  <div class="modal-field">
-                    <label>Nombre en la tarjeta</label>
-                    <input type="text" placeholder="Como aparece en tu tarjeta">
-                  </div>
-                  <div class="check-row">
-                    <input type="checkbox" id="uc-add-save" checked>
-                    <label for="uc-add-save">Guardar esta tarjeta en mi billetera Click to Pay</label>
-                  </div>
-                  <button class="btn-c2p-primary" type="button">Guardar y pagar $475.020</button>
-                  <div class="c2p-legal">Tu tarjeta se inscribe tokenizada en la red de pago. Aceptas los <a href="#" onclick="return false;">Términos</a> y la <a href="#" onclick="return false;">Política de privacidad</a> de Click to Pay.</div>
-                  <div class="api-note">
-                    <span class="api-badge">SRC</span>
-                    <div><span class="cmt">// usuario reconocido añade y tokeniza una tarjeta</span><br>
-                    src.<span class="m">encryptCard()</span> <span class="arr">→</span> src.<span class="m">checkoutWithNewCard()</span></div>
-                  </div>
+
                 </div>
 
               </div><!-- /usecase-canvas -->
@@ -630,6 +649,7 @@
   var ruTimer = null;
   var ruOtpInterval = null;
   var rgTimer = null;
+  var acTimer = null;
 
   /* Selector de casos de uso: resalta la pestaña, muestra su panel y arranca el flujo */
   function setFlow(f) {
@@ -643,10 +663,12 @@
     if (f !== 'new')     { clearTimeout(nuTimer); closeNuWelcome(); }
     if (f !== 'unrecog') { clearTimeout(ruTimer); clearInterval(ruOtpInterval); }
     if (f !== 'recog')   { clearTimeout(rgTimer); }
+    if (f !== 'addcard') { clearTimeout(acTimer); }
     if (isCardOpen()) {
       if (f === 'new')          startNewUserFlow();
       else if (f === 'unrecog') startUnrecogFlow();
       else if (f === 'recog')   startRecogFlow();
+      else if (f === 'addcard') startAddCardFlow();
     }
   }
 
@@ -758,6 +780,7 @@
       if (currentFlow === 'new')          startNewUserFlow();
       else if (currentFlow === 'unrecog') startUnrecogFlow();
       else if (currentFlow === 'recog')   startRecogFlow();
+      else if (currentFlow === 'addcard') startAddCardFlow();
     }
   }
 
@@ -779,6 +802,35 @@
     var rows = row.parentElement.querySelectorAll('.ru-card-row');
     rows.forEach(function (r) { r.classList.remove('sel'); });
     row.classList.add('sel');
+  }
+
+  /* ── Caso "Agregar nueva tarjeta" (usuario reconocido añade tarjeta a su billetera) ── */
+  function acShowStep(id) {
+    ['ac-loader', 'ac-form'].forEach(function (s) {
+      var e = document.getElementById(s);
+      if (e) e.classList.toggle('active', s === id);
+    });
+  }
+  function startAddCardFlow() {
+    clearTimeout(acTimer);
+    var form = document.getElementById('ac-form');
+    if (form) form.querySelectorAll('input[type="text"]').forEach(function (i) { i.value = ''; });
+    acShowStep('ac-loader');                                  // 04 · Card Loader
+    acTimer = setTimeout(function () { acShowStep('ac-form'); }, 1500);  // → formulario para nueva tarjeta
+  }
+  /* Simulación: al hacer clic en un campo se rellena con datos aleatorios */
+  function acFill(inp, type) {
+    if (inp.value) return;
+    if (type === 'card') {
+      inp.value = nuRand(16).replace(/(.{4})/g, '$1 ').trim();
+    } else if (type === 'exp') {
+      var mm = ('0' + (Math.floor(Math.random() * 12) + 1)).slice(-2);
+      inp.value = mm + ' / ' + (26 + Math.floor(Math.random() * 6));
+    } else if (type === 'cvc') {
+      inp.value = nuRand(3);
+    } else if (type === 'name') {
+      inp.value = 'LINA CASTRILLÓN';
+    }
   }
 
   /* ── Caso "Reconocido por correo/teléfono" (repeat user unrecognized · UCS) ── */
