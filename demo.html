@@ -311,14 +311,6 @@
 
                   <!-- Tarjetas (usuario reconocido · directo, sin OTP) -->
                   <div class="rg-step" id="rg-cards">
-                    <div class="recog-banner">
-                      <div class="recog-icon">✅</div>
-                      <div>
-                        <div class="recog-title">¡Hola, Lina!</div>
-                        <div class="recog-sub">Dispositivo de confianza · perfil Click to Pay activo</div>
-                      </div>
-                    </div>
-
                     <a class="ru-not-cards-link" href="#" onclick="return false;">¿No son tus tarjetas?</a>
 
                     <div class="ru-card-row sel" onclick="rgPickCard(this)">
@@ -515,6 +507,13 @@
       <li>Configúralo una vez para pagar sin complicaciones en el futuro</li>
     </ul>
     <button class="welcome-ok" onclick="closeNuWelcome()">OK</button>
+  </div>
+</div>
+
+<!-- Verificación adicional (3DS · placeholder controlado por el emisor) -->
+<div class="tds-overlay" id="tds-overlay">
+  <div class="tds-box">
+    <div class="tds-text">Puede requerirse verificación adicional</div>
   </div>
 </div>
 
@@ -732,7 +731,14 @@
     dcfState('dcf-1');                                                            // Asegurando el pago…
     dcfTimers.push(setTimeout(function () { dcfState('dcf-2'); }, 1600));
     dcfTimers.push(setTimeout(function () { dcfState('dcf-3'); }, 3400));
-    dcfTimers.push(setTimeout(function () { o.classList.remove('open'); openExConfirm(); }, 6000));
+    dcfTimers.push(setTimeout(function () { o.classList.remove('open'); openTDS(); }, 5600));        // 3DS · verificación adicional
+    dcfTimers.push(setTimeout(function () { closeTDS(); openExConfirm(); }, 8000));                  // → confirmación Éxito
+  }
+  function openTDS() {
+    var t = document.getElementById('tds-overlay'); if (t) t.classList.add('open');
+  }
+  function closeTDS() {
+    var t = document.getElementById('tds-overlay'); if (t) t.classList.remove('open');
   }
   /* Caso 1: el botón Pagar conserva su nombre como alias del flujo "new" */
   function payNewUser() { payClickToPay('new'); }

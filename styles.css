@@ -1042,6 +1042,12 @@
   .dcf-text strong { font-weight:800; }
   .dcf-foot { font-size:11px; letter-spacing:.1em; color:#9a9aa3; font-weight:700; }
 
+  /* ── Verificación adicional (3DS · placeholder del emisor / CX Guide) ── */
+  .tds-overlay { display:none; position:fixed; inset:0; z-index:760; background:rgba(0,0,0,.45); align-items:center; justify-content:center; padding:40px 24px; }
+  .tds-overlay.open { display:flex; animation:fadeIn .22s ease; }
+  .tds-box { background:#F4EBE6; border:2.5px dashed #E91E63; border-radius:6px; padding:80px 36px; max-width:380px; width:100%; min-height:460px; display:flex; align-items:center; justify-content:center; text-align:center; }
+  .tds-text { font-size:18px; font-weight:600; color:#52525b; line-height:1.5; }
+
   /* ── Pedido confirmado · página completa (estilo Éxito) · caso 1 ── */
   .ex-confirm-overlay { display:none; position:fixed; inset:0; z-index:750; background:#fff; overflow-y:auto; }
   .ex-confirm-overlay.open { display:block; }
