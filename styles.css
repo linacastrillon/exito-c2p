@@ -983,6 +983,8 @@
   .nu-step.active { display:block; animation:fadeIn .18s ease; }
   .ru-step { display:none; }
   .ru-step.active { display:block; animation:fadeIn .18s ease; }
+  .rg-step { display:none; }
+  .rg-step.active { display:block; animation:fadeIn .18s ease; }
   .ru-via-label { font-size:12px; font-weight:700; color:#555; text-transform:uppercase; letter-spacing:.4px; margin:2px 0 8px; }
   /* OTP · CX Guide (One-time passcode) — estilo Imagen #36 */
   .ru-id-row { display:flex; align-items:center; gap:10px; margin:2px 0 10px; padding:0; background:none; border:none; }
@@ -1006,9 +1008,9 @@
   .ru-remember .info-i:hover { background:#1d1d1f; }
   .ru-tip { display:none; background:#F7F7F8; border:1px solid #e0e0e6; border-radius:8px; padding:11px 14px; font-size:12px; color:#52525b; line-height:1.55; margin:6px 0 14px; }
   .ru-tip.show { display:block; animation:fadeIn .18s ease; }
-  /* Botón Continuar / Pagar del caso 2 — verde oscuro como Imagen #36 */
-  .ru-step .btn-c2p-primary { background:#2F5D5A; padding:15px; font-size:16px; border-radius:8px; }
-  .ru-step .btn-c2p-primary:hover { background:#1F4D4A; }
+  /* Botón Continuar / Pagar de los casos 2 y 3 — verde oscuro como Imagen #36 */
+  .ru-step .btn-c2p-primary, .rg-step .btn-c2p-primary { background:#2F5D5A; padding:15px; font-size:16px; border-radius:8px; }
+  .ru-step .btn-c2p-primary:hover, .rg-step .btn-c2p-primary:hover { background:#1F4D4A; }
   .ru-or { display:flex; align-items:center; gap:10px; margin:18px 0 12px; color:var(--gris-texto); font-size:12px; font-weight:600; }
   .ru-or::before, .ru-or::after { content:""; flex:1; height:1px; background:#E0E0E0; }
   .ru-manual { text-align:center; }

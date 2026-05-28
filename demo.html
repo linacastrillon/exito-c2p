@@ -290,58 +290,66 @@
 
                 <!-- ════ CASO 3 · USUARIO RECONOCIDO ════ -->
                 <div class="uc-panel" id="uc-recog">
-                  <div class="recog-banner">
-                    <div class="recog-icon">✅</div>
-                    <div>
-                      <div class="recog-title">¡Hola, Lina!</div>
-                      <div class="recog-sub">Dispositivo de confianza · sesión activa</div>
-                    </div>
-                  </div>
-                  <div class="c2p-step-title">Selecciona una tarjeta</div>
-                  <div class="c2p-step-desc">Tus tarjetas aparecen al instante. Total a pagar: <strong>$475.020</strong></div>
-                  <div class="card-list">
-                    <div class="c2p-card-item sel" onclick="pickCard(this)">
-                      <svg width="48" height="30" viewBox="0 0 34 22" fill="none"><circle cx="12" cy="11" r="10" fill="#EB001B"/><circle cx="22" cy="11" r="10" fill="#F79E1B"/><path d="M17 4.8 A10 10 0 0 1 17 17.2 A10 10 0 0 1 17 4.8Z" fill="#FF5F00"/></svg>
-                      <div class="c2p-card-info">
-                        <div class="c2p-card-name">Mastercard Platinum</div>
-                        <div class="c2p-card-num">•••• •••• •••• 4892</div>
-                        <div class="c2p-card-exp">Vence 03/27</div>
+
+                  <!-- Card Loader (común a todos los flujos) -->
+                  <div class="rg-step active" id="rg-loader">
+                    <div class="cardloader">
+                      <div class="cl-body">
+                        <div class="cl-text">Click to Pay is looking for your linked cards...</div>
+                        <div class="cl-spinner">
+                          <span class="cl-ring"></span>
+                          <svg class="cl-shield" width="34" height="38" viewBox="0 0 42 46" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Buscando de forma segura">
+                            <path d="M21 3 L37 8.5 V21 C37 32 30 39.5 21 43 C12 39.5 5 32 5 21 V8.5 Z" fill="none" stroke="#9aa0a6" stroke-width="2" stroke-linejoin="round"/>
+                            <rect x="14.5" y="21" width="13" height="10.5" rx="2.2" fill="none" stroke="#9aa0a6" stroke-width="2"/>
+                            <path d="M17 21 V17.5 a4 4 0 0 1 8 0 V21" fill="none" stroke="#9aa0a6" stroke-width="2"/>
+                            <circle cx="21" cy="25.4" r="1.7" fill="#9aa0a6"/>
+                          </svg>
+                        </div>
                       </div>
-                      <div class="radio-circle"><div class="radio-dot"></div></div>
                     </div>
-                    <div class="c2p-card-item" onclick="pickCard(this)">
-                      <svg width="48" height="30" viewBox="0 0 36 22" fill="none"><rect width="36" height="22" rx="3" fill="#1A1F71"/><text x="18" y="15.5" text-anchor="middle" font-family="Arial Black" font-weight="900" font-size="11" fill="white">VISA</text></svg>
-                      <div class="c2p-card-info">
-                        <div class="c2p-card-name">Visa Signature</div>
-                        <div class="c2p-card-num">•••• •••• •••• 3310</div>
-                        <div class="c2p-card-exp">Vence 11/26</div>
+                  </div>
+
+                  <!-- Tarjetas (usuario reconocido · directo, sin OTP) -->
+                  <div class="rg-step" id="rg-cards">
+                    <div class="recog-banner">
+                      <div class="recog-icon">✅</div>
+                      <div>
+                        <div class="recog-title">¡Hola, Lina!</div>
+                        <div class="recog-sub">Dispositivo de confianza · perfil Click to Pay activo</div>
                       </div>
-                      <div class="radio-circle"><div class="radio-dot"></div></div>
                     </div>
-                    <div class="c2p-card-item" onclick="pickCard(this)">
-                      <svg width="48" height="30" viewBox="0 0 34 22" fill="none"><rect width="34" height="22" rx="3" fill="#007BC1"/><text x="17" y="15" text-anchor="middle" font-family="Arial Black" font-weight="900" font-size="8" fill="white">AMEX</text></svg>
-                      <div class="c2p-card-info">
-                        <div class="c2p-card-name">Amex Gold Card</div>
-                        <div class="c2p-card-num">•••• •••••• •7241</div>
-                        <div class="c2p-card-exp">Vence 08/28</div>
+
+                    <a class="ru-not-cards-link" href="#" onclick="return false;">¿No son tus tarjetas?</a>
+
+                    <div class="ru-card-row sel" onclick="rgPickCard(this)">
+                      <div class="ru-card-radio"><div class="ru-card-dot"></div></div>
+                      <div class="ru-card-art-mini">
+                        <svg width="50" height="32" viewBox="0 0 50 32" xmlns="http://www.w3.org/2000/svg" aria-label="Tarjeta">
+                          <rect width="50" height="32" rx="4" fill="#1a3026"/>
+                          <text x="4" y="11" font-family="Arial" font-size="5" fill="#F5A800" font-weight="800">éxito</text>
+                          <circle cx="36" cy="22" r="5" fill="#EB001B"/>
+                          <circle cx="41" cy="22" r="5" fill="#F79E1B"/>
+                        </svg>
                       </div>
-                      <div class="radio-circle"><div class="radio-dot"></div></div>
+                      <div class="ru-card-meta">
+                        <div class="ru-card-meta-name">Mastercard Platinum</div>
+                        <div class="ru-card-meta-num">•••• 4892</div>
+                      </div>
                     </div>
-                  </div>
-                  <div class="cvv-section">
-                    <label>CVV de la tarjeta seleccionada</label>
-                    <div class="cvv-wrap">
-                      <input type="password" placeholder="•••" maxlength="4">
-                      <span class="cvv-hint">Requerido por el banco<br>emisor de tu tarjeta.</span>
+
+                    <a class="ru-more-cards" href="#" onclick="return false;">Más tarjetas (+2)</a>
+
+                    <div class="ru-cards-divider"></div>
+
+                    <div class="ru-card-row" onclick="rgPickCard(this)">
+                      <div class="ru-card-radio"><div class="ru-card-dot"></div></div>
+                      <div class="ru-card-manual-label">Ingresar tarjeta manualmente</div>
                     </div>
+
+                    <button class="btn-c2p-primary ru-pay" type="button" onclick="payClickToPay('existing')">🔒 Pagar $475.020</button>
+                    <div class="not-you">¿No eres Lina? <a href="#" onclick="return false;">Cerrar sesión</a></div>
                   </div>
-                  <button class="btn-c2p-primary" type="button">Pagar $475.020</button>
-                  <div class="not-you">¿No eres Lina? <a href="#" onclick="return false;">Cerrar sesión</a></div>
-                  <div class="api-note">
-                    <span class="api-badge">SRC</span>
-                    <div><span class="cmt">// dispositivo reconocido: tarjetas al instante, sin OTP</span><br>
-                    src.<span class="m">isRecognized()</span> <span class="arr">→</span> src.<span class="m">getCards()</span> <span class="arr">→</span> src.<span class="m">checkoutWithCard()</span></div>
-                  </div>
+
                 </div>
 
                 <!-- ════ CASO 4 · AGREGAR NUEVA TARJETA ════ -->
@@ -622,6 +630,7 @@
   var nuTimer = null;
   var ruTimer = null;
   var ruOtpInterval = null;
+  var rgTimer = null;
 
   /* Selector de casos de uso: resalta la pestaña, muestra su panel y arranca el flujo */
   function setFlow(f) {
@@ -634,9 +643,11 @@
     });
     if (f !== 'new')     { clearTimeout(nuTimer); closeNuWelcome(); }
     if (f !== 'unrecog') { clearTimeout(ruTimer); clearInterval(ruOtpInterval); }
+    if (f !== 'recog')   { clearTimeout(rgTimer); }
     if (isCardOpen()) {
-      if (f === 'new')     startNewUserFlow();
+      if (f === 'new')          startNewUserFlow();
       else if (f === 'unrecog') startUnrecogFlow();
+      else if (f === 'recog')   startRecogFlow();
     }
   }
 
@@ -740,7 +751,28 @@
     if (willOpen && item.classList.contains('open')) {
       if (currentFlow === 'new')          startNewUserFlow();
       else if (currentFlow === 'unrecog') startUnrecogFlow();
+      else if (currentFlow === 'recog')   startRecogFlow();
     }
+  }
+
+  /* ── Caso "Usuario reconocido" (recognized · UCS) ── */
+  function rgShowStep(id) {
+    ['rg-loader', 'rg-cards'].forEach(function (s) {
+      var e = document.getElementById(s);
+      if (e) e.classList.toggle('active', s === id);
+    });
+  }
+  function startRecogFlow() {
+    clearTimeout(rgTimer);
+    rgShowStep('rg-loader');                                  // 04 · Card Loader
+    rgTimer = setTimeout(function () {                        // → tarjetas al instante (sin OTP)
+      rgShowStep('rg-cards');
+    }, 1500);
+  }
+  function rgPickCard(row) {
+    var rows = row.parentElement.querySelectorAll('.ru-card-row');
+    rows.forEach(function (r) { r.classList.remove('sel'); });
+    row.classList.add('sel');
   }
 
   /* ── Caso "Reconocido por correo/teléfono" (repeat user unrecognized · UCS) ── */
