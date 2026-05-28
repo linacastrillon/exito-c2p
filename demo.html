@@ -488,6 +488,35 @@
   </div>
 </div>
 
+<!-- Pedido confirmado (lado Éxito) · tras el procesamiento Click to Pay (caso 1) -->
+<div class="ex-confirm-overlay" id="ex-confirm">
+  <div class="ex-confirm-card">
+    <div class="ex-confirm-top">
+      <span class="header-logo">éxito<em>.</em></span>
+    </div>
+    <div class="ex-confirm-body">
+      <div class="ex-check">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" aria-label="Confirmado"><path d="M5 12.5 L10 17.5 L19 7" stroke="#2E7D32" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <h2>¡Pedido confirmado!</h2>
+      <p>Gracias por tu compra, Carlos. Enviamos la confirmación a carlos.martinez@gmail.com.</p>
+      <div class="ex-order-box">
+        <div class="ex-order-row"><span>N° de pedido</span><strong>EX-2026-847291</strong></div>
+        <div class="ex-order-row"><span>Total pagado</span><strong>$475.020</strong></div>
+        <div class="ex-order-row"><span>Método de pago</span><strong>
+          <svg width="20" height="14" viewBox="0 0 40 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Click to Pay">
+            <path d="M5 4 H20 L28 14 L20 24 H5 Z" fill="#111" stroke="#111" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M31 7 C35 11 35 17 31 21" fill="none" stroke="#111" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+          Click to Pay · Mastercard •••• 8785</strong></div>
+        <div class="ex-order-row"><span>Entrega estimada</span><strong>Mañana antes de las 8 pm</strong></div>
+      </div>
+      <button class="btn-pay" type="button" onclick="closeExConfirm()">Ver mi pedido</button>
+      <div class="ssl-note">🔒 Pago procesado con Click to Pay · EMVCo Secure Remote Commerce</div>
+    </div>
+  </div>
+</div>
+
 <script>
   var currentFlow = 'new';
   var nuTimer = null;
@@ -578,7 +607,13 @@
     dcfState('dcf-1');                                                            // Asegurando el pago…
     dcfTimers.push(setTimeout(function () { dcfState('dcf-2'); }, 1600));         // Creando el perfil…
     dcfTimers.push(setTimeout(function () { dcfState('dcf-3'); }, 3400));         // Perfil creado ✓
-    dcfTimers.push(setTimeout(function () { o.classList.remove('open'); }, 6000)); // Volviendo a Éxito…
+    dcfTimers.push(setTimeout(function () { o.classList.remove('open'); openExConfirm(); }, 6000)); // Volviendo a Éxito…
+  }
+  function openExConfirm() {
+    var e = document.getElementById('ex-confirm'); if (e) e.classList.add('open');
+  }
+  function closeExConfirm() {
+    var e = document.getElementById('ex-confirm'); if (e) e.classList.remove('open');
   }
 
   /* Abrir "Tarjeta crédito o débito": en el caso Nuevo usuario arranca el card loader */

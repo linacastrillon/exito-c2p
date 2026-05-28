@@ -1005,6 +1005,22 @@
   .dcf-text strong { font-weight:800; }
   .dcf-foot { font-size:11px; letter-spacing:.1em; color:#9a9aa3; font-weight:700; }
 
+  /* ── Pantalla de pedido confirmado (lado Éxito) · caso 1 ── */
+  .ex-confirm-overlay { display:none; position:fixed; inset:0; z-index:750; background:rgba(0,0,0,.5); align-items:flex-start; justify-content:center; overflow-y:auto; padding:40px 16px; }
+  .ex-confirm-overlay.open { display:flex; }
+  .ex-confirm-card { background:#fff; border-radius:16px; width:440px; max-width:96vw; overflow:hidden; box-shadow:var(--shadow-modal); animation:fadeIn .25s ease; }
+  .ex-confirm-top { background:var(--amarillo); padding:14px 24px; }
+  .ex-confirm-body { padding:30px 28px 26px; text-align:center; }
+  .ex-check { width:66px; height:66px; border-radius:50%; background:#E8F5E9; border:3px solid var(--verde); display:grid; place-items:center; margin:0 auto 16px; }
+  .ex-confirm-body h2 { font-size:22px; font-weight:800; color:var(--texto); margin-bottom:8px; }
+  .ex-confirm-body > p { font-size:13.5px; color:var(--gris-texto); line-height:1.5; margin-bottom:20px; font-weight:500; }
+  .ex-order-box { background:#FAFAFA; border:1px solid var(--gris-borde); border-radius:10px; padding:6px 16px; text-align:left; margin-bottom:20px; }
+  .ex-order-row { display:flex; justify-content:space-between; gap:12px; font-size:13px; padding:9px 0; border-bottom:1px dashed #EEE; }
+  .ex-order-row:last-child { border-bottom:none; }
+  .ex-order-row span { color:var(--gris-texto); }
+  .ex-order-row strong { color:var(--texto); display:flex; align-items:center; gap:6px; }
+  .ex-confirm-body .btn-pay { margin-bottom:10px; }
+
   /* ── CTA de navegación entre páginas (sitio multipágina) ── */
   .pres-lead { font-size:16px; color:#52525b; line-height:1.6; max-width:680px; margin:0 0 26px; font-weight:500; }
   .pres-cta-row { display:flex; gap:12px; flex-wrap:wrap; }
