@@ -165,15 +165,15 @@
                     <div class="modal-field">
                       <label>Número de tarjeta</label>
                       <div class="field-relative">
-                        <input type="text" id="nu-cardnum" placeholder="0000 0000 0000 0000" maxlength="19" onfocus="nuCardFocus(this)" oninput="nuCardInput(this)">
+                        <input type="text" id="nu-cardnum" placeholder="0000 0000 0000 0000" maxlength="19" onfocus="nuFill(this,'card')" oninput="nuCardInput(this)">
                         <div class="field-brands">
                           <svg width="28" height="18" viewBox="0 0 34 22" fill="none" aria-label="Mastercard"><circle cx="12" cy="11" r="10" fill="#EB001B"/><circle cx="22" cy="11" r="10" fill="#F79E1B"/><path d="M17 4.8 A10 10 0 0 1 17 17.2 A10 10 0 0 1 17 4.8Z" fill="#FF5F00"/></svg>
                         </div>
                       </div>
                     </div>
                     <div class="modal-field-row">
-                      <div class="modal-field"><label>Vencimiento</label><input type="text" placeholder="MM / AA" maxlength="7" oninput="fmtExp(this)"></div>
-                      <div class="modal-field"><label>CVC</label><input type="text" placeholder="•••" maxlength="4"></div>
+                      <div class="modal-field"><label>Vencimiento</label><input type="text" placeholder="MM / AA" maxlength="7" onfocus="nuFill(this,'exp')" oninput="fmtExp(this)"></div>
+                      <div class="modal-field"><label>CVC</label><input type="text" placeholder="•••" maxlength="4" onfocus="nuFill(this,'cvc')"></div>
                     </div>
 
                     <!-- Consentimiento de inscripción · aparece tras los primeros 4 dígitos -->
@@ -496,9 +496,10 @@
   function startNewUserFlow() {
     clearTimeout(nuTimer);
     closeNuWelcome();
-    var cn = document.getElementById('nu-cardnum'); if (cn) cn.value = '';
+    var m = document.getElementById('nu-manual');         // limpia número, vencimiento y CVC
+    if (m) m.querySelectorAll('input[type="text"]').forEach(function (i) { i.value = ''; });
     nuConsent(false);
-    showNu('nu-loader');                                 // 04 · card loader
+    showNu('nu-loader');                                  // 04 · card loader
     nuTimer = setTimeout(function () { showNu('nu-manual'); }, 1800);  // → entrada manual
   }
   /* El consentimiento aparece solo tras los primeros 4 dígitos */
@@ -510,9 +511,19 @@
     fmtCard(inp);
     nuConsent(inp.value.replace(/\D/g, '').length >= 4);
   }
-  /* Simulación: al hacer clic en el campo, se ingresan 4 dígitos y aparece el consentimiento */
-  function nuCardFocus(inp) {
-    if (inp.value.replace(/\D/g, '').length < 4) { inp.value = '5555'; nuConsent(true); }
+  /* Simulación: al hacer clic en un campo se diligencia con números aleatorios */
+  function nuRand(n) { var s = ''; for (var i = 0; i < n; i++) s += Math.floor(Math.random() * 10); return s; }
+  function nuFill(inp, type) {
+    if (inp.value.replace(/\D/g, '').length) return;      // no sobreescribir si ya tiene datos
+    if (type === 'card') {
+      inp.value = nuRand(16).replace(/(.{4})/g, '$1 ').trim();
+      nuConsent(true);                                    // 4+ dígitos → muestra el consentimiento
+    } else if (type === 'exp') {
+      var mm = ('0' + (Math.floor(Math.random() * 12) + 1)).slice(-2);
+      inp.value = mm + ' / ' + (26 + Math.floor(Math.random() * 6));
+    } else if (type === 'cvc') {
+      inp.value = nuRand(3);
+    }
   }
   function openNuWelcome() {
     var w = document.getElementById('nu-welcome'); if (w) w.classList.add('open');
