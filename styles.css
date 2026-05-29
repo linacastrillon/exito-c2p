@@ -1242,3 +1242,71 @@
   .int-mini-confirm p { font-size:10.5px; color:#6a6a72; margin:0; }
   .int-mini-pay-summary { font-size:11px; font-weight:800; color:var(--texto); background:#F1F4F7; padding:7px 12px; border-radius:8px; margin-top:6px; }
   .int-mini-confirm-pay { font-size:9.5px; color:#888; margin-top:4px; }
+
+  /* ══════════════════════════════════════════════════════
+     PÁGINA VENTAJAS · estilo corporativo Mastercard
+     (negro + naranja, tipografía grande, layout editorial)
+  ══════════════════════════════════════════════════════ */
+  :root {
+    --mc-orange: #F37738;
+    --mc-orange-dark: #D85F22;
+    --mc-bg-warm: #F4EBE6;
+    --mc-bg-cream: #FAF7F4;
+    --mc-text: #111;
+    --mc-text-muted: #555;
+  }
+  /* Kicker / eyebrow (negrita pequeña en mayúsculas, naranja) */
+  .mc-kicker { font-size:12px; font-weight:800; letter-spacing:.16em; color:var(--mc-orange); text-transform:uppercase; margin-bottom:18px; display:flex; align-items:center; gap:10px; }
+  .mc-kicker-light { color:var(--mc-orange); }
+  .mc-num-tag { background:var(--mc-orange); color:#fff; font-size:11px; font-weight:800; letter-spacing:.08em; padding:3px 8px; border-radius:2px; }
+
+  /* Hero */
+  .mc-hero { background:#fff; padding:90px 24px 70px; border-bottom:1px solid #EEE; }
+  .mc-hero-inner { max-width:1140px; margin:0 auto; display:grid; grid-template-columns:1fr auto; gap:50px; align-items:center; }
+  .mc-h1 { font-size:58px; line-height:1.04; font-weight:900; color:var(--mc-text); letter-spacing:-.025em; margin:0 0 24px; max-width:720px; }
+  .mc-lead { font-size:19px; line-height:1.55; color:#3a3a3a; max-width:600px; font-weight:500; margin:0; }
+  .mc-lead strong { color:var(--mc-text); font-weight:800; }
+  .mc-hero-art { flex-shrink:0; }
+  .mc-hero-art svg { display:block; }
+
+  /* Section base */
+  .mc-section { padding:84px 24px; background:#fff; }
+  .mc-section-alt { background:var(--mc-bg-warm); }
+  .mc-section-inner { max-width:1140px; margin:0 auto; }
+  .mc-h2 { font-size:42px; line-height:1.08; font-weight:900; color:var(--mc-text); letter-spacing:-.02em; margin:0 0 18px; }
+  .mc-h2-light { font-size:42px; line-height:1.08; font-weight:900; color:#fff; letter-spacing:-.02em; margin:0 0 14px; }
+  .mc-section-lead { font-size:17px; color:#555; line-height:1.6; margin:0 0 44px; max-width:620px; font-weight:500; }
+
+  /* Cards grid */
+  .mc-cards { display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:24px; margin-top:8px; }
+  .mc-card { padding:34px 30px; background:#fff; border:1px solid #EAE6E2; border-radius:4px; transition:transform .2s, box-shadow .2s; }
+  .mc-section-alt .mc-card { background:#fff; border-color:#E5DDD7; }
+  .mc-card:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,0,0,.06); }
+  .mc-card-num { font-size:13px; font-weight:800; color:var(--mc-orange); letter-spacing:.12em; margin-bottom:16px; }
+  .mc-card-title { font-size:22px; font-weight:900; color:var(--mc-text); margin:0 0 12px; letter-spacing:-.015em; line-height:1.22; }
+  .mc-card p { font-size:14.5px; color:#555; line-height:1.65; font-weight:500; margin:0; }
+  .mc-card p strong { color:var(--mc-text); font-weight:800; }
+
+  /* Stats block (fondo negro · números naranja gigantes) */
+  .mc-stats { display:grid; grid-template-columns:repeat(3, 1fr); gap:40px; margin-top:12px; padding:60px 50px; background:#111; border-radius:4px; }
+  .mc-stat-num { font-size:74px; font-weight:900; color:var(--mc-orange); line-height:1; letter-spacing:-.04em; margin-bottom:14px; font-family:var(--font); }
+  .mc-stat-label { font-size:14px; color:#d4d4d8; font-weight:600; line-height:1.5; max-width:240px; }
+  .mc-stat-note { font-size:12px; color:#999; font-weight:500; font-style:italic; }
+
+  /* CTA final · franja negra */
+  .mc-cta { background:#111; padding:80px 24px; }
+  .mc-cta-inner { max-width:780px; margin:0 auto; text-align:center; color:#fff; }
+  .mc-cta p { color:#ccc; font-size:16.5px; margin:0 0 28px; line-height:1.6; }
+  .mc-cta-btn { display:inline-block; background:var(--mc-orange); color:#fff; padding:16px 38px; border-radius:4px; font-weight:800; text-decoration:none; font-size:16px; letter-spacing:.02em; transition:background .15s; font-family:var(--font); }
+  .mc-cta-btn:hover { background:var(--mc-orange-dark); }
+
+  @media (max-width:880px) {
+    .mc-h1 { font-size:40px; }
+    .mc-h2, .mc-h2-light { font-size:30px; }
+    .mc-hero-inner { grid-template-columns:1fr; }
+    .mc-hero-art { display:none; }
+    .mc-stats { grid-template-columns:1fr; padding:36px 24px; gap:30px; }
+    .mc-stat-num { font-size:56px; }
+    .mc-section { padding:60px 22px; }
+    .mc-hero { padding:60px 22px 50px; }
+  }
