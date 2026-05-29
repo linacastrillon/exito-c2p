@@ -53,17 +53,18 @@
   /* ══ HEADER PRINCIPAL DE LA PRESENTACIÓN (menú general · ajeno al demo) ══ */
   html { scroll-behavior:smooth; }
   [id] { scroll-margin-top:80px; }
-  .site-nav { position:sticky; top:0; z-index:300; background:rgba(255,255,255,.93); backdrop-filter:saturate(160%) blur(12px); -webkit-backdrop-filter:saturate(160%) blur(12px); border-bottom:1px solid #e6e6ea; }
-  .site-nav-inner { max-width:1100px; margin:0 auto; min-height:64px; display:flex; align-items:center; gap:18px; padding:10px 24px; flex-wrap:wrap; }
-  .brand-lockup { display:flex; align-items:center; gap:11px; text-decoration:none; }
-  .exito-pill { background:#FFE800; color:#1d1d1f; font-weight:900; font-size:18px; letter-spacing:-.04em; padding:5px 13px; border-radius:10px; line-height:1; }
-  .brand-x { color:#c4c4cc; font-weight:700; font-size:15px; }
-  .c2p-lockup { display:inline-flex; align-items:center; gap:9px; font-weight:800; font-size:16px; color:#111; white-space:nowrap; letter-spacing:-.01em; }
-  .c2p-lockup .c2p-mk { width:30px; height:30px; border-radius:8px; background:#111; display:grid; place-items:center; flex-shrink:0; }
-  .site-links { display:flex; gap:4px; margin-left:auto; flex-wrap:wrap; }
-  .site-links a { font-size:14px; font-weight:700; color:#3a3a42; text-decoration:none; padding:9px 15px; border-radius:10px; transition:background .15s,color .15s; }
-  .site-links a:hover { background:#f0f0f3; }
-  .site-links a.active { background:#111; color:#fff; }
+  /* Header global · estilo píldora Mastercard (flotante, beige, blur) */
+  .site-nav { position:sticky; top:14px; z-index:300; padding:0 20px; background:transparent; border-bottom:none; }
+  .site-nav-inner { max-width:1180px; margin:0 auto; min-height:64px; display:flex; align-items:center; gap:16px; padding:6px 24px; flex-wrap:wrap; background:rgba(245, 237, 228, .92); backdrop-filter:saturate(170%) blur(14px); -webkit-backdrop-filter:saturate(170%) blur(14px); border-radius:999px; box-shadow:0 6px 28px rgba(0,0,0,.08), 0 1px 3px rgba(0,0,0,.05); }
+  .brand-lockup { display:flex; align-items:center; gap:10px; text-decoration:none; }
+  .exito-pill { background:#FFE800; color:#1d1d1f; font-weight:900; font-size:17px; letter-spacing:-.04em; padding:5px 12px; border-radius:10px; line-height:1; }
+  .brand-x { color:#bdb6ad; font-weight:700; font-size:14px; }
+  .c2p-lockup { display:inline-flex; align-items:center; gap:8px; font-weight:800; font-size:15px; color:#1a1a1a; white-space:nowrap; letter-spacing:-.01em; }
+  .c2p-lockup .c2p-mk { width:28px; height:28px; border-radius:8px; background:#1a1a1a; display:grid; place-items:center; flex-shrink:0; }
+  .site-links { display:flex; gap:2px; margin:0 auto; flex-wrap:wrap; }
+  .site-links a { font-size:14.5px; font-weight:600; color:#1a1a1a; text-decoration:none; padding:9px 18px; border-radius:999px; transition:background .15s, color .15s; }
+  .site-links a:hover { background:rgba(0,0,0,.06); }
+  .site-links a.active { font-weight:800; color:#000; }
 
   /* ── Secciones placeholder (Inicio / Ventajas / Métodos) ── */
   .pres-section { max-width:1100px; margin:0 auto; padding:52px 24px; }
@@ -1309,4 +1310,23 @@
     .mc-stat-num { font-size:56px; }
     .mc-section { padding:60px 22px; }
     .mc-hero { padding:60px 22px 50px; }
+  }
+
+  /* ── Hero de Inicio (estilo Mastercard · fondo oscuro + arte a la derecha) ── */
+  .mc-inicio-hero { background:#181818; color:#fff; padding:120px 24px 100px; position:relative; overflow:hidden; min-height:640px; margin-top:-78px; }
+  .mc-inicio-bg { position:absolute; right:-180px; top:50%; transform:translateY(-50%); width:780px; height:780px; border-radius:50%; background:radial-gradient(circle at center, #3a3a3a 30%, #222 70%); opacity:.7; }
+  .mc-inicio-inner { max-width:1180px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:50px; align-items:center; position:relative; z-index:1; }
+  .mc-inicio-eyebrow { display:flex; align-items:center; gap:12px; font-size:13px; font-weight:800; letter-spacing:.18em; text-transform:uppercase; color:#fff; margin-bottom:32px; }
+  .mc-dot { width:10px; height:10px; background:var(--mc-orange); border-radius:50%; flex-shrink:0; }
+  .mc-inicio-h1 { font-size:64px; font-weight:900; line-height:1.05; letter-spacing:-.025em; margin:0 0 28px; color:#fff; max-width:560px; }
+  .mc-inicio-lead { font-size:17px; line-height:1.6; color:#c8c8c8; max-width:460px; font-weight:500; margin:0; }
+  .mc-inicio-art { position:relative; height:520px; display:flex; align-items:center; justify-content:center; }
+  .mc-inicio-art svg { max-width:520px; width:100%; height:auto; display:block; }
+
+  @media (max-width:880px) {
+    .mc-inicio-hero { padding:90px 22px 60px; min-height:auto; }
+    .mc-inicio-inner { grid-template-columns:1fr; gap:30px; }
+    .mc-inicio-h1 { font-size:42px; }
+    .mc-inicio-art { height:380px; max-width:380px; margin:0 auto; }
+    .mc-inicio-bg { display:none; }
   }
