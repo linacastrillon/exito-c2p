@@ -399,15 +399,15 @@
                       <div class="modal-field">
                         <label>Número de tarjeta</label>
                         <div class="field-relative">
-                          <input type="text" id="ac-num" placeholder="0000 0000 0000 0000" value="5555 0000 0000 1234" readonly>
+                          <input type="text" id="ac-num" placeholder="0000 0000 0000 0000" onfocus="acManualFill(this,'card')">
                           <div class="field-brands">
                             <svg width="28" height="18" viewBox="0 0 34 22" fill="none" aria-label="Mastercard"><circle cx="12" cy="11" r="10" fill="#EB001B"/><circle cx="22" cy="11" r="10" fill="#F79E1B"/><path d="M17 4.8 A10 10 0 0 1 17 17.2 A10 10 0 0 1 17 4.8Z" fill="#FF5F00"/></svg>
                           </div>
                         </div>
                       </div>
                       <div class="modal-field-row">
-                        <div class="modal-field"><label>Vencimiento</label><input type="text" id="ac-exp" value="02 / 27" readonly></div>
-                        <div class="modal-field"><label>CVC</label><input type="text" id="ac-cvc" value="123" readonly></div>
+                        <div class="modal-field"><label>Vencimiento</label><input type="text" id="ac-exp" placeholder="MM / AA" onfocus="acManualFill(this,'exp')"></div>
+                        <div class="modal-field"><label>CVC</label><input type="text" id="ac-cvc" placeholder="•••" onfocus="acManualFill(this,'cvc')"></div>
                       </div>
                       <div class="ac-marks">
                         <svg width="26" height="18" viewBox="0 0 40 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Click to Pay">
@@ -863,15 +863,16 @@
   }
   function startAddCardFlow() {
     clearTimeout(acTimer);
-    // Resetea selección y consentimiento al reiniciar el flujo
+    // Resetea selección, formulario y consentimiento al reiniciar el flujo
     var saved   = document.getElementById('ac-row-saved');   if (saved)   saved.classList.remove('sel');
     var manual  = document.getElementById('ac-row-manual');  if (manual)  manual.classList.remove('sel');
     var form    = document.getElementById('ac-manual-form'); if (form)    form.style.display = 'none';
     var consent = document.getElementById('ac-consent-chk'); if (consent) consent.checked = false;
+    ['ac-num', 'ac-exp', 'ac-cvc'].forEach(function (id) { var f = document.getElementById(id); if (f) f.value = ''; });
     acShowStep('ac-loader');                                  // 04 · Card Loader
     acTimer = setTimeout(function () { acShowStep('ac-cards'); }, 1500);  // → panel integrado (Imagen #44)
   }
-  /* Selección de tarjeta guardada o entrada manual (despliega el formulario simulado · Imagen #45) */
+  /* Selección de tarjeta guardada o entrada manual (despliega el formulario · Imagen #45) */
   function acPickCard(which) {
     var saved  = document.getElementById('ac-row-saved');
     var manual = document.getElementById('ac-row-manual');
@@ -885,6 +886,13 @@
       if (saved)  saved.classList.remove('sel');
       if (form)   form.style.display = 'block';
     }
+  }
+  /* Simulación: al hacer clic en cada campo se rellena con los valores de la Imagen #45 */
+  function acManualFill(inp, type) {
+    if (inp.value) return;
+    if      (type === 'card') inp.value = '5555 0000 0000 1234';
+    else if (type === 'exp')  inp.value = '02 / 27';
+    else if (type === 'cvc')  inp.value = '123';
   }
 
   /* ── Caso "Reconocido por correo/teléfono" (repeat user unrecognized · UCS) ── */
