@@ -35,92 +35,82 @@
 </header>
 
 <!-- ════════════════════════════════════════════════════
-     HERO · Inicio (estilo Mastercard)
+     INICIO · Pantalla única (sin scroll)
 ═══════════════════════════════════════════════════ -->
 <section class="mc-inicio-hero">
   <div class="mc-inicio-bg"></div>
   <div class="mc-inicio-inner">
-    <div class="mc-inicio-text">
+
+    <!-- IZQUIERDA · Click to Pay + imagen -->
+    <div class="mc-inicio-left">
       <div class="mc-inicio-eyebrow"><span class="mc-dot"></span>CLICK TO PAY</div>
       <h1 class="mc-inicio-h1">Una forma más rápida y segura de pagar en línea.</h1>
+      <div class="mc-inicio-art" aria-hidden="true">
+        <svg viewBox="0 0 520 520" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+          <defs>
+            <radialGradient id="bgGrad" cx="50%" cy="40%" r="60%">
+              <stop offset="0%" stop-color="#444"/>
+              <stop offset="100%" stop-color="#1f1f1f"/>
+            </radialGradient>
+            <linearGradient id="phoneGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#2a2a2a"/>
+              <stop offset="100%" stop-color="#1a1a1a"/>
+            </linearGradient>
+          </defs>
+          <circle cx="260" cy="260" r="250" fill="url(#bgGrad)"/>
+          <rect x="170" y="90" width="180" height="340" rx="26" fill="url(#phoneGrad)" stroke="#555" stroke-width="1.5"/>
+          <rect x="178" y="108" width="164" height="304" rx="6" fill="#ffffff"/>
+          <rect x="240" y="98" width="40" height="6" rx="3" fill="#0a0a0a"/>
+          <rect x="178" y="108" width="164" height="30" fill="#F5A800"/>
+          <text x="190" y="129" font-family="Nunito,Arial" font-size="16" font-weight="900" fill="#1a1a1a">éxito<tspan fill="#C62828">.</tspan></text>
+          <g transform="translate(218, 175)">
+            <circle cx="22" cy="22" r="22" fill="#EB001B"/>
+            <circle cx="48" cy="22" r="22" fill="#F79E1B"/>
+            <path d="M35 5 A22 22 0 0 1 35 39 A22 22 0 0 1 35 5Z" fill="#FF5F00"/>
+          </g>
+          <g transform="translate(195, 240)">
+            <path d="M5 4 H20 L28 14 L20 24 H5 Z" fill="#111" stroke="#111" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M31 7 C35 11 35 17 31 21" fill="none" stroke="#111" stroke-width="3" stroke-linecap="round"/>
+          </g>
+          <text x="232" y="259" font-family="Nunito,Arial" font-size="12" font-weight="800" fill="#1a1a1a">Click to Pay</text>
+          <rect x="195" y="278" width="130" height="64" rx="6" fill="#1a3026"/>
+          <text x="203" y="295" font-family="Arial" font-size="8" font-weight="800" fill="#F5A800">éxito</text>
+          <text x="203" y="334" font-family="monospace" font-size="9" fill="#fff">•••• 4892</text>
+          <circle cx="304" cy="328" r="6" fill="#EB001B"/>
+          <circle cx="312" cy="328" r="6" fill="#F79E1B"/>
+          <rect x="195" y="354" width="130" height="36" rx="18" fill="#2F5D5A"/>
+          <text x="260" y="377" text-anchor="middle" font-family="Nunito,Arial" font-size="11" font-weight="800" fill="#fff">Pagar $475.020</text>
+        </svg>
+      </div>
     </div>
-    <div class="mc-inicio-art" aria-hidden="true">
-      <svg viewBox="0 0 520 520" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
-        <defs>
-          <radialGradient id="bgGrad" cx="50%" cy="40%" r="60%">
-            <stop offset="0%" stop-color="#444"/>
-            <stop offset="100%" stop-color="#1f1f1f"/>
-          </radialGradient>
-          <linearGradient id="phoneGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#2a2a2a"/>
-            <stop offset="100%" stop-color="#1a1a1a"/>
-          </linearGradient>
-        </defs>
-        <!-- Círculo de fondo -->
-        <circle cx="260" cy="260" r="250" fill="url(#bgGrad)"/>
-        <!-- Móvil -->
-        <rect x="170" y="90" width="180" height="340" rx="26" fill="url(#phoneGrad)" stroke="#555" stroke-width="1.5"/>
-        <rect x="178" y="108" width="164" height="304" rx="6" fill="#ffffff"/>
-        <!-- Notch -->
-        <rect x="240" y="98" width="40" height="6" rx="3" fill="#0a0a0a"/>
-        <!-- Header amarillo Éxito -->
-        <rect x="178" y="108" width="164" height="30" fill="#F5A800"/>
-        <text x="190" y="129" font-family="Nunito,Arial" font-size="16" font-weight="900" fill="#1a1a1a">éxito<tspan fill="#C62828">.</tspan></text>
-        <!-- Mastercard logo grande dentro -->
-        <g transform="translate(218, 175)">
-          <circle cx="22" cy="22" r="22" fill="#EB001B"/>
-          <circle cx="48" cy="22" r="22" fill="#F79E1B"/>
-          <path d="M35 5 A22 22 0 0 1 35 39 A22 22 0 0 1 35 5Z" fill="#FF5F00"/>
-        </g>
-        <!-- Click to Pay icon + label -->
-        <g transform="translate(195, 240)">
-          <path d="M5 4 H20 L28 14 L20 24 H5 Z" fill="#111" stroke="#111" stroke-width="3" stroke-linejoin="round"/>
-          <path d="M31 7 C35 11 35 17 31 21" fill="none" stroke="#111" stroke-width="3" stroke-linecap="round"/>
-        </g>
-        <text x="232" y="259" font-family="Nunito,Arial" font-size="12" font-weight="800" fill="#1a1a1a">Click to Pay</text>
-        <!-- Tarjeta -->
-        <rect x="195" y="278" width="130" height="64" rx="6" fill="#1a3026"/>
-        <text x="203" y="295" font-family="Arial" font-size="8" font-weight="800" fill="#F5A800">éxito</text>
-        <text x="203" y="334" font-family="monospace" font-size="9" fill="#fff">•••• 4892</text>
-        <circle cx="304" cy="328" r="6" fill="#EB001B"/>
-        <circle cx="312" cy="328" r="6" fill="#F79E1B"/>
-        <!-- Botón Pagar verde -->
-        <rect x="195" y="354" width="130" height="36" rx="18" fill="#2F5D5A"/>
-        <text x="260" y="377" text-anchor="middle" font-family="Nunito,Arial" font-size="11" font-weight="800" fill="#fff">Pagar $475.020</text>
-      </svg>
-    </div>
-  </div>
-</section>
 
-<!-- ════════════════════════════════════════════════════
-     Presentación · autoría + contenido de la presentación
-═══════════════════════════════════════════════════ -->
-<section class="mc-section-dark">
-  <div class="mc-section-inner">
-    <div class="mc-kicker"><span class="mc-dot"></span>CASO DE ESTUDIO · MASTERCARD × ÉXITO</div>
-    <h2 class="mc-h2">Demo desarrollado por<br>Lina María Castrillón Forero.</h2>
-    <p class="mc-section-lead">Propuesta visual de una implementación de Click to Pay sobre el checkout de Éxito. La presentación se divide en tres secciones accesibles desde el menú superior.</p>
+    <!-- DERECHA · Autoría + menú vertical -->
+    <div class="mc-inicio-right">
+      <div class="mc-inicio-credit">
+        <div class="mc-inicio-eyebrow"><span class="mc-dot"></span>CASO DE ESTUDIO</div>
+        <div class="mc-credit-title">Mastercard <span class="mc-x">×</span> Éxito</div>
+        <p class="mc-credit-author">por <strong>Lina M. Castrillón Forero</strong></p>
+      </div>
 
-    <div class="mc-cards">
-      <a class="mc-card mc-card-link" href="ventajas.html">
-        <div class="mc-card-num">01</div>
-        <h3 class="mc-card-title">Ventajas de Click to Pay.</h3>
-        <p>Para el consumidor y para el comercio: principios, números y mecanismos de confianza que justifican la adopción.</p>
-        <span class="mc-card-arrow" aria-hidden="true">→</span>
-      </a>
-      <a class="mc-card mc-card-link" href="demo.html">
-        <div class="mc-card-num">02</div>
-        <h3 class="mc-card-title">Demo de integración.</h3>
-        <p>Recorrido del checkout de Éxito con Click to Pay para los <strong>4 casos de uso</strong>: nuevo usuario, reconocido por correo/teléfono, usuario reconocido y agregar nueva tarjeta.</p>
-        <span class="mc-card-arrow" aria-hidden="true">→</span>
-      </a>
-      <a class="mc-card mc-card-link" href="metodos.html">
-        <div class="mc-card-num">03</div>
-        <h3 class="mc-card-title">Métodos JavaScript / API.</h3>
-        <p>Diagrama de los llamados al SDK de SRC (EMVCo) y a Unified Checkout Solutions, paso a paso por cada caso de uso.</p>
-        <span class="mc-card-arrow" aria-hidden="true">→</span>
-      </a>
+      <nav class="mc-inicio-menu" aria-label="Secciones de la presentación">
+        <a href="ventajas.html" class="mc-menu-item">
+          <span class="mc-menu-num">01</span>
+          <span class="mc-menu-label">Ventajas</span>
+          <span class="mc-menu-arrow" aria-hidden="true">→</span>
+        </a>
+        <a href="demo.html" class="mc-menu-item">
+          <span class="mc-menu-num">02</span>
+          <span class="mc-menu-label">Demo</span>
+          <span class="mc-menu-arrow" aria-hidden="true">→</span>
+        </a>
+        <a href="metodos.html" class="mc-menu-item">
+          <span class="mc-menu-num">03</span>
+          <span class="mc-menu-label">Métodos</span>
+          <span class="mc-menu-arrow" aria-hidden="true">→</span>
+        </a>
+      </nav>
     </div>
+
   </div>
 </section>
 
