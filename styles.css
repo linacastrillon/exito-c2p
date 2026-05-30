@@ -53,9 +53,9 @@
   /* ══ HEADER PRINCIPAL DE LA PRESENTACIÓN (menú general · ajeno al demo) ══ */
   html { scroll-behavior:smooth; }
   [id] { scroll-margin-top:80px; }
-  /* Header global · estilo píldora Mastercard (flotante, beige, blur) */
-  .site-nav { position:sticky; top:14px; z-index:300; padding:0 20px; background:transparent; border-bottom:none; }
-  .site-nav-inner { max-width:1180px; margin:0 auto; min-height:64px; display:flex; align-items:center; gap:16px; padding:6px 24px; flex-wrap:wrap; background:rgba(245, 237, 228, .92); backdrop-filter:saturate(170%) blur(14px); -webkit-backdrop-filter:saturate(170%) blur(14px); border-radius:999px; box-shadow:0 6px 28px rgba(0,0,0,.08), 0 1px 3px rgba(0,0,0,.05); }
+  /* Header global · píldora Mastercard sobre barra translúcida edge-to-edge (no se solapa con el contenido) */
+  .site-nav { position:sticky; top:0; z-index:300; padding:14px 20px; background:rgba(250, 247, 244, .82); backdrop-filter:saturate(180%) blur(16px); -webkit-backdrop-filter:saturate(180%) blur(16px); border-bottom:none; }
+  .site-nav-inner { max-width:1180px; margin:0 auto; min-height:64px; display:flex; align-items:center; gap:16px; padding:6px 24px; flex-wrap:wrap; background:#f5ede4; border-radius:999px; box-shadow:0 6px 28px rgba(0,0,0,.08), 0 1px 3px rgba(0,0,0,.05); }
   .brand-lockup { display:flex; align-items:center; gap:10px; text-decoration:none; }
   .exito-pill { background:#FFE800; color:#1d1d1f; font-weight:900; font-size:17px; letter-spacing:-.04em; padding:5px 12px; border-radius:10px; line-height:1; }
   .brand-x { color:#bdb6ad; font-weight:700; font-size:14px; }
