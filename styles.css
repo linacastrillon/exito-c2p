@@ -1355,6 +1355,97 @@
     .mc-inicio-bg { display:none; }
   }
 
+  /* ══════════════════════════════════════════════════════════════
+     INICIO MOCKUP · pantalla única, 2 paneles + móvil centrado
+     (Imagen #51 · mastercard | éxito co-branding)
+  ══════════════════════════════════════════════════════════════ */
+  body.inicio-mockup { margin:0; background:#f5f1eb; }
+  .msh-section { display:grid; grid-template-columns:1fr 1fr; min-height:100vh; position:relative; overflow:hidden; }
+
+  /* Panel izquierdo · cream */
+  .msh-left { background:#f5f1eb; padding:36px 70px 60px; display:flex; flex-direction:column; position:relative; }
+  .msh-cobrand { display:flex; align-items:center; gap:14px; flex-shrink:0; }
+  .msh-cobrand-mc { display:flex; align-items:center; gap:9px; }
+  .msh-cobrand-text { font-size:20px; font-weight:600; color:#1a1a1a; letter-spacing:-.01em; }
+  .msh-cobrand-sep { color:#bdb6ad; font-weight:300; font-size:24px; line-height:1; }
+  .msh-cobrand-exito { font-size:22px; font-weight:900; color:#1a1a1a; letter-spacing:-.04em; line-height:1; }
+  .msh-cobrand-exito em { color:#C62828; font-style:normal; }
+
+  .msh-left-content { flex:1; display:flex; flex-direction:column; justify-content:center; padding-right:40px; max-width:480px; }
+  .msh-eyebrow { display:flex; align-items:center; gap:11px; font-size:12px; font-weight:800; letter-spacing:.18em; text-transform:uppercase; color:#1a1a1a; margin-bottom:24px; }
+  .msh-eyebrow-light { color:#fff; }
+  .msh-dot { width:9px; height:9px; background:var(--mc-orange); border-radius:50%; flex-shrink:0; }
+  .msh-title { font-size:52px; font-weight:900; line-height:1.05; letter-spacing:-.025em; color:#1a1a1a; margin:0 0 26px; }
+  .msh-orange { color:var(--mc-orange); }
+  .msh-subtitle { font-size:16.5px; color:#4a4a4a; font-weight:500; line-height:1.5; margin:0; }
+
+  /* Panel derecho · negro */
+  .msh-right { background:#1a1a1a; color:#fff; padding:60px 70px; display:flex; flex-direction:column; position:relative; }
+  .msh-right-content { flex:1; display:flex; flex-direction:column; justify-content:center; padding-left:60px; max-width:560px; }
+  .msh-credit { font-size:38px; font-weight:900; line-height:1.1; letter-spacing:-.02em; color:#fff; margin:0 0 8px; }
+  .msh-credit .msh-x { color:var(--mc-orange); font-weight:700; margin:0 6px; }
+  .msh-author { font-size:14.5px; color:#bdbdbd; font-weight:500; margin:0 0 36px; }
+  .msh-author strong { color:#fff; font-weight:700; }
+
+  /* Menú vertical de secciones */
+  .msh-menu { display:flex; flex-direction:column; }
+  .msh-menu-item { display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:24px; padding:22px 0; border-top:1px solid #2e2e2e; text-decoration:none; color:#fff; transition:padding-left .18s, background .18s; }
+  .msh-menu-item:first-child { border-top:none; padding-top:14px; }
+  .msh-menu-item:last-child { border-bottom:1px solid #2e2e2e; }
+  .msh-menu-item:hover { padding-left:8px; }
+  .msh-menu-num { font-size:13px; font-weight:800; color:var(--mc-orange); letter-spacing:.12em; min-width:24px; }
+  .msh-menu-text { display:flex; flex-direction:column; gap:4px; }
+  .msh-menu-title { font-size:22px; font-weight:800; color:#fff; letter-spacing:-.01em; line-height:1.15; }
+  .msh-menu-desc { font-size:12.5px; color:#a8a8a8; line-height:1.45; font-weight:500; }
+  .msh-menu-arrow { color:var(--mc-orange); font-size:20px; font-weight:800; transition:transform .15s; line-height:1; }
+  .msh-menu-item:hover .msh-menu-arrow { transform:translateX(6px); }
+
+  /* Móvil centrado · encima de los dos paneles */
+  .msh-phone-wrap { position:absolute; left:50%; top:50%; transform:translate(-50%, -50%); z-index:10; }
+  .msh-phone { width:280px; background:#1a1a1a; border-radius:42px; padding:9px; box-shadow:0 28px 60px rgba(0,0,0,.32), 0 12px 24px rgba(0,0,0,.2); position:relative; }
+  .msh-phone-notch { position:absolute; top:20px; left:50%; transform:translateX(-50%); width:100px; height:24px; background:#000; border-radius:14px; z-index:5; }
+  .msh-phone-screen { background:#fff; border-radius:34px; min-height:548px; overflow:hidden; position:relative; padding-top:34px; }
+  .msh-phone-statusbar { position:absolute; top:14px; left:0; right:0; display:flex; justify-content:space-between; padding:0 26px; font-size:13px; font-weight:800; color:#1a1a1a; align-items:center; z-index:1; }
+  .msh-phone-time { padding-right:60px; }
+  .msh-phone-icons { display:flex; align-items:center; gap:4px; padding-left:60px; }
+
+  .msh-app-header { background:#F5A800; display:flex; justify-content:space-between; align-items:center; padding:12px 18px; }
+  .msh-app-logo { font-size:22px; font-weight:900; color:#1a1a1a; letter-spacing:-.04em; line-height:1; }
+  .msh-app-logo em { color:#C62828; font-style:normal; }
+  .msh-app-cart { position:relative; display:inline-block; }
+  .msh-app-cart-badge { position:absolute; top:-6px; right:-7px; background:#C62828; color:#fff; font-size:10px; font-weight:800; min-width:16px; height:16px; border-radius:9px; display:grid; place-items:center; padding:0 4px; }
+
+  .msh-app-body { padding:18px 16px 14px; }
+  .msh-app-section { font-size:12px; color:#777; font-weight:600; text-align:center; margin-bottom:4px; }
+  .msh-app-mc { display:flex; justify-content:center; margin-bottom:2px; }
+  .msh-app-ctp { display:flex; justify-content:center; align-items:center; gap:7px; margin-bottom:14px; }
+  .msh-app-ctp span { font-size:13px; font-weight:800; color:#111; }
+
+  .msh-app-card { display:flex; align-items:center; gap:10px; padding:12px 14px; border:1.5px solid #E0E0E0; border-radius:10px; margin-bottom:8px; background:#fff; }
+  .msh-app-card-sel { background:#1a1a1a; border-color:#1a1a1a; }
+  .msh-app-card-info { flex:1; }
+  .msh-app-card-type { font-size:10.5px; color:#777; font-weight:700; }
+  .msh-app-card-sel .msh-app-card-type { color:#bbb; }
+  .msh-app-card-num { font-size:13px; color:#1a1a1a; font-weight:700; letter-spacing:1px; margin-top:2px; }
+  .msh-app-card-sel .msh-app-card-num { color:#fff; }
+  .msh-app-card-check { width:22px; height:22px; border-radius:50%; background:#F5A800; display:grid; place-items:center; flex-shrink:0; }
+  .msh-app-card-radio { width:22px; height:22px; border-radius:50%; border:1.5px solid #BDBDBD; flex-shrink:0; }
+
+  .msh-app-pay { width:100%; background:#F5A800; border:none; border-radius:999px; padding:14px; font-size:14.5px; font-weight:800; color:#1a1a1a; cursor:pointer; margin-top:8px; display:flex; align-items:center; justify-content:center; gap:10px; font-family:var(--font); }
+  .msh-app-pay-arrow { font-size:16px; }
+  .msh-app-footer { text-align:center; font-size:9.5px; color:#999; font-weight:600; margin-top:12px; display:flex; align-items:center; justify-content:center; gap:5px; }
+
+  @media (max-width:980px) {
+    .msh-section { grid-template-columns:1fr; min-height:auto; }
+    .msh-left { padding:30px 26px 40px; }
+    .msh-left-content { padding-right:0; max-width:none; }
+    .msh-title { font-size:36px; }
+    .msh-right { padding:50px 26px; }
+    .msh-right-content { padding-left:0; }
+    .msh-credit { font-size:30px; }
+    .msh-phone-wrap { position:static; transform:none; display:flex; justify-content:center; padding:30px 0; background:linear-gradient(180deg, #f5f1eb 50%, #1a1a1a 50%); }
+  }
+
   /* ── Hero de página interna (Ventajas) · dark Mastercard ── */
   .mc-page-hero { background:#181818; color:#fff; padding:120px 24px 70px; position:relative; overflow:hidden; margin-top:-78px; }
   .mc-page-hero-inner { max-width:1180px; margin:0 auto; display:grid; grid-template-columns:1.7fr 1fr; gap:50px; align-items:center; }
