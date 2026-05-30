@@ -1476,3 +1476,75 @@
     .mc-page-hero-art { display:none; }
     .mc-section-dark { padding:60px 22px; }
   }
+
+  /* ══════════════════════════════════════════════════════════════
+     PÁGINA VENTAJAS · estructura editorial Mastercard
+     6 secciones · blanco / gris / blanco / gris / blanco / negro
+  ══════════════════════════════════════════════════════════════ */
+  .vp-inner { max-width:1140px; margin:0 auto; padding:0 24px; }
+  .vp-inner-narrow { max-width:880px; }
+  .vp-kicker { display:flex; align-items:center; gap:11px; font-size:12px; font-weight:800; letter-spacing:.18em; text-transform:uppercase; color:var(--mc-orange); margin-bottom:24px; }
+  .vp-kicker-light { color:var(--mc-orange); }
+  .vp-dot { width:9px; height:9px; background:var(--mc-orange); border-radius:50%; flex-shrink:0; }
+  .vp-section { padding:90px 0; background:#fff; }
+  .vp-section-gray { background:#F7F7F7; }
+  .vp-section-black { background:#111; color:#fff; }
+  .vp-h1 { font-size:48px; font-weight:900; line-height:1.05; letter-spacing:-.025em; color:#111; margin:0 0 28px; }
+  .vp-h2 { font-size:36px; font-weight:900; line-height:1.1; letter-spacing:-.02em; color:#111; margin:0 0 40px; max-width:760px; }
+
+  /* HERO */
+  .vp-hero { padding:110px 0 90px; background:#fff; }
+  .vp-hero-inner { display:grid; grid-template-columns:1.4fr 1fr; gap:60px; align-items:center; }
+  .vp-hero-text p { font-size:16px; line-height:1.65; color:#444; margin:0 0 18px; max-width:520px; font-weight:500; }
+  .vp-hero-text p:last-child { margin-bottom:0; }
+  .vp-hero-art { display:flex; justify-content:center; max-width:420px; }
+  .vp-hero-art svg { width:100%; height:auto; }
+
+  /* Sección 1 · cómo lo resuelve */
+  .vp-resolve-grid { display:flex; align-items:flex-start; justify-content:space-between; gap:14px; flex-wrap:wrap; margin-top:14px; }
+  .vp-resolve-item { display:flex; flex-direction:column; align-items:center; gap:18px; flex:1; max-width:200px; text-align:center; }
+  .vp-icon { width:80px; height:80px; border-radius:50%; background:#fff; border:1.5px solid #E0E0E0; display:grid; place-items:center; font-size:32px; }
+  .vp-resolve-label { font-size:15px; font-weight:700; color:#111; line-height:1.3; }
+  .vp-resolve-arrow { color:#bdb6ad; font-size:24px; font-weight:300; flex-shrink:0; margin-top:30px; }
+
+  /* Sección 2 · editorial · 01/02/03 con divisores finos */
+  .vp-num-list { display:flex; flex-direction:column; }
+  .vp-num-item { display:grid; grid-template-columns:80px 1fr; gap:28px; padding:32px 0; border-top:1px solid #E0E0E0; }
+  .vp-num-item:last-child { border-bottom:1px solid #E0E0E0; }
+  .vp-num { font-size:26px; font-weight:900; color:var(--mc-orange); line-height:1; letter-spacing:.02em; }
+  .vp-num-content h3 { font-size:22px; font-weight:800; color:#111; margin:0 0 8px; letter-spacing:-.01em; line-height:1.25; }
+  .vp-num-content p { font-size:15.5px; color:#555; line-height:1.6; margin:0; font-weight:500; }
+
+  /* Sección 3 · grid 2x2 comercio */
+  .vp-merchant-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+  .vp-merchant-card { background:#fff; border:1px solid #E5E5E5; border-radius:4px; padding:32px 28px; }
+  .vp-merchant-card h3 { font-size:22px; font-weight:900; color:#111; margin:0 0 14px; letter-spacing:-.01em; }
+  .vp-merchant-card p { font-size:15.5px; color:#555; line-height:1.55; margin:0; font-weight:500; }
+  .vp-merchant-card p strong { color:var(--mc-orange); font-weight:900; }
+
+  /* Sección 4 · por qué sucede */
+  .vp-why-list { list-style:none; padding:0; margin:0; }
+  .vp-why-list li { display:flex; align-items:center; gap:22px; padding:20px 0; border-top:1px solid #E0E0E0; font-size:18px; font-weight:600; color:#111; }
+  .vp-why-list li:last-child { border-bottom:1px solid #E0E0E0; }
+  .vp-why-num { font-size:16px; font-weight:900; color:var(--mc-orange); min-width:30px; letter-spacing:.02em; }
+
+  /* Cierre · negro · resultado */
+  .vp-section-black .vp-kicker { color:var(--mc-orange); margin-bottom:36px; }
+  .vp-result-grid { display:grid; grid-template-columns:1fr 1fr; gap:60px; }
+  .vp-result-title { font-size:14px; font-weight:800; letter-spacing:.18em; color:#999; margin:0 0 24px; text-transform:uppercase; }
+  .vp-result-list { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:14px; }
+  .vp-result-list li { display:flex; align-items:center; gap:14px; font-size:18px; font-weight:600; color:#fff; }
+  .vp-check { color:var(--mc-orange); font-weight:900; font-size:18px; }
+
+  @media (max-width:880px) {
+    .vp-hero-inner { grid-template-columns:1fr; }
+    .vp-merchant-grid { grid-template-columns:1fr; }
+    .vp-result-grid { grid-template-columns:1fr; gap:32px; }
+    .vp-h1 { font-size:34px; }
+    .vp-h2 { font-size:26px; }
+    .vp-resolve-grid { flex-direction:column; }
+    .vp-resolve-arrow { transform:rotate(90deg); margin-top:0; }
+    .vp-num-item { grid-template-columns:1fr; gap:8px; }
+    .vp-section { padding:60px 0; }
+    .vp-hero { padding:60px 0 50px; }
+  }
