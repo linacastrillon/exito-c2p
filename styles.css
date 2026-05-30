@@ -1330,3 +1330,31 @@
     .mc-inicio-art { height:380px; max-width:380px; margin:0 auto; }
     .mc-inicio-bg { display:none; }
   }
+
+  /* ── Hero de página interna (Ventajas) · dark Mastercard ── */
+  .mc-page-hero { background:#181818; color:#fff; padding:120px 24px 70px; position:relative; overflow:hidden; margin-top:-78px; }
+  .mc-page-hero-inner { max-width:1180px; margin:0 auto; display:grid; grid-template-columns:1.7fr 1fr; gap:50px; align-items:center; }
+  .mc-page-hero-art svg { max-width:240px; width:100%; margin-left:auto; display:block; opacity:.95; }
+
+  /* ── Secciones oscuras (continuidad del estilo Mastercard) ── */
+  .mc-section-dark { background:#181818; color:#fff; padding:80px 24px; border-top:1px solid #2a2a2a; }
+  .mc-section-dark-alt { background:#1f1f1f; }
+  .mc-section-dark .mc-h2 { color:#fff; }
+  .mc-section-dark .mc-section-lead { color:#c8c8c8; }
+  .mc-section-dark .mc-card { background:#252525; border-color:#333; }
+  .mc-section-dark .mc-card:hover { box-shadow:0 8px 24px rgba(0,0,0,.45); border-color:#444; transform:translateY(-2px); }
+  .mc-section-dark .mc-card-title { color:#fff; }
+  .mc-section-dark .mc-card p { color:#bbb; }
+  .mc-section-dark .mc-card p strong { color:#fff; }
+  .mc-section-dark .mc-stats { background:transparent; border:1px solid #2f2f2f; padding:50px 40px; }
+  /* Cards clicables con flecha (cards-menú de Inicio) */
+  .mc-card-link { text-decoration:none; color:inherit; display:block; position:relative; padding-right:50px; }
+  .mc-card-arrow { position:absolute; top:32px; right:28px; color:var(--mc-orange); font-size:22px; font-weight:800; transition:transform .15s; line-height:1; }
+  .mc-card-link:hover .mc-card-arrow { transform:translateX(5px); }
+
+  @media (max-width:880px) {
+    .mc-page-hero { padding:90px 22px 50px; }
+    .mc-page-hero-inner { grid-template-columns:1fr; gap:20px; }
+    .mc-page-hero-art { display:none; }
+    .mc-section-dark { padding:60px 22px; }
+  }
