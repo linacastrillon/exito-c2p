@@ -66,6 +66,9 @@
   .site-links a:hover { background:rgba(0,0,0,.06); }
   .site-links a.active { font-weight:800; color:#000; }
 
+  /* En la página Demo: header amarillo de Éxito también sticky, justo debajo del pill */
+  #demo > .header { position:sticky; top:92px; z-index:280; }
+
   /* ── Secciones placeholder (Inicio / Ventajas / Métodos) ── */
   .pres-section { max-width:1100px; margin:0 auto; padding:52px 24px; }
   .pres-section .eyebrow { display:inline-block; font-size:11px; font-weight:800; letter-spacing:.14em; text-transform:uppercase; color:#8a6d00; background:#FFE800; padding:6px 12px; border-radius:999px; margin-bottom:14px; }
