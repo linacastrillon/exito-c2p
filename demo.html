@@ -54,6 +54,13 @@
   </div>
 </header>
 
+<!-- ══ EXPLICACIÓN DEL CASO ACTIVO (cambia con setFlow) ══ -->
+<div class="sim-caption">
+  <div class="flow-caption" id="flow-caption">
+    ✨ <strong>Usuario nuevo</strong> — primera vez en Click to Pay. Ingresa su tarjeta de forma cifrada (encryptCard), acepta el consentimiento de inscripción y queda registrado para próximas compras.
+  </div>
+</div>
+
 <!-- ══ BREADCRUMB ══ -->
 <div class="breadcrumb-bar">
   <nav class="breadcrumb" aria-label="Pasos de compra">
@@ -690,6 +697,14 @@
   var rgTimer = null;
   var acTimer = null;
 
+  /* Texto explicativo de cada caso (se muestra debajo de las pestañas) */
+  var FLOW_CAPTION = {
+    new:     '✨ <strong>Usuario nuevo</strong> — primera vez en Click to Pay. Ingresa su tarjeta de forma cifrada (encryptCard), acepta el consentimiento de inscripción y queda registrado para próximas compras.',
+    unrecog: '✉️ <strong>Reconocido por correo / teléfono</strong> — Click to Pay encuentra el perfil por el correo o celular del titular y valida con un código de un solo uso (OTP) antes de mostrar las tarjetas.',
+    recog:   '👤 <strong>Usuario reconocido</strong> — dispositivo de confianza: las tarjetas aparecen al instante (getCards) sin OTP, y paga en 1 clic con checkoutWithCard.',
+    addcard: '➕ <strong>Agregar nueva tarjeta</strong> — un usuario reconocido añade una nueva tarjeta a su billetera Click to Pay (encryptCard + checkoutWithNewCard).'
+  };
+
   /* Selector de casos de uso: resalta la pestaña, muestra su panel y arranca el flujo */
   function setFlow(f) {
     currentFlow = f;
@@ -699,6 +714,8 @@
       var panel = document.getElementById('uc-' + t);
       if (panel) panel.classList.toggle('active', t === f);
     });
+    var cap = document.getElementById('flow-caption');
+    if (cap && FLOW_CAPTION[f]) cap.innerHTML = FLOW_CAPTION[f];
     if (f !== 'new')     { clearTimeout(nuTimer); closeNuWelcome(); }
     if (f !== 'unrecog') { clearTimeout(ruTimer); clearInterval(ruOtpInterval); }
     if (f !== 'recog')   { clearTimeout(rgTimer); }
