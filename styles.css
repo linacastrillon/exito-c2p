@@ -1363,7 +1363,7 @@
   .msh-section { display:grid; grid-template-columns:1fr 1fr; min-height:100vh; position:relative; overflow:hidden; }
 
   /* Panel izquierdo · cream */
-  .msh-left { background:#f5f1eb; padding:36px 70px 60px; display:flex; flex-direction:column; position:relative; }
+  .msh-left { background:#f5f1eb; padding:36px 200px 60px 64px; display:flex; flex-direction:column; position:relative; }
   .msh-cobrand { display:flex; align-items:center; gap:14px; flex-shrink:0; }
   .msh-cobrand-mc { display:flex; align-items:center; gap:9px; }
   .msh-cobrand-text { font-size:20px; font-weight:600; color:#1a1a1a; letter-spacing:-.01em; }
@@ -1371,7 +1371,7 @@
   .msh-cobrand-exito { font-size:22px; font-weight:900; color:#1a1a1a; letter-spacing:-.04em; line-height:1; }
   .msh-cobrand-exito em { color:#C62828; font-style:normal; }
 
-  .msh-left-content { flex:1; display:flex; flex-direction:column; justify-content:center; padding-right:40px; max-width:480px; }
+  .msh-left-content { flex:1; display:flex; flex-direction:column; justify-content:center; padding-right:0; max-width:none; }
   .msh-eyebrow { display:flex; align-items:center; gap:11px; font-size:12px; font-weight:800; letter-spacing:.18em; text-transform:uppercase; color:#1a1a1a; margin-bottom:24px; }
   .msh-eyebrow-light { color:#fff; }
   .msh-dot { width:9px; height:9px; background:var(--mc-orange); border-radius:50%; flex-shrink:0; }
@@ -1380,8 +1380,8 @@
   .msh-subtitle { font-size:16.5px; color:#4a4a4a; font-weight:500; line-height:1.5; margin:0; }
 
   /* Panel derecho · negro */
-  .msh-right { background:#1a1a1a; color:#fff; padding:60px 70px; display:flex; flex-direction:column; position:relative; }
-  .msh-right-content { flex:1; display:flex; flex-direction:column; justify-content:center; padding-left:60px; max-width:560px; }
+  .msh-right { background:#1a1a1a; color:#fff; padding:60px 64px 60px 200px; display:flex; flex-direction:column; position:relative; }
+  .msh-right-content { flex:1; display:flex; flex-direction:column; justify-content:center; padding-left:0; max-width:none; }
   .msh-credit { font-size:38px; font-weight:900; line-height:1.1; letter-spacing:-.02em; color:#fff; margin:0 0 8px; }
   .msh-credit .msh-x { color:var(--mc-orange); font-weight:700; margin:0 6px; }
   .msh-author { font-size:14.5px; color:#bdbdbd; font-weight:500; margin:0 0 36px; }
