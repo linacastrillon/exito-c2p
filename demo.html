@@ -93,6 +93,10 @@
             <div class="contact-name">Lina Castrillón</div>
             <div class="contact-email">linacastrillon@gmail.com</div>
             <div class="contact-email">Cel. 301 496 9966</div>
+            <div class="info-pii">
+              <a class="info-link" onclick="openWelcome()">¿Cómo <u>Click to Pay</u> utiliza mi información?</a><button class="info-i" type="button" onclick="toggleInfoTip(this)" aria-label="Cómo se usa este dato">i</button>
+              <div class="info-tip">Click to Pay usará tu número de celular para verificar si tienes tarjetas vinculadas.<br><br>Puede enviarse un código de un solo uso a este celular para confirmar que eres tú. Pueden aplicar tarifas de mensajes o datos.</div>
+            </div>
           </div>
           <span class="badge-done">✓ Completado</span>
         </div>
@@ -565,6 +569,29 @@
   </div>
 </div>
 
+<!-- Popup "Bienvenido a Click to Pay" · CX Guide · data disclosure (PII) -->
+<div class="welcome-overlay" id="welcome-overlay" role="dialog" aria-modal="true" aria-label="Bienvenido a Click to Pay" onclick="if(event.target===this) closeWelcome()">
+  <div class="welcome-modal">
+    <h2 class="welcome-title">Bienvenido a<br><span>Click to Pay</span></h2>
+    <p class="welcome-sub">Un método de pago rápido y seguro, compatible con Mastercard, Visa, American Express y Discover.</p>
+    <div class="welcome-nets">
+      <svg width="30" height="21" viewBox="0 0 40 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Click to Pay">
+        <path d="M5 4 H20 L28 14 L20 24 H5 Z" fill="#111" stroke="#111" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M31 7 C35 11 35 17 31 21" fill="none" stroke="#111" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+      <span class="wn-sep"></span>
+      <svg width="30" height="21" viewBox="0 0 34 22" fill="none" aria-label="Mastercard"><circle cx="12" cy="11" r="10" fill="#EB001B"/><circle cx="22" cy="11" r="10" fill="#F79E1B"/><path d="M17 4.8 A10 10 0 0 1 17 17.2 A10 10 0 0 1 17 4.8Z" fill="#FF5F00"/></svg>
+      <span class="wn-ph"></span><span class="wn-ph"></span><span class="wn-ph"></span>
+    </div>
+    <ul class="welcome-list">
+      <li>Mantén tu información protegida y segura</li>
+      <li>Úsalo en comercios de todo el mundo</li>
+      <li>Configúralo una vez para pagar sin complicaciones en el futuro</li>
+    </ul>
+    <button class="welcome-ok" onclick="closeWelcome()">OK</button>
+  </div>
+</div>
+
 <!-- Verificación adicional (3DS · placeholder controlado por el emisor) -->
 <div class="tds-overlay" id="tds-overlay">
   <div class="tds-box">
@@ -727,6 +754,31 @@
       else if (f === 'addcard') startAddCardFlow();
     }
   }
+
+  /* Popup "Bienvenido a Click to Pay" + tooltip "i" (CX Guide · data disclosure PII) */
+  function openWelcome() { var w=document.getElementById('welcome-overlay'); if(w) w.classList.add('open'); }
+  function closeWelcome() { var w=document.getElementById('welcome-overlay'); if(w) w.classList.remove('open'); }
+  function toggleInfoTip(btn) {
+    var tip = btn.parentElement.querySelector('.info-tip');
+    if (!tip) return;
+    if (tip.classList.contains('show')) { tip.classList.remove('show'); return; }
+    var r = btn.getBoundingClientRect();
+    var w = 380;
+    var left = r.left + r.width / 2 - 40;
+    if (left + w > window.innerWidth - 12) left = window.innerWidth - 12 - w;
+    if (left < 12) left = 12;
+    var arrow = (r.left + r.width / 2) - left - 8;
+    tip.style.left = left + 'px';
+    tip.style.top = (r.bottom + 10) + 'px';
+    tip.style.setProperty('--tip-arrow', arrow + 'px');
+    tip.classList.add('show');
+  }
+  /* Cerrar el tooltip al hacer clic fuera */
+  document.addEventListener('click', function (e) {
+    if (e.target.closest && (e.target.closest('.info-i') || e.target.closest('.info-tip'))) return;
+    var open = document.querySelector('.info-tip.show');
+    if (open) open.classList.remove('show');
+  });
 
   /* Acordeón de métodos de pago (estilo Éxito) */
   function togglePM(header) {
