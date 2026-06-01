@@ -285,7 +285,7 @@
   <!-- ════ CASO 3 · USUARIO RECONOCIDO ════ -->
   <section class="case-section" id="case-recog">
     <h3 class="flow-title">Caso 3 · Usuario reconocido</h3>
-    <p class="flow-lead">Flujo de <strong>Recognized User</strong> según la documentación oficial: el consumidor marcó "Remember me" en un checkout previo. <em>getCards()</em> devuelve las tarjetas al instante, sin OTP.</p>
+    <p class="flow-lead">Flujo de <strong>Recognized User</strong> según la documentación oficial. El integrador llama a <em>init()</em> y <em>getCards()</em>; <em>getCards()</em> devuelve la lista de <em>maskedCard</em> del consumidor.</p>
 
     <div class="int-flow">
       <div class="int-header-block">
@@ -295,7 +295,7 @@
 
       <div class="int-step">
         <div class="int-step-title">Paso 1</div>
-        <p>El integrador llama a <em>init()</em> y <em>getCards()</em> al cargar la página. Como el dispositivo es de confianza, <em>getCards()</em> responde con la lista de <em>maskedCard</em> del consumidor de inmediato — sin OTP.</p>
+        <p>El integrador llama a <em>init()</em> y <em>getCards()</em> al cargar la página. <em>getCards()</em> devuelve la lista de <em>maskedCard</em> del consumidor.</p>
       </div>
       <div class="int-phone">
         <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
@@ -408,7 +408,7 @@
 
       <div class="int-step">
         <div class="int-step-title">Paso 1</div>
-        <p>El integrador llama a <em>init()</em> y <em>getCards()</em>. Como el dispositivo es de confianza, <em>getCards()</em> devuelve la lista de <em>maskedCard</em> al instante.</p>
+        <p>El integrador llama a <em>init()</em> y <em>getCards()</em>. <em>getCards()</em> devuelve la lista de <em>maskedCard</em>.</p>
       </div>
       <div class="int-phone">
         <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
