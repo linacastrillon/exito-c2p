@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lista de métodos · Éxito × Click to Pay</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=2026053006">
+</head>
+<body>
+
+<!-- ══ HEADER PRINCIPAL DE LA PRESENTACIÓN (menú general · compartido) ══ -->
+<header class="site-nav">
+  <div class="site-nav-inner">
+    <a class="brand-lockup" href="index.html" aria-label="Inicio">
+      <span class="exito-pill">éxito</span>
+      <span class="brand-x">×</span>
+      <span class="c2p-lockup">
+        <span class="c2p-mk">
+          <svg width="20" height="14" viewBox="0 0 40 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Click to Pay">
+            <path d="M5 4 H20 L28 14 L20 24 H5 Z" fill="#fff" stroke="#fff" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M31 7 C35 11 35 17 31 21" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+        </span>
+        Click to Pay
+      </span>
+    </a>
+    <nav class="site-links">
+      <a href="index.html">Inicio</a>
+      <a href="ventajas.html">Ventajas</a>
+      <a href="demo.html">Demo</a>
+      <a href="metodos.html" class="active">Métodos</a>
+    </nav>
+  </div>
+</header>
+
+<section class="mt-doc">
+  <div class="mt-toolbar">
+    <button class="mt-btn" type="button" onclick="window.print()">📄 Imprimir / Guardar como PDF</button>
+    <a class="mt-link" href="metodos.html">← Volver a diagramas</a>
+  </div>
+
+  <header class="mt-head">
+    <div class="mt-kicker"><span class="mt-mark"></span>EXPORTABLE · MÉTODOS</div>
+    <h1>Lista de métodos JavaScript / API.</h1>
+    <p class="mt-sub">Inventario completo de los métodos del SDK de <strong>SRC (EMVCo)</strong> y de <strong>Unified Checkout Solutions (UCS)</strong> que se invocan en la integración de Click to Pay sobre el checkout de Éxito — con el caso de uso donde aplican, el paso del flujo y el alcance de cada uno.</p>
+  </header>
+
+  <!-- ══ TABLA PRINCIPAL ══ -->
+  <h2 class="mt-h2">Tabla general</h2>
+  <div class="mt-table-wrap">
+    <table class="mt-table">
+      <thead>
+        <tr>
+          <th style="width:24%;">Método / Componente</th>
+          <th style="width:11%;">Tipo</th>
+          <th style="width:9%;">Casos</th>
+          <th style="width:18%;">Paso del flujo</th>
+          <th>Alcance · qué hace</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>Sessions API · captureContext</code></td>
+          <td><span class="mt-tag mt-tag-ucs">UCS</span></td>
+          <td>1 · 2 · 3 · 4</td>
+          <td>Inicio del checkout</td>
+          <td>Crea un contexto de sesión seguro con SRC y devuelve un JWT (<em>captureContext</em>) que se usa para montar Unified Checkout. Todas las llamadas posteriores se autorizan con ese token.</td>
+        </tr>
+        <tr>
+          <td><code>uc.mount()</code></td>
+          <td><span class="mt-tag mt-tag-ucs">UCS</span></td>
+          <td>1 · 2 · 3 · 4</td>
+          <td>Inicio del checkout</td>
+          <td>Monta el componente de Unified Checkout en la página del comercio con el <em>captureContext</em>; deja listos los <em>web components</em> y eventos del SDK.</td>
+        </tr>
+        <tr>
+          <td><code>src.init()</code></td>
+          <td><span class="mt-tag mt-tag-src">SRC SDK</span></td>
+          <td>1 · 2 · 3 · 4</td>
+          <td>Al seleccionar "Tarjeta crédito o débito"</td>
+          <td>Inicializa el SDK de SRC. Prepara la sesión para identificar al consumidor y desencadenar el resto del flujo de Click to Pay.</td>
+        </tr>
+        <tr>
+          <td><code>src.isRecognized()</code></td>
+          <td><span class="mt-tag mt-tag-src">SRC SDK</span></td>
+          <td>1 · 2 · 3 · 4</td>
+          <td>Card loader</td>
+          <td>Determina si el dispositivo / navegador ya está reconocido como de confianza. <em>true</em> → casos 3 y 4 (sin OTP); <em>false</em> → casos 1 y 2.</td>
+        </tr>
+        <tr>
+          <td><code>src.idLookup(identity)</code></td>
+          <td><span class="mt-tag mt-tag-src">SRC SDK</span></td>
+          <td>2</td>
+          <td>Card loader</td>
+          <td>Busca un perfil Click to Pay por correo o número de celular del consumidor. Devuelve si existe un perfil asociado y los canales de validación soportados.</td>
+        </tr>
+        <tr>
+          <td><code>&lt;src-card-loader&gt;</code></td>
+          <td><span class="mt-tag mt-tag-comp">Componente</span></td>
+          <td>1 · 2 · 3 · 4</td>
+          <td>Paso 04 · Card Loader</td>
+          <td>Pantalla "Click to Pay is looking for your linked cards…" con escudo + spinner; cubre el tiempo de identificación del consumidor.</td>
+        </tr>
+        <tr>
+          <td><code>&lt;src-otp-input&gt;</code><br><span class="mt-meta">+ <code>loadSupportedValidationChannels</code></span></td>
+          <td><span class="mt-tag mt-tag-comp">Componente</span></td>
+          <td>2</td>
+          <td>Paso 05 · OTP</td>
+          <td>Recibe el array <em>supportedValidationChannels</em> ({validationChannelId, identityType, maskedValidationChannel}). Muestra el identificador enmascarado, "¿No eres tú?", H1 "Click to Pay encontró tus tarjetas vinculadas", casillas de OTP y enlaces de reenvío.</td>
+        </tr>
+        <tr>
+          <td><code>src.validate(otpCode)</code></td>
+          <td><span class="mt-tag mt-tag-src">SRC SDK</span></td>
+          <td>2</td>
+          <td>Paso 05 · OTP · Continuar</td>
+          <td>Valida con SRC el código de un solo uso ingresado por el consumidor. Devuelve éxito o error.</td>
+        </tr>
+        <tr>
+          <td><code>src.getCards()</code></td>
+          <td><span class="mt-tag mt-tag-src">SRC SDK</span></td>
+          <td>2 · 3</td>
+          <td>Selección de tarjeta</td>
+          <td>Devuelve la lista de tarjetas tokenizadas del consumidor reconocido (sólo los identificadores digitales — nunca el PAN real).</td>
+        </tr>
+        <tr>
+          <td><code>&lt;src-consent&gt;</code></td>
+          <td><span class="mt-tag mt-tag-comp">Componente</span></td>
+          <td>1</td>
+          <td>Tras los 4 primeros dígitos</td>
+          <td>Recoge el consentimiento de inscripción ("Guardar mi información con Click to Pay") junto con los Términos y el Aviso de Privacidad. Aparece cuando la tarjeta resulta elegible.</td>
+        </tr>
+        <tr>
+          <td><code>src.encryptCard(cardData)</code></td>
+          <td><span class="mt-tag mt-tag-src">SRC SDK</span></td>
+          <td>1 · 4</td>
+          <td>Antes de pagar</td>
+          <td>Cifra los datos de la tarjeta nueva en el dispositivo del consumidor. El PAN real nunca viaja en claro hacia el comercio ni hacia el backend.</td>
+        </tr>
+        <tr>
+          <td><code>src.checkoutWithCard(<wbr>srcDigitalCardId,<br>complianceSettings)</code></td>
+          <td><span class="mt-tag mt-tag-src">SRC SDK</span></td>
+          <td>2 · 3</td>
+          <td>Clic en Pagar</td>
+          <td>Procesa el pago con una tarjeta ya vinculada al perfil Click to Pay, identificada por su <em>srcDigitalCardId</em>. Aplica <em>ComplianceSettings</em> con los términos legales del comercio.</td>
+        </tr>
+        <tr>
+          <td><code>src.checkoutWithNewCard(<wbr>encryptedCard,<br>complianceSettings)</code></td>
+          <td><span class="mt-tag mt-tag-src">SRC SDK</span></td>
+          <td>1 · 4</td>
+          <td>Clic en Pagar</td>
+          <td>Procesa el pago con la tarjeta cifrada nueva e inscribe la tarjeta en el perfil Click to Pay (caso 1: crea el perfil; caso 4: añade a uno existente).</td>
+        </tr>
+        <tr>
+          <td><code>ComplianceSettings</code></td>
+          <td><span class="mt-tag mt-tag-cfg">Configuración</span></td>
+          <td>1 · 2 · 3 · 4</td>
+          <td>Llamadas de checkout</td>
+          <td>Objeto con las URLs de Términos y Aviso de Privacidad del comercio. Mastercard exige enviarlo en cada <em>checkout*</em> para asegurar el cumplimiento legal.</td>
+        </tr>
+        <tr>
+          <td><code>authorize</code> (server-side)</td>
+          <td><span class="mt-tag mt-tag-srv">Server</span></td>
+          <td>1 · 2 · 3 · 4</td>
+          <td>Tras checkout SDK</td>
+          <td>El backend del comercio toma el <em>transient token</em> que devuelve el SDK y envía la transacción al adquirente / red para autorización con el emisor.</td>
+        </tr>
+        <tr>
+          <td><code>3DS</code></td>
+          <td><span class="mt-tag mt-tag-srv">Server / Emisor</span></td>
+          <td>1 · 2 · 3 · 4</td>
+          <td>Durante la autorización</td>
+          <td>Paso de verificación adicional invocado por el emisor cuando lo considera necesario (OTP bancario, biometría, app push). Reduce fraude sin bloquear compras legítimas.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ══ EVENTOS ══ -->
+  <h2 class="mt-h2">Eventos del componente <code>&lt;src-otp-input&gt;</code></h2>
+  <div class="mt-table-wrap">
+    <table class="mt-table">
+      <thead>
+        <tr>
+          <th style="width:24%;">Evento</th>
+          <th style="width:11%;">Tipo</th>
+          <th style="width:9%;">Casos</th>
+          <th style="width:18%;">Disparador</th>
+          <th>Alcance</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>resendOtp</code></td>
+          <td><span class="mt-tag mt-tag-evt">Evento</span></td>
+          <td>2</td>
+          <td>Clic en "Reenviar Móvil" o "Reenviar Email"</td>
+          <td>El componente avisa al integrador que el usuario quiere reenviar el código. El comercio puede solicitar a SRC un nuevo OTP por el canal elegido.</td>
+        </tr>
+        <tr>
+          <td><code>notYouRequested</code></td>
+          <td><span class="mt-tag mt-tag-evt">Evento</span></td>
+          <td>2</td>
+          <td>Clic en "¿No eres tú?"</td>
+          <td>El componente notifica que el consumidor quiere identificarse con otro correo / celular. El integrador puede reiniciar el flujo con una nueva identidad.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ══ SECUENCIA POR CASO ══ -->
+  <h2 class="mt-h2">Secuencia por caso de uso</h2>
+
+  <div class="mt-case">
+    <h3>Caso 1 · Nuevo usuario</h3>
+    <ol class="mt-seq">
+      <li><code>Sessions API · captureContext</code> · <code>uc.mount()</code></li>
+      <li><code>src.init()</code> + <code>src.isRecognized()</code> → false · <code>src.idLookup()</code> → sin perfil</li>
+      <li><code>&lt;src-card-loader&gt;</code> mientras se identifica</li>
+      <li>Entrada manual de tarjeta (PAN, vencimiento, CVC)</li>
+      <li>Tras los 4 primeros dígitos → <code>&lt;src-consent&gt;</code> (consentimiento de inscripción)</li>
+      <li><code>src.encryptCard(cardData)</code> → <code>src.checkoutWithNewCard(encryptedCard, ComplianceSettings)</code></li>
+      <li>Backend <code>authorize</code> + <code>3DS</code> si el emisor lo invoca</li>
+      <li>Página de pedido confirmado de Éxito</li>
+    </ol>
+  </div>
+
+  <div class="mt-case">
+    <h3>Caso 2 · Reconocido por correo / teléfono</h3>
+    <ol class="mt-seq">
+      <li><code>Sessions API · captureContext</code> · <code>uc.mount()</code></li>
+      <li><code>src.init()</code> + <code>src.isRecognized()</code> → false + <code>src.idLookup(email)</code> → perfil encontrado</li>
+      <li><code>&lt;src-card-loader&gt;</code></li>
+      <li><code>&lt;src-otp-input&gt;</code> · <code>loadSupportedValidationChannels(channels)</code> · eventos <code>resendOtp</code> / <code>notYouRequested</code></li>
+      <li><code>src.validate(otpCode)</code></li>
+      <li><code>src.getCards()</code> → lista de tarjetas</li>
+      <li><code>src.checkoutWithCard(srcDigitalCardId, ComplianceSettings)</code></li>
+      <li>Backend <code>authorize</code> + <code>3DS</code> si el emisor lo invoca</li>
+      <li>Página de pedido confirmado de Éxito</li>
+    </ol>
+  </div>
+
+  <div class="mt-case">
+    <h3>Caso 3 · Usuario reconocido</h3>
+    <ol class="mt-seq">
+      <li><code>Sessions API · captureContext</code> · <code>uc.mount()</code></li>
+      <li><code>src.init()</code> + <code>src.isRecognized()</code> → true (sin OTP)</li>
+      <li><code>&lt;src-card-loader&gt;</code> (breve)</li>
+      <li><code>src.getCards()</code> → lista de tarjetas al instante</li>
+      <li><code>src.checkoutWithCard(srcDigitalCardId, ComplianceSettings)</code></li>
+      <li>Backend <code>authorize</code> + <code>3DS</code> si el emisor lo invoca</li>
+      <li>Página de pedido confirmado de Éxito</li>
+    </ol>
+  </div>
+
+  <div class="mt-case">
+    <h3>Caso 4 · Agregar nueva tarjeta</h3>
+    <ol class="mt-seq">
+      <li><code>Sessions API · captureContext</code> · <code>uc.mount()</code></li>
+      <li><code>src.init()</code> + <code>src.isRecognized()</code> → true</li>
+      <li><code>&lt;src-card-loader&gt;</code> y <code>src.getCards()</code></li>
+      <li>El usuario elige "Ingresar tarjeta manualmente" → captura PAN, vencimiento, CVC + consentimiento</li>
+      <li><code>src.encryptCard(cardData)</code> → <code>src.checkoutWithNewCard(encryptedCard, ComplianceSettings)</code></li>
+      <li>Backend <code>authorize</code> + <code>3DS</code> si el emisor lo invoca</li>
+      <li>Página de pedido confirmado de Éxito</li>
+    </ol>
+  </div>
+
+  <footer class="mt-footer">
+    <p>Demo desarrollado por <strong>Lina M. Castrillón Forero</strong> · Mastercard × Éxito · Click to Pay</p>
+  </footer>
+</section>
+
+</body>
+</html>
