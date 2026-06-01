@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Métodos · Éxito × Click to Pay</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=2026053006">
+<link rel="stylesheet" href="styles.css?v=2026053007">
 </head>
 <body>
 
@@ -51,7 +51,7 @@
   <!-- ════ CASO 1 · NUEVO USUARIO ════ -->
   <section class="case-section active" id="case-new">
     <h3 class="flow-title">Caso 1 · Nuevo usuario</h3>
-    <p class="flow-lead">Flujo del patrón <strong>Card Loader</strong> (CX Guide): del clic en "Tarjeta crédito o débito" al pedido confirmado de Éxito. Las cajas oscuras sobre las flechas son los métodos que se ejecutan en cada paso.</p>
+    <p class="flow-lead">Flujo de <strong>First Time User</strong> según la documentación oficial de Unified Checkout Solutions: del clic en "Tarjeta crédito o débito" hasta la confirmación del pedido. Cada paso refleja los métodos JavaScript y APIs invocados por el integrador.</p>
 
     <div class="int-flow">
       <div class="int-header-block">
@@ -61,7 +61,7 @@
 
       <div class="int-step">
         <div class="int-step-title">Paso 1</div>
-        <p>El integrador llama a <em>init()</em> e <em>isRecognized()</em> / <em>idLookup()</em> para determinar si el consumidor ya tiene un perfil Click to Pay.<br><br>Si no se encuentra, el consumidor entra al flujo de nuevo usuario.</p>
+        <p>Al cargar la página, el integrador llama a <em>init()</em> y <em>getCards()</em> para verificar si el consumidor está reconocido por algún sistema Click to Pay. Como es la primera vez, <em>getCards()</em> devuelve una respuesta vacía y el consumidor entra al flujo de inscripción.</p>
       </div>
       <div class="int-phone">
         <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
@@ -88,7 +88,7 @@
 
       <div class="int-step">
         <div class="int-step-title">Paso 2</div>
-        <p>Tras los primeros 4 dígitos de la tarjeta, el integrador monta el componente <em>SRC Consent</em>, que recoge el consentimiento de inscripción junto con Términos y Aviso de Privacidad.</p>
+        <p>El consumidor ingresa su correo, celular y dirección de envío. El integrador llama a <em>authenticate()</em> para verificar si la identidad (correo o celular) es conocida en algún sistema Click to Pay. Devuelve lista vacía: se presenta el formulario de captura de tarjeta y se recoge el consentimiento "Remember Me".</p>
       </div>
       <div class="int-phone">
         <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
@@ -116,7 +116,7 @@
 
       <div class="int-step">
         <div class="int-step-title">Paso 3</div>
-        <p>Al pulsar Pagar, el integrador llama a <em>encryptCard()</em> para cifrar la tarjeta y a <em>checkoutWithNewCard()</em> con <em>ComplianceSettings</em> para procesar el pago e inscribir el perfil.</p>
+        <p>El integrador llama a <em>encryptCard()</em> para enmascarar el PAN y obtener <em>encryptedCard</em>. Luego invoca <em>checkoutWithNewCard()</em> con <em>recognitionTokenRequested=true</em> y opcionalmente <em>payloadRequested="AUTHENTICATED"</em> para passkey. Recibe <em>checkoutResponse</em> con <em>checkoutActionCode = COMPLETE</em>.</p>
       </div>
       <div class="int-phone">
         <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
@@ -140,7 +140,7 @@
 
       <div class="int-step">
         <div class="int-step-title">Paso 4</div>
-        <p>El backend autoriza el pago (server-side + <em>3DS</em>) y Éxito muestra al consumidor la página de pedido confirmado.</p>
+        <p>El backend llama a <em>POST /checkout</em> para recuperar el <em>encryptedPayload</em>, lo descifra con su clave privada y lo envía para la autorización del pago (DSRP). Tras autorizar, reporta el resultado con <em>POST /confirmations</em> y Éxito muestra al consumidor la página de pedido confirmado.</p>
       </div>
       <div class="int-phone">
         <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
@@ -161,7 +161,7 @@
   <!-- ════ CASO 2 · RECONOCIDO POR CORREO/TELÉFONO ════ -->
   <section class="case-section" id="case-unrecog">
     <h3 class="flow-title">Caso 2 · Reconocido por correo / teléfono</h3>
-    <p class="flow-lead">El dispositivo no está reconocido pero el correo / teléfono sí tiene un perfil Click to Pay. El integrador identifica al usuario, valida con un OTP y muestra las tarjetas tokenizadas.</p>
+    <p class="flow-lead">Flujo de <strong>User Recognized through Email/Mobile Lookup</strong>: el dispositivo no está reconocido. El integrador identifica al consumidor con <em>authenticate()</em>, Mastercard solicita OTP y devuelve la lista de tarjetas.</p>
 
     <div class="int-flow">
       <div class="int-header-block">
@@ -171,7 +171,7 @@
 
       <div class="int-step">
         <div class="int-step-title">Paso 1</div>
-        <p>El integrador llama a <em>init()</em>, <em>isRecognized()</em> (false) y <em>idLookup(email)</em>. SRC encuentra el perfil pero el dispositivo no está reconocido.</p>
+        <p>El integrador llama a <em>init()</em> y <em>getCards()</em> al cargar la página. Como el dispositivo no está reconocido, <em>getCards()</em> no devuelve <em>maskedCard</em> y responde con un mensaje "not recognized".</p>
       </div>
       <div class="int-phone">
         <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
@@ -198,7 +198,7 @@
 
       <div class="int-step">
         <div class="int-step-title">Paso 2</div>
-        <p>Se monta el componente <em>&lt;src-otp-input&gt;</em> con <em>loadSupportedValidationChannels</em> (SMS / EMAIL). El usuario ingresa el código y se invoca <em>validate(otpCode)</em>.</p>
+        <p>El consumidor ingresa sus datos de contacto. El integrador llama a <em>authenticate()</em> pasando el <em>iFrame windowRef</em> y <em>accountReference</em> (correo / celular). <em>authenticate()</em> encapsula <em>idLookup()</em>, <em>initiateValidation()</em> y <em>validate()</em>. Mastercard muestra el OTP en el iFrame con checkbox "Remember Me" (porque se envió <em>requestRecognitionToken=True</em>) y responde con la lista de tarjetas y un <em>recognitionToken</em>.</p>
       </div>
       <div class="int-phone">
         <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
@@ -222,7 +222,7 @@
 
       <div class="int-step">
         <div class="int-step-title">Paso 3</div>
-        <p><em>getCards()</em> devuelve las tarjetas tokenizadas; el usuario selecciona una y el integrador llama a <em>checkoutWithCard(srcDigitalCardId, ComplianceSettings)</em>.</p>
+        <p>El integrador muestra la lista de tarjetas usando el componente UI <em>SRC Card List</em>. El consumidor selecciona una y el integrador llama a <em>checkoutWithCard()</em> con <em>payloadRequested="AUTHENTICATED"</em> bajo <em>authenticationPreferences</em> si se opta por autenticación de transacción. Recibe <em>checkoutResponse</em> con <em>checkoutActionCode = COMPLETE</em>.</p>
       </div>
       <div class="int-phone">
         <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
@@ -268,7 +268,7 @@
 
       <div class="int-step">
         <div class="int-step-title">Paso 4</div>
-        <p>El backend autoriza el pago (server-side + <em>3DS</em>) y Éxito muestra al consumidor la página de pedido confirmado.</p>
+        <p>El backend llama a <em>POST /checkout</em>, descifra el <em>encryptedPayload</em>, lo envía para autorización (DSRP) y reporta el resultado con <em>POST /confirmations</em>. Éxito muestra al consumidor la página de pedido confirmado.</p>
       </div>
       <div class="int-phone">
         <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
@@ -289,7 +289,7 @@
   <!-- ════ CASO 3 · USUARIO RECONOCIDO ════ -->
   <section class="case-section" id="case-recog">
     <h3 class="flow-title">Caso 3 · Usuario reconocido</h3>
-    <p class="flow-lead">Dispositivo de confianza: el integrador recupera las tarjetas al instante (sin OTP) y procesa el pago con la tarjeta elegida.</p>
+    <p class="flow-lead">Flujo de <strong>Recognized User</strong> según la documentación oficial: el consumidor marcó "Remember me" en un checkout previo. <em>getCards()</em> devuelve las tarjetas al instante, sin OTP.</p>
 
     <div class="int-flow">
       <div class="int-header-block">
@@ -299,7 +299,7 @@
 
       <div class="int-step">
         <div class="int-step-title">Paso 1</div>
-        <p>El integrador llama a <em>init()</em> e <em>isRecognized()</em> que devuelve <em>true</em>. SRC reconoce el dispositivo y omite el OTP.</p>
+        <p>El integrador llama a <em>init()</em> y <em>getCards()</em> al cargar la página. Como el dispositivo es de confianza, <em>getCards()</em> responde con la lista de <em>maskedCard</em> del consumidor de inmediato — sin OTP.</p>
       </div>
       <div class="int-phone">
         <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
@@ -322,7 +322,7 @@
 
       <div class="int-step">
         <div class="int-step-title">Paso 2</div>
-        <p><em>getCards()</em> devuelve las tarjetas tokenizadas al instante. Se muestra el panel integrado con las tarjetas guardadas y la opción de ingresar una nueva.</p>
+        <p>El integrador muestra la lista de tarjetas usando el componente UI <em>SRC Card List</em> dentro del checkout de Éxito, junto con la opción de ingresar una tarjeta nueva manualmente.</p>
       </div>
       <div class="int-phone">
         <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
@@ -360,7 +360,7 @@
 
       <div class="int-step">
         <div class="int-step-title">Paso 3</div>
-        <p>Al pulsar Pagar, el integrador invoca <em>checkoutWithCard(srcDigitalCardId, ComplianceSettings)</em>. El backend autoriza (server-side + <em>3DS</em> si el emisor lo requiere).</p>
+        <p>El consumidor selecciona una tarjeta y pulsa Pagar. El integrador llama a <em>checkoutWithCard()</em> con <em>payloadRequested="AUTHENTICATED"</em> bajo <em>authenticationPreferences</em> si opta por autenticación de transacción. Recibe <em>checkoutResponse</em> con <em>checkoutActionCode = COMPLETE</em>.</p>
       </div>
       <div class="int-phone">
         <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
@@ -381,7 +381,7 @@
 
       <div class="int-step">
         <div class="int-step-title">Paso 4</div>
-        <p>Éxito muestra la página de pedido confirmado con la tarjeta utilizada.</p>
+        <p>El backend llama a <em>POST /checkout</em> para recuperar el <em>encryptedPayload</em>, lo descifra y lo envía para autorización (DSRP). Reporta el resultado con <em>POST /confirmations</em> y Éxito muestra la página de pedido confirmado.</p>
       </div>
       <div class="int-phone">
         <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
@@ -402,7 +402,7 @@
   <!-- ════ CASO 4 · AGREGAR NUEVA TARJETA ════ -->
   <section class="case-section" id="case-addcard">
     <h3 class="flow-title">Caso 4 · Agregar nueva tarjeta</h3>
-    <p class="flow-lead">Un usuario reconocido añade una tarjeta nueva a su billetera Click to Pay: el integrador cifra los datos, los inscribe en la red y procesa el pago.</p>
+    <p class="flow-lead">Variante del caso <strong>Recognized User</strong> en la que el consumidor decide pagar con una tarjeta nueva. La documentación oficial admite <em>checkoutWithNewCard()</em> también para usuarios reconocidos.</p>
 
     <div class="int-flow">
       <div class="int-header-block">
@@ -412,7 +412,7 @@
 
       <div class="int-step">
         <div class="int-step-title">Paso 1</div>
-        <p>El integrador llama a <em>init()</em> e <em>isRecognized()</em> (true). El usuario ya tiene un perfil Click to Pay activo en el dispositivo.</p>
+        <p>El integrador llama a <em>init()</em> y <em>getCards()</em>. Como el dispositivo es de confianza, <em>getCards()</em> devuelve la lista de <em>maskedCard</em> al instante.</p>
       </div>
       <div class="int-phone">
         <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
@@ -435,7 +435,7 @@
 
       <div class="int-step">
         <div class="int-step-title">Paso 2</div>
-        <p>En el panel de tarjetas, el usuario selecciona <em>Ingresar tarjeta manualmente</em>; se despliega un formulario inline para capturar los datos de la tarjeta nueva.</p>
+        <p>En la lista de tarjetas (renderizada con <em>SRC Card List</em>), el consumidor selecciona <em>Ingresar tarjeta manualmente</em>. Se despliega un formulario inline para capturar PAN, vencimiento y CVC de la tarjeta nueva.</p>
       </div>
       <div class="int-phone">
         <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
@@ -473,7 +473,7 @@
 
       <div class="int-step">
         <div class="int-step-title">Paso 3</div>
-        <p>Tras llenar los datos y marcar el consentimiento, el integrador llama a <em>encryptCard(cardData)</em> y a <em>checkoutWithNewCard(encryptedCard, ComplianceSettings)</em> para procesar el pago e inscribir la tarjeta.</p>
+        <p>El integrador llama a <em>encryptCard()</em> para obtener <em>encryptedCard</em>. Luego invoca <em>checkoutWithNewCard()</em> pasando <em>encryptedCard</em>, <em>recognitionTokenRequested=true</em> y opcionalmente <em>payloadRequested="AUTHENTICATED"</em>. Recibe <em>checkoutResponse</em> con <em>checkoutActionCode = COMPLETE</em>.</p>
       </div>
       <div class="int-phone">
         <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
@@ -503,7 +503,7 @@
 
       <div class="int-step">
         <div class="int-step-title">Paso 4</div>
-        <p>El backend autoriza el pago (server-side + <em>3DS</em>) y Éxito muestra la página de pedido confirmado con la tarjeta recién inscrita.</p>
+        <p>El backend llama a <em>POST /checkout</em>, descifra el <em>encryptedPayload</em>, lo envía para autorización (DSRP) y reporta el resultado con <em>POST /confirmations</em>. Éxito muestra la página de pedido confirmado con la tarjeta recién inscrita.</p>
       </div>
       <div class="int-phone">
         <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>

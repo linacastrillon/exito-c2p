@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lista de métodos · Éxito × Click to Pay</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=2026053006">
+<link rel="stylesheet" href="styles.css?v=2026053007">
 </head>
 <body>
 
@@ -43,7 +43,7 @@
   <header class="mt-head">
     <div class="mt-kicker"><span class="mt-mark"></span>EXPORTABLE · MÉTODOS</div>
     <h1>Lista de métodos JavaScript / API.</h1>
-    <p class="mt-sub">Inventario completo de los métodos del SDK de <strong>SRC (EMVCo)</strong> y de <strong>Unified Checkout Solutions (UCS)</strong> que se invocan en la integración de Click to Pay sobre el checkout de Éxito — con el caso de uso donde aplican, el paso del flujo y el alcance de cada uno.</p>
+    <p class="mt-sub">Inventario de los métodos y endpoints de <strong>Unified Checkout Solutions</strong> (Mastercard) que se invocan en la integración de Click to Pay. Reconstruido literalmente desde la documentación oficial de los 3 casos de uso: <em>First Time User</em>, <em>User Recognized through Email/Mobile Lookup</em> y <em>Recognized User</em>.</p>
   </header>
 
   <!-- ══ TABLA PRINCIPAL ══ -->
@@ -52,222 +52,209 @@
     <table class="mt-table">
       <thead>
         <tr>
-          <th style="width:24%;">Método / Componente</th>
+          <th style="width:22%;">Método / Componente / Endpoint</th>
           <th style="width:11%;">Tipo</th>
           <th style="width:9%;">Casos</th>
           <th style="width:18%;">Paso del flujo</th>
-          <th>Alcance · qué hace</th>
+          <th>Alcance · qué hace según la documentación</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td><code>Sessions API · captureContext</code></td>
-          <td><span class="mt-tag mt-tag-ucs">UCS</span></td>
+          <td><code>init()</code></td>
+          <td><span class="mt-tag mt-tag-js">JS Library</span></td>
           <td>1 · 2 · 3 · 4</td>
-          <td>Inicio del checkout</td>
-          <td>Crea un contexto de sesión seguro con SRC y devuelve un JWT (<em>captureContext</em>) que se usa para montar Unified Checkout. Todas las llamadas posteriores se autorizan con ese token.</td>
+          <td>Step 1 · Initialize the JS Library</td>
+          <td>Inicializa la librería JS de Click to Pay. En el caso First Time User puede recibir el parámetro <em>checkoutExperience</em> para decidir en qué punto se inscribe al consumidor en Click to Pay.</td>
         </tr>
         <tr>
-          <td><code>uc.mount()</code></td>
-          <td><span class="mt-tag mt-tag-ucs">UCS</span></td>
+          <td><code>getCards()</code></td>
+          <td><span class="mt-tag mt-tag-js">JS Library</span></td>
           <td>1 · 2 · 3 · 4</td>
-          <td>Inicio del checkout</td>
-          <td>Monta el componente de Unified Checkout en la página del comercio con el <em>captureContext</em>; deja listos los <em>web components</em> y eventos del SDK.</td>
+          <td>Step 1 · Check if Consumer is Recognized</td>
+          <td>Verifica si el navegador / aplicación del consumidor está reconocido por alguna red Click to Pay. Devuelve lista de <em>maskedCard</em> (caso 3/4: reconocido), respuesta vacía (caso 1: primera vez) o mensaje "not recognized" (caso 2: no reconocido).</td>
         </tr>
         <tr>
-          <td><code>src.init()</code></td>
-          <td><span class="mt-tag mt-tag-src">SRC SDK</span></td>
-          <td>1 · 2 · 3 · 4</td>
-          <td>Al seleccionar "Tarjeta crédito o débito"</td>
-          <td>Inicializa el SDK de SRC. Prepara la sesión para identificar al consumidor y desencadenar el resto del flujo de Click to Pay.</td>
+          <td><code>authenticate()</code></td>
+          <td><span class="mt-tag mt-tag-js">JS Library</span></td>
+          <td>1 · 2</td>
+          <td>Step 2 · Identify and Authenticate Consumer</td>
+          <td>Verifica si una identidad (correo / celular) es conocida por algún sistema Click to Pay y ejecuta el OTP cuando aplica. Recibe <em>iFrame windowRef</em> y <em>accountReference</em>. <strong>Encapsula <em>idLookup()</em>, <em>initiateValidation()</em> y <em>validate()</em></strong> — Mastercard recomienda usar <em>authenticate()</em> en lugar de los tres métodos antiguos.</td>
         </tr>
         <tr>
-          <td><code>src.isRecognized()</code></td>
-          <td><span class="mt-tag mt-tag-src">SRC SDK</span></td>
-          <td>1 · 2 · 3 · 4</td>
-          <td>Card loader</td>
-          <td>Determina si el dispositivo / navegador ya está reconocido como de confianza. <em>true</em> → casos 3 y 4 (sin OTP); <em>false</em> → casos 1 y 2.</td>
-        </tr>
-        <tr>
-          <td><code>src.idLookup(identity)</code></td>
-          <td><span class="mt-tag mt-tag-src">SRC SDK</span></td>
-          <td>2</td>
-          <td>Card loader</td>
-          <td>Busca un perfil Click to Pay por correo o número de celular del consumidor. Devuelve si existe un perfil asociado y los canales de validación soportados.</td>
-        </tr>
-        <tr>
-          <td><code>&lt;src-card-loader&gt;</code></td>
-          <td><span class="mt-tag mt-tag-comp">Componente</span></td>
-          <td>1 · 2 · 3 · 4</td>
-          <td>Paso 04 · Card Loader</td>
-          <td>Pantalla "Click to Pay is looking for your linked cards…" con escudo + spinner; cubre el tiempo de identificación del consumidor.</td>
-        </tr>
-        <tr>
-          <td><code>&lt;src-otp-input&gt;</code><br><span class="mt-meta">+ <code>loadSupportedValidationChannels</code></span></td>
-          <td><span class="mt-tag mt-tag-comp">Componente</span></td>
-          <td>2</td>
-          <td>Paso 05 · OTP</td>
-          <td>Recibe el array <em>supportedValidationChannels</em> ({validationChannelId, identityType, maskedValidationChannel}). Muestra el identificador enmascarado, "¿No eres tú?", H1 "Click to Pay encontró tus tarjetas vinculadas", casillas de OTP y enlaces de reenvío.</td>
-        </tr>
-        <tr>
-          <td><code>src.validate(otpCode)</code></td>
-          <td><span class="mt-tag mt-tag-src">SRC SDK</span></td>
-          <td>2</td>
-          <td>Paso 05 · OTP · Continuar</td>
-          <td>Valida con SRC el código de un solo uso ingresado por el consumidor. Devuelve éxito o error.</td>
-        </tr>
-        <tr>
-          <td><code>src.getCards()</code></td>
-          <td><span class="mt-tag mt-tag-src">SRC SDK</span></td>
-          <td>2 · 3</td>
-          <td>Selección de tarjeta</td>
-          <td>Devuelve la lista de tarjetas tokenizadas del consumidor reconocido (sólo los identificadores digitales — nunca el PAN real).</td>
-        </tr>
-        <tr>
-          <td><code>&lt;src-consent&gt;</code></td>
-          <td><span class="mt-tag mt-tag-comp">Componente</span></td>
-          <td>1</td>
-          <td>Tras los 4 primeros dígitos</td>
-          <td>Recoge el consentimiento de inscripción ("Guardar mi información con Click to Pay") junto con los Términos y el Aviso de Privacidad. Aparece cuando la tarjeta resulta elegible.</td>
-        </tr>
-        <tr>
-          <td><code>src.encryptCard(cardData)</code></td>
-          <td><span class="mt-tag mt-tag-src">SRC SDK</span></td>
+          <td><code>encryptCard()</code></td>
+          <td><span class="mt-tag mt-tag-js">JS Library</span></td>
           <td>1 · 4</td>
-          <td>Antes de pagar</td>
-          <td>Cifra los datos de la tarjeta nueva en el dispositivo del consumidor. El PAN real nunca viaja en claro hacia el comercio ni hacia el backend.</td>
+          <td>Step 3 (caso 1) · Encrypt Card and Checkout</td>
+          <td>Enmascara los datos del PAN. Devuelve un objeto <em>encryptedCard</em> que se usa como entrada de <em>checkoutWithNewCard()</em>. El PAN nunca viaja en claro hacia el comercio.</td>
         </tr>
         <tr>
-          <td><code>src.checkoutWithCard(<wbr>srcDigitalCardId,<br>complianceSettings)</code></td>
-          <td><span class="mt-tag mt-tag-src">SRC SDK</span></td>
+          <td><code>checkoutWithCard()</code></td>
+          <td><span class="mt-tag mt-tag-js">JS Library</span></td>
           <td>2 · 3</td>
-          <td>Clic en Pagar</td>
-          <td>Procesa el pago con una tarjeta ya vinculada al perfil Click to Pay, identificada por su <em>srcDigitalCardId</em>. Aplica <em>ComplianceSettings</em> con los términos legales del comercio.</td>
+          <td>Step 3 (caso 2) / Step 2 (caso 3) · Checkout</td>
+          <td>Procesa el pago con una tarjeta ya inscrita en el perfil Click to Pay. Recibe parámetros como <em>payloadRequested = "AUTHENTICATED"</em> bajo <em>authenticationPreferences</em> para autenticación de transacción con passkey. Devuelve <em>checkoutResponse</em> con <em>checkoutActionCode = COMPLETE</em>.</td>
         </tr>
         <tr>
-          <td><code>src.checkoutWithNewCard(<wbr>encryptedCard,<br>complianceSettings)</code></td>
-          <td><span class="mt-tag mt-tag-src">SRC SDK</span></td>
+          <td><code>checkoutWithNewCard()</code></td>
+          <td><span class="mt-tag mt-tag-js">JS Library</span></td>
           <td>1 · 4</td>
-          <td>Clic en Pagar</td>
-          <td>Procesa el pago con la tarjeta cifrada nueva e inscribe la tarjeta en el perfil Click to Pay (caso 1: crea el perfil; caso 4: añade a uno existente).</td>
+          <td>Step 3 · Encrypt Card and Checkout</td>
+          <td>Procesa el pago con la <em>encryptedCard</em> y permite inscribir la tarjeta en el perfil Click to Pay. Acepta <em>recognitionTokenRequested = true</em> para el consentimiento "Remember Me" y <em>payloadRequested = "AUTHENTICATED"</em>.</td>
         </tr>
         <tr>
-          <td><code>ComplianceSettings</code></td>
-          <td><span class="mt-tag mt-tag-cfg">Configuración</span></td>
+          <td><code>SRC Card List</code></td>
+          <td><span class="mt-tag mt-tag-comp">Componente UI</span></td>
+          <td>2 · 3 · 4</td>
+          <td>Mostrar lista de tarjetas</td>
+          <td>Componente UI provisto por Mastercard para construir la pantalla con la lista de tarjetas (<em>maskedCard list</em>) que el consumidor puede seleccionar para el checkout.</td>
+        </tr>
+        <tr>
+          <td><code>setting up the JavaScript library</code></td>
+          <td><span class="mt-tag mt-tag-setup">Setup</span></td>
           <td>1 · 2 · 3 · 4</td>
-          <td>Llamadas de checkout</td>
-          <td>Objeto con las URLs de Términos y Aviso de Privacidad del comercio. Mastercard exige enviarlo en cada <em>checkout*</em> para asegurar el cumplimiento legal.</td>
+          <td>Pre-requisito (antes del Step 1)</td>
+          <td>Acción de onboarding del integrador para incorporar la JS Library de Click to Pay en su página. Es prerequisito explícito de los 3 casos documentados.</td>
         </tr>
         <tr>
-          <td><code>authorize</code> (server-side)</td>
+          <td><code>POST /checkout</code></td>
+          <td><span class="mt-tag mt-tag-api">REST API</span></td>
+          <td>1 · 2 · 3 · 4</td>
+          <td>Step 4-5 · Fetch and Decrypt Payload</td>
+          <td>Endpoint server-side. Recupera el <em>encryptedPayload</em> de la transacción. Usa como argumento el <em>merchant-transaction-id</em> devuelto en <em>checkoutResponse</em>. El payload viene firmado / cifrado en <em>checkoutResponseJWS</em> (JWE) y se descifra con la clave privada del integrador.</td>
+        </tr>
+        <tr>
+          <td><code>Payment Authorization</code> (DSRP)</td>
           <td><span class="mt-tag mt-tag-srv">Server</span></td>
           <td>1 · 2 · 3 · 4</td>
-          <td>Tras checkout SDK</td>
-          <td>El backend del comercio toma el <em>transient token</em> que devuelve el SDK y envía la transacción al adquirente / red para autorización con el emisor.</td>
+          <td>Step 6 · Payment Authorization</td>
+          <td>El integrador envía el payload descifrado para la autorización de pago. Para transacciones tokenizadas se siguen las guías DSRP (Acquirer Implementation Guide + AN3363).</td>
         </tr>
         <tr>
-          <td><code>3DS</code></td>
-          <td><span class="mt-tag mt-tag-srv">Server / Emisor</span></td>
+          <td><code>POST /confirmations</code></td>
+          <td><span class="mt-tag mt-tag-api">REST API</span></td>
           <td>1 · 2 · 3 · 4</td>
-          <td>Durante la autorización</td>
-          <td>Paso de verificación adicional invocado por el emisor cuando lo considera necesario (OTP bancario, biometría, app push). Reduce fraude sin bloquear compras legítimas.</td>
+          <td>Step 7 · Send Confirmation</td>
+          <td>Reporta a Unified Checkout Solutions el resultado de la transacción (irrespective of the transaction status). Devuelve 204 No Content si UCS recibe la confirmación correctamente. Envía los campos <em>checkoutEventType</em> y <em>checkoutEventStatus</em> según el escenario (Authorize, Cancel, Refund…).</td>
         </tr>
       </tbody>
     </table>
   </div>
 
-  <!-- ══ EVENTOS ══ -->
-  <h2 class="mt-h2">Eventos del componente <code>&lt;src-otp-input&gt;</code></h2>
+  <!-- ══ MÉTODOS ANTIGUOS ══ -->
+  <h2 class="mt-h2">Métodos antiguos (encapsulados por <code>authenticate()</code>)</h2>
   <div class="mt-table-wrap">
     <table class="mt-table">
       <thead>
         <tr>
-          <th style="width:24%;">Evento</th>
+          <th style="width:22%;">Método</th>
           <th style="width:11%;">Tipo</th>
-          <th style="width:9%;">Casos</th>
-          <th style="width:18%;">Disparador</th>
+          <th style="width:9%;">Estado</th>
           <th>Alcance</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td><code>resendOtp</code></td>
-          <td><span class="mt-tag mt-tag-evt">Evento</span></td>
-          <td>2</td>
-          <td>Clic en "Reenviar Móvil" o "Reenviar Email"</td>
-          <td>El componente avisa al integrador que el usuario quiere reenviar el código. El comercio puede solicitar a SRC un nuevo OTP por el canal elegido.</td>
+          <td><code>idLookup()</code></td>
+          <td><span class="mt-tag mt-tag-js">JS Library</span></td>
+          <td><span class="mt-tag mt-tag-legacy">Legacy</span></td>
+          <td>Búsqueda de perfil Click to Pay por correo o celular. Mastercard sigue soportándolo pero recomienda usar <em>authenticate()</em> en su lugar.</td>
         </tr>
         <tr>
-          <td><code>notYouRequested</code></td>
-          <td><span class="mt-tag mt-tag-evt">Evento</span></td>
-          <td>2</td>
-          <td>Clic en "¿No eres tú?"</td>
-          <td>El componente notifica que el consumidor quiere identificarse con otro correo / celular. El integrador puede reiniciar el flujo con una nueva identidad.</td>
+          <td><code>initiateValidation()</code></td>
+          <td><span class="mt-tag mt-tag-js">JS Library</span></td>
+          <td><span class="mt-tag mt-tag-legacy">Legacy</span></td>
+          <td>Inicia el envío del OTP por el canal elegido (SMS / Email). Encapsulado por <em>authenticate()</em>.</td>
+        </tr>
+        <tr>
+          <td><code>validate()</code></td>
+          <td><span class="mt-tag mt-tag-js">JS Library</span></td>
+          <td><span class="mt-tag mt-tag-legacy">Legacy</span></td>
+          <td>Valida el OTP ingresado por el consumidor. Encapsulado por <em>authenticate()</em>.</td>
         </tr>
       </tbody>
     </table>
   </div>
 
+  <!-- ══ PARÁMETROS / OBJETOS CLAVE ══ -->
+  <h2 class="mt-h2">Parámetros y objetos clave de la documentación</h2>
+  <div class="mt-table-wrap">
+    <table class="mt-table">
+      <thead>
+        <tr>
+          <th style="width:32%;">Parámetro / objeto</th>
+          <th style="width:18%;">Aparece en</th>
+          <th>Para qué sirve</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><code>checkoutExperience</code></td><td><code>init()</code></td><td>Define en qué punto del checkout se inscribe al consumidor en Click to Pay (First Time User).</td></tr>
+        <tr><td><code>iFrame windowRef</code></td><td><code>authenticate()</code> · <code>checkoutWith*</code></td><td>Referencia al pop-up / iFrame que Mastercard usa para mostrar OTP o el challenge de passkey.</td></tr>
+        <tr><td><code>accountReference</code></td><td><code>authenticate()</code></td><td>Correo o número de celular del consumidor con el que se hace el lookup.</td></tr>
+        <tr><td><code>requestRecognitionToken=True</code></td><td><code>authenticate()</code></td><td>Solicita que la pantalla OTP muestre el checkbox "Remember Me" para recoger consentimiento.</td></tr>
+        <tr><td><code>recognitionToken</code></td><td>Respuesta de <code>authenticate()</code></td><td>Token devuelto cuando el consumidor acepta "Remember Me" — sirve para reconocer el dispositivo en checkouts futuros.</td></tr>
+        <tr><td><code>encryptedCard</code></td><td>Respuesta de <code>encryptCard()</code> / entrada de <code>checkoutWithNewCard()</code></td><td>PAN enmascarado que se entrega como entrada de <em>checkoutWithNewCard()</em>.</td></tr>
+        <tr><td><code>recognitionTokenRequested=true</code></td><td><code>checkoutWithNewCard()</code></td><td>Indica que el consumidor dio consentimiento "Remember Me" durante la inscripción.</td></tr>
+        <tr><td><code>payloadRequested = "AUTHENTICATED"</code></td><td><code>checkoutWithCard()</code> · <code>checkoutWithNewCard()</code> bajo <code>authenticationPreferences</code></td><td>Activa la autenticación de transacción mediante passkey. El usuario va por un challenge bancario.</td></tr>
+        <tr><td><code>dpaTransactionOptions</code> · <code>dynamicDataType</code></td><td><code>init()</code> · <code>checkoutWith*</code></td><td>Controla el formato del payload devuelto. Valores: <em>CARD_APPLICATION_SHORT_FORM</em> o <em>NONE</em>.</td></tr>
+        <tr><td><code>checkoutResponse</code> · <code>checkoutActionCode = COMPLETE</code></td><td>Respuesta de <code>checkoutWith*</code></td><td>Confirma que el checkout client-side terminó exitosamente.</td></tr>
+        <tr><td><code>merchant-transaction-id</code></td><td>Respuesta de <code>checkoutWith*</code></td><td>Liga la llamada JavaScript con el call server-side <code>POST /checkout</code> para la misma transacción.</td></tr>
+        <tr><td><code>encryptedPayload</code> · <code>checkoutResponseJWS</code></td><td>Respuesta de <code>POST /checkout</code></td><td>Payload firmado / cifrado en formato JWE. Se descifra con la clave privada del integrador (Payload Encryption key).</td></tr>
+        <tr><td><code>checkoutEventType</code> · <code>checkoutEventStatus</code></td><td><code>POST /confirmations</code></td><td>Campos para reportar el estado de la transacción (Authorize / Cancel / Refund · Created / Confirmed / Cancelled).</td></tr>
+      </tbody>
+    </table>
+  </div>
+
   <!-- ══ SECUENCIA POR CASO ══ -->
-  <h2 class="mt-h2">Secuencia por caso de uso</h2>
+  <h2 class="mt-h2">Secuencia por caso de uso (según documentación oficial)</h2>
 
   <div class="mt-case">
-    <h3>Caso 1 · Nuevo usuario</h3>
+    <h3>Caso 1 · First Time User</h3>
     <ol class="mt-seq">
-      <li><code>Sessions API · captureContext</code> · <code>uc.mount()</code></li>
-      <li><code>src.init()</code> + <code>src.isRecognized()</code> → false · <code>src.idLookup()</code> → sin perfil</li>
-      <li><code>&lt;src-card-loader&gt;</code> mientras se identifica</li>
-      <li>Entrada manual de tarjeta (PAN, vencimiento, CVC)</li>
-      <li>Tras los 4 primeros dígitos → <code>&lt;src-consent&gt;</code> (consentimiento de inscripción)</li>
-      <li><code>src.encryptCard(cardData)</code> → <code>src.checkoutWithNewCard(encryptedCard, ComplianceSettings)</code></li>
-      <li>Backend <code>authorize</code> + <code>3DS</code> si el emisor lo invoca</li>
-      <li>Página de pedido confirmado de Éxito</li>
+      <li><strong>Step 1 · Initialize the JS Library and Check if Consumer is Recognized.</strong> Al cargar la página, llamar <code>init()</code> y <code>getCards()</code>. <code>getCards()</code> devuelve respuesta vacía → consumidor no reconocido.</li>
+      <li><strong>Step 2 · Validate Consumer Identity and Enroll a Card.</strong> El consumidor ingresa correo / celular / dirección de envío. Llamar <code>authenticate()</code> con el <em>accountReference</em>. Devuelve lista vacía. Presentar formulario de captura de tarjeta + consentimiento "Remember Me".</li>
+      <li><strong>Step 3 · Encrypt Card and Checkout.</strong> Llamar <code>encryptCard()</code> → <em>encryptedCard</em>. Llamar <code>checkoutWithNewCard()</code> con <em>recognitionTokenRequested = true</em>. Opcional: <em>payloadRequested = "AUTHENTICATED"</em> para passkey. Recibir <em>checkoutResponse</em> con <em>checkoutActionCode = COMPLETE</em>.</li>
+      <li><strong>Step 4 · Fetch and Decrypt Payload.</strong> Server llama <code>POST /checkout</code> con <em>merchant-transaction-id</em> → <em>encryptedPayload</em>. Descifrar con la clave privada.</li>
+      <li><strong>Step 5 · View the Decrypted Payload.</strong> JSON con la transacción según <em>dynamicDataType</em> (CARD_APPLICATION_SHORT_FORM / NONE).</li>
+      <li><strong>Step 6 · Payment Authorization.</strong> Server envía el payload descifrado para autorización DSRP.</li>
+      <li><strong>Step 7 · Send Confirmation.</strong> Server llama <code>POST /confirmations</code> → 204 No Content.</li>
     </ol>
   </div>
 
   <div class="mt-case">
-    <h3>Caso 2 · Reconocido por correo / teléfono</h3>
+    <h3>Caso 2 · User Recognized through Email/Mobile Lookup</h3>
     <ol class="mt-seq">
-      <li><code>Sessions API · captureContext</code> · <code>uc.mount()</code></li>
-      <li><code>src.init()</code> + <code>src.isRecognized()</code> → false + <code>src.idLookup(email)</code> → perfil encontrado</li>
-      <li><code>&lt;src-card-loader&gt;</code></li>
-      <li><code>&lt;src-otp-input&gt;</code> · <code>loadSupportedValidationChannels(channels)</code> · eventos <code>resendOtp</code> / <code>notYouRequested</code></li>
-      <li><code>src.validate(otpCode)</code></li>
-      <li><code>src.getCards()</code> → lista de tarjetas</li>
-      <li><code>src.checkoutWithCard(srcDigitalCardId, ComplianceSettings)</code></li>
-      <li>Backend <code>authorize</code> + <code>3DS</code> si el emisor lo invoca</li>
-      <li>Página de pedido confirmado de Éxito</li>
+      <li><strong>Step 1 · Initialize the JS Library and Check if Consumer is Recognized.</strong> Llamar <code>init()</code> y <code>getCards()</code> al cargar la página. <code>getCards()</code> no devuelve <em>maskedCard</em> → "not recognized".</li>
+      <li><strong>Step 2 · Identify and Authenticate Consumer.</strong> El consumidor ingresa datos de contacto. Llamar <code>authenticate()</code> pasando <em>iFrame windowRef</em> y <em>accountReference</em> (correo / celular). Mastercard muestra OTP en el iFrame con "Remember Me" si se envió <em>requestRecognitionToken=True</em>. <code>authenticate()</code> responde con lista de tarjetas y <em>recognitionToken</em>. Mostrar lista con <code>SRC Card List</code>.</li>
+      <li><strong>Step 3 · Checkout.</strong> El consumidor selecciona tarjeta. Llamar <code>checkoutWithCard()</code> (o <code>checkoutWithNewCard()</code> si ingresó tarjeta nueva). Opcional: <em>payloadRequested = "AUTHENTICATED"</em> bajo <em>authenticationPreferences</em>. <em>checkoutResponse</em> con <em>checkoutActionCode = COMPLETE</em>.</li>
+      <li><strong>Step 4-7.</strong> Igual al caso 1: <code>POST /checkout</code> → descifrar payload → autorización DSRP → <code>POST /confirmations</code>.</li>
     </ol>
   </div>
 
   <div class="mt-case">
-    <h3>Caso 3 · Usuario reconocido</h3>
+    <h3>Caso 3 · Recognized User</h3>
     <ol class="mt-seq">
-      <li><code>Sessions API · captureContext</code> · <code>uc.mount()</code></li>
-      <li><code>src.init()</code> + <code>src.isRecognized()</code> → true (sin OTP)</li>
-      <li><code>&lt;src-card-loader&gt;</code> (breve)</li>
-      <li><code>src.getCards()</code> → lista de tarjetas al instante</li>
-      <li><code>src.checkoutWithCard(srcDigitalCardId, ComplianceSettings)</code></li>
-      <li>Backend <code>authorize</code> + <code>3DS</code> si el emisor lo invoca</li>
-      <li>Página de pedido confirmado de Éxito</li>
+      <li><strong>Step 1 · Initialize the JS Library and Fetch the Card List.</strong> Llamar <code>init()</code> y <code>getCards()</code> al cargar la página. Como el dispositivo es de confianza, <code>getCards()</code> devuelve la lista de <em>maskedCard</em> de inmediato. Si no la devolviera, fallback a <code>authenticate()</code> (caso 2) o flujo First Time User. Mostrar lista con <code>SRC Card List</code>.</li>
+      <li><strong>Step 2 · Checkout.</strong> Consumidor selecciona tarjeta. Llamar <code>checkoutWithCard()</code> (o <code>checkoutWithNewCard()</code>). Opcional: <em>payloadRequested = "AUTHENTICATED"</em>. <em>checkoutResponse</em> con <em>checkoutActionCode = COMPLETE</em>.</li>
+      <li><strong>Step 3-6.</strong> <code>POST /checkout</code> → descifrar <em>encryptedPayload</em> → autorización DSRP → <code>POST /confirmations</code>.</li>
     </ol>
   </div>
 
   <div class="mt-case">
-    <h3>Caso 4 · Agregar nueva tarjeta</h3>
+    <h3>Caso 4 · Agregar nueva tarjeta (variante)</h3>
+    <p class="mt-note">⚠️ La documentación oficial no tiene una página dedicada para este caso. Se reconstruye combinando el Step 1 del caso 3 (usuario reconocido) y el Step 3 del caso 1 (encriptación + <code>checkoutWithNewCard()</code>) — ambos pasos son citas literales de la documentación.</p>
     <ol class="mt-seq">
-      <li><code>Sessions API · captureContext</code> · <code>uc.mount()</code></li>
-      <li><code>src.init()</code> + <code>src.isRecognized()</code> → true</li>
-      <li><code>&lt;src-card-loader&gt;</code> y <code>src.getCards()</code></li>
-      <li>El usuario elige "Ingresar tarjeta manualmente" → captura PAN, vencimiento, CVC + consentimiento</li>
-      <li><code>src.encryptCard(cardData)</code> → <code>src.checkoutWithNewCard(encryptedCard, ComplianceSettings)</code></li>
-      <li>Backend <code>authorize</code> + <code>3DS</code> si el emisor lo invoca</li>
-      <li>Página de pedido confirmado de Éxito</li>
+      <li><strong>Step 1 (del caso 3).</strong> <code>init()</code> y <code>getCards()</code> → lista de <em>maskedCard</em>. Mostrar con <code>SRC Card List</code> + opción "Ingresar tarjeta manualmente".</li>
+      <li><strong>Captura de tarjeta nueva.</strong> Formulario inline para PAN, vencimiento y CVC.</li>
+      <li><strong>Step 3 (del caso 1).</strong> <code>encryptCard()</code> → <em>encryptedCard</em>. <code>checkoutWithNewCard()</code> con <em>recognitionTokenRequested = true</em> y opcional <em>payloadRequested = "AUTHENTICATED"</em>. <em>checkoutResponse</em> con <em>checkoutActionCode = COMPLETE</em>.</li>
+      <li><strong>Server.</strong> <code>POST /checkout</code> → descifrar → autorización DSRP → <code>POST /confirmations</code>.</li>
     </ol>
   </div>
 
   <footer class="mt-footer">
-    <p>Demo desarrollado por <strong>Lina M. Castrillón Forero</strong> · Mastercard × Éxito · Click to Pay</p>
+    <p>Fuente: documentación oficial de Mastercard Developers · Unified Checkout Solutions · Click to Pay use cases:<br>
+    <em>First Time User</em>, <em>User Recognized through Email/Mobile Lookup</em>, <em>Recognized User</em>.<br>
+    Demo elaborado por <strong>Lina M. Castrillón Forero</strong> · Mastercard × Éxito.</p>
   </footer>
 </section>
 

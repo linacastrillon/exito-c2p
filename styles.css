@@ -1636,6 +1636,13 @@
   .mt-tag-cfg { background:#EEEAFB; color:#46368F; }
   .mt-tag-srv { background:#E6F4EA; color:#1F6D3A; }
   .mt-tag-evt { background:#FFF3D6; color:#8A5A00; }
+  .mt-tag-js { background:#FFE9D5; color:#9C3F00; }
+  .mt-tag-api { background:#E6F4EA; color:#1F6D3A; }
+  .mt-tag-setup { background:#EEEAFB; color:#46368F; }
+  .mt-tag-legacy { background:#F1E5E5; color:#8B3A3A; }
+
+  .mt-note { background:#FFF8E6; border-left:3px solid #F0B400; padding:10px 14px; border-radius:4px; font-size:13px; color:#555; margin:0 0 14px; line-height:1.55; font-weight:500; }
+  .mt-note code { background:#fff; border:1px solid #E5E5E5; padding:1px 6px; border-radius:4px; font-size:12px; }
 
   .mt-case { background:#FAFAFA; border-left:4px solid #F37738; border-radius:6px; padding:24px 28px; margin-bottom:18px; }
   .mt-case h3 { font-size:17px; font-weight:900; color:#111; margin:0 0 14px; letter-spacing:-.01em; }
