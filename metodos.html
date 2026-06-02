@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Métodos · Éxito × Click to Pay</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=2026053008">
+<link rel="stylesheet" href="styles.css?v=2026060104">
 </head>
 <body>
 
@@ -356,19 +356,73 @@
 
       <div class="int-step">
         <div class="int-step-title">Paso 3</div>
-        <p>El consumidor selecciona una tarjeta y pulsa Pagar. El integrador llama a <em>checkoutWithCard()</em> con <em>payloadRequested="AUTHENTICATED"</em> bajo <em>authenticationPreferences</em> si opta por autenticación de transacción. Recibe <em>checkoutResponse</em> con <em>checkoutActionCode = COMPLETE</em>.</p>
+        <p>El consumidor selecciona una tarjeta y pulsa Pagar. El integrador llama a <em>checkoutWithCard()</em>. El parámetro <em>payloadRequested</em> bajo <em>authenticationPreferences</em> determina si se solicita o no autenticación:</p>
       </div>
-      <div class="int-phone">
-        <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
-        <div class="int-phone-screen int-dcf-screen">
-          <div class="int-mini-dcf-mark">
-            <svg width="18" height="13" viewBox="0 0 40 28" fill="none" aria-label="Click to Pay"><path d="M5 4 H20 L28 14 L20 24 H5 Z" fill="#111" stroke="#111" stroke-width="3" stroke-linejoin="round"/><path d="M31 7 C35 11 35 17 31 21" fill="none" stroke="#111" stroke-width="3" stroke-linecap="round"/></svg>
-            <span class="ic-sep"></span>
-            <svg width="20" height="13" viewBox="0 0 34 22" fill="none" aria-label="Mastercard"><circle cx="12" cy="11" r="10" fill="#EB001B"/><circle cx="22" cy="11" r="10" fill="#F79E1B"/><path d="M17 4.8 A10 10 0 0 1 17 17.2 A10 10 0 0 1 17 4.8Z" fill="#FF5F00"/></svg>
+      <div class="int-branch">
+        <div class="int-branch-col">
+          <div class="int-branch-card">
+            <div class="int-branch-card-row">
+              <span class="int-branch-tag">payloadRequested =</span>
+              <span class="int-branch-val">AUTHENTICATED</span>
+            </div>
+            <p class="int-branch-desc"><strong>Camino A:</strong> el integrador solicita autenticación. Click to Pay dispara <em>passkey / Face ID</em> antes de devolver el <em>checkoutResponse</em>.</p>
           </div>
-          <div class="int-mini-dcf-body">
-            <svg class="int-mini-mc-big" width="48" height="30" viewBox="0 0 64 40" fill="none"><circle cx="24" cy="20" r="18" fill="#EB001B"/><circle cx="40" cy="20" r="18" fill="#F79E1B"/><path d="M32 6.5 A18 18 0 0 1 32 33.5 A18 18 0 0 1 32 6.5Z" fill="#FF5F00"/></svg>
-            <div class="int-mini-dcf-text"><strong>Procesando tu pago…</strong></div>
+          <div class="int-phone">
+            <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
+            <div class="int-phone-screen int-passkey-screen">
+              <div class="int-pk-top">
+                <div class="int-pk-badge">
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="8" fill="#34c759"/><path d="M4.5 8.4 L7 10.6 L11.5 5.6" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+                </div>
+                <svg class="int-pk-mc" width="32" height="20" viewBox="0 0 34 22" fill="none" aria-label="Mastercard"><circle cx="12" cy="11" r="10" fill="#EB001B"/><circle cx="22" cy="11" r="10" fill="#F79E1B"/><path d="M17 4.8 A10 10 0 0 1 17 17.2 A10 10 0 0 1 17 4.8Z" fill="#FF5F00"/></svg>
+                <div class="int-pk-verifying">Verifying your passkey…</div>
+              </div>
+              <div class="int-pk-sheet">
+                <div class="int-pk-sheet-head">
+                  <span class="int-pk-sheet-title">⚐ Sign In</span>
+                  <span class="int-pk-sheet-x">×</span>
+                </div>
+                <div class="int-pk-faceid">
+                  <svg width="26" height="26" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+                    <path d="M5 9 V6 a1 1 0 0 1 1 -1 H9 M19 5 H22 a1 1 0 0 1 1 1 V9 M23 19 V22 a1 1 0 0 1 -1 1 H19 M9 23 H6 a1 1 0 0 1 -1 -1 V19" stroke="#0a84ff" stroke-width="1.6" stroke-linecap="round"/>
+                    <path d="M10 12 V14 M18 12 V14" stroke="#0a84ff" stroke-width="1.6" stroke-linecap="round"/>
+                    <path d="M14 12 V16 M12 17 H16" stroke="#0a84ff" stroke-width="1.6" stroke-linecap="round"/>
+                    <path d="M10 19 Q14 21.5 18 19" stroke="#0a84ff" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+                  </svg>
+                </div>
+                <div class="int-pk-q">Use Face ID to sign in?</div>
+                <div class="int-pk-sub">You will be signed in to "mastercard.com" with your passkey for "e******g@gmail.com"</div>
+                <div class="int-pk-done">
+                  <svg width="22" height="22" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="8" fill="#0a84ff"/><path d="M4.5 8.4 L7 10.6 L11.5 5.6" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+                  <span>Done</span>
+                </div>
+                <div class="int-pk-other">Other Sign In Options</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="int-branch-col">
+          <div class="int-branch-card">
+            <div class="int-branch-card-row">
+              <span class="int-branch-tag">payloadRequested =</span>
+              <span class="int-branch-val">NON_AUTHENTICATED</span>
+            </div>
+            <p class="int-branch-desc"><strong>Camino B:</strong> el integrador opta por no autenticar. El <em>checkoutResponse</em> se devuelve directamente, sin paso biométrico.</p>
+          </div>
+          <div class="int-phone">
+            <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
+            <div class="int-phone-screen int-dcf-screen">
+              <div class="int-mini-dcf-mark">
+                <svg width="18" height="13" viewBox="0 0 40 28" fill="none" aria-label="Click to Pay"><path d="M5 4 H20 L28 14 L20 24 H5 Z" fill="#111" stroke="#111" stroke-width="3" stroke-linejoin="round"/><path d="M31 7 C35 11 35 17 31 21" fill="none" stroke="#111" stroke-width="3" stroke-linecap="round"/></svg>
+                <span class="ic-sep"></span>
+                <svg width="20" height="13" viewBox="0 0 34 22" fill="none" aria-label="Mastercard"><circle cx="12" cy="11" r="10" fill="#EB001B"/><circle cx="22" cy="11" r="10" fill="#F79E1B"/><path d="M17 4.8 A10 10 0 0 1 17 17.2 A10 10 0 0 1 17 4.8Z" fill="#FF5F00"/></svg>
+              </div>
+              <div class="int-mini-dcf-body">
+                <svg class="int-mini-mc-big" width="48" height="30" viewBox="0 0 64 40" fill="none"><circle cx="24" cy="20" r="18" fill="#EB001B"/><circle cx="40" cy="20" r="18" fill="#F79E1B"/><path d="M32 6.5 A18 18 0 0 1 32 33.5 A18 18 0 0 1 32 6.5Z" fill="#FF5F00"/></svg>
+                <div class="int-mini-dcf-text"><strong>Procesando tu pago…</strong></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

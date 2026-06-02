@@ -1064,12 +1064,17 @@
   /* ── Popup informativo · posible autenticación adicional ── */
   .auth-popup-overlay { display:none; position:fixed; inset:0; z-index:780; background:rgba(0,0,0,.5); align-items:center; justify-content:center; padding:24px; }
   .auth-popup-overlay.open { display:flex; animation:fadeIn .22s ease; }
-  .auth-popup-modal { background:#fff; border-radius:16px; max-width:380px; width:100%; padding:32px 30px 28px; text-align:center; box-shadow:0 12px 40px rgba(0,0,0,.22); }
-  .auth-popup-icon { font-size:42px; margin-bottom:6px; }
-  .auth-popup-modal h3 { font-size:20px; font-weight:800; color:var(--texto); margin-bottom:10px; letter-spacing:-.01em; }
-  .auth-popup-modal p { font-size:14px; color:#52525b; line-height:1.6; margin-bottom:22px; font-weight:500; }
-  .auth-popup-ok { width:100%; background:#2F5D5A; color:#fff; border:none; border-radius:999px; padding:14px; font-size:15px; font-weight:800; cursor:pointer; font-family:var(--font); }
-  .auth-popup-ok:hover { background:#1F4D4A; }
+  .auth-popup-modal { background:#fff; border-radius:18px; max-width:380px; width:100%; overflow:hidden; box-shadow:0 14px 44px rgba(0,0,0,.24); }
+  .auth-popup-header { background:#1d1d1f; padding:16px 24px; display:flex; align-items:center; justify-content:center; gap:12px; }
+  .auth-popup-sep { width:1px; height:22px; background:#3a3a3c; display:inline-block; }
+  .auth-popup-body { padding:24px 30px 26px; text-align:center; }
+  .auth-popup-icon { display:flex; justify-content:center; margin-bottom:14px; }
+  .auth-popup-modal h3 { font-size:19px; font-weight:800; color:var(--texto); margin-bottom:10px; letter-spacing:-.01em; }
+  .auth-popup-modal p { font-size:14px; color:#52525b; line-height:1.6; margin-bottom:18px; font-weight:500; }
+  .auth-popup-progress { width:100%; height:3px; background:#eaeaee; border-radius:2px; overflow:hidden; }
+  .auth-popup-progress span { display:block; height:100%; width:0; background:#1d1d1f; border-radius:2px; }
+  .auth-popup-overlay.open .auth-popup-progress span { animation:authProgress 2.6s linear forwards; }
+  @keyframes authProgress { from { width:0; } to { width:100%; } }
 
   /* ── Pedido confirmado · página completa (estilo Éxito) · caso 1 ── */
   .ex-confirm-overlay { display:none; position:fixed; inset:0; z-index:750; background:#fff; overflow-y:auto; }
@@ -1246,6 +1251,62 @@
   .int-mini-confirm p { font-size:10.5px; color:#6a6a72; margin:0; }
   .int-mini-pay-summary { font-size:11px; font-weight:800; color:var(--texto); background:#F1F4F7; padding:7px 12px; border-radius:8px; margin-top:6px; }
   .int-mini-confirm-pay { font-size:9.5px; color:#888; margin-top:4px; }
+
+  /* Lista dentro de un paso: usada para desglosar variantes (ej. payloadRequested) */
+  .int-step-list { list-style:none; margin:10px 0 0; padding:0; text-align:left; }
+  .int-step-list li { font-size:11.5px; color:#52525b; line-height:1.45; margin-bottom:7px; padding-left:9px; position:relative; }
+  .int-step-list li:last-child { margin-bottom:0; }
+  .int-step-list li::before { content:""; position:absolute; left:0; top:8px; width:4px; height:4px; border-radius:50%; background:var(--rojo); }
+  .int-step-list strong { color:var(--rojo); font-weight:800; letter-spacing:.2px; }
+
+  /* ── Bifurcación de Paso 3 en dos caminos (AUTHENTICATED / NON_AUTHENTICATED) ── */
+  /* Dos columnas paralelas, cada una con su card descriptivo encima del teléfono */
+  .int-branch { display:flex; gap:14px; flex-shrink:0; align-items:flex-start; }
+  .int-branch-col { display:flex; flex-direction:column; align-items:stretch; gap:10px; width:220px; }
+
+  /* Card de cabecera (estilo Image #4): banner crema + pill negra + descripción */
+  .int-branch-card {
+    background:#FFF8E1;
+    border:1.5px solid #e8d896;
+    border-radius:14px;
+    padding:12px 14px 14px;
+  }
+  .int-branch-card-row {
+    display:flex; flex-direction:column; align-items:flex-start; gap:6px;
+    margin-bottom:9px;
+  }
+  .int-branch-tag {
+    font-size:9.5px; font-weight:700; color:#7a7a82;
+    text-transform:uppercase; letter-spacing:.6px;
+  }
+  .int-branch-val {
+    background:#1d1d1f; color:#fff;
+    font-weight:800; font-size:11.5px; letter-spacing:.4px;
+    padding:5px 12px; border-radius:9px;
+  }
+  .int-branch-desc {
+    font-size:11px; color:#3f3f46; line-height:1.5; margin:0;
+  }
+  .int-branch-desc strong { color:var(--rojo); font-weight:800; }
+  .int-branch-desc em { color:var(--rojo); font-style:italic; font-weight:700; }
+
+  /* Pantalla Face ID / passkey (Paso 3 · AUTHENTICATED) */
+  .int-passkey-screen { background:#8e8e93; padding:0; display:flex; flex-direction:column; }
+  .int-pk-top { padding:14px 12px 18px; display:flex; flex-direction:column; align-items:center; gap:10px; }
+  .int-pk-badge { width:36px; height:36px; background:#1c1c1e; border-radius:10px; display:grid; place-items:center; }
+  .int-pk-mc { display:block; }
+  .int-pk-verifying { color:#fff; font-size:11px; font-weight:500; text-align:center; }
+
+  .int-pk-sheet { background:#f2f2f4; border-radius:14px 14px 0 0; padding:9px 12px 11px; margin-top:auto; display:flex; flex-direction:column; align-items:center; gap:5px; }
+  .int-pk-sheet-head { display:flex; justify-content:space-between; align-items:center; width:100%; padding-bottom:6px; border-bottom:.5px solid #d9d9de; }
+  .int-pk-sheet-title { font-size:10.5px; font-weight:700; color:#1d1d1f; }
+  .int-pk-sheet-x { color:#8e8e93; font-size:14px; font-weight:600; line-height:1; }
+  .int-pk-faceid { margin-top:4px; }
+  .int-pk-q { font-size:10.5px; font-weight:700; color:#1d1d1f; text-align:center; }
+  .int-pk-sub { font-size:8.5px; color:#6a6a72; text-align:center; line-height:1.35; padding:0 2px; }
+  .int-pk-done { display:flex; flex-direction:column; align-items:center; gap:2px; margin-top:3px; }
+  .int-pk-done span { font-size:8.5px; color:#0a84ff; font-weight:500; }
+  .int-pk-other { font-size:9px; color:#0a84ff; font-weight:500; margin-top:1px; }
 
   /* ══════════════════════════════════════════════════════
      PÁGINA VENTAJAS · estilo corporativo Mastercard

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Demo · Éxito × Click to Pay</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=2026053008">
+<link rel="stylesheet" href="styles.css?v=2026060106">
 </head>
 <body>
 
@@ -585,20 +585,36 @@
   </div>
 </div>
 
-<!-- Verificación adicional (3DS · placeholder controlado por el emisor) -->
-<div class="tds-overlay" id="tds-overlay">
-  <div class="tds-box">
-    <div class="tds-text">Puede requerirse verificación adicional</div>
-  </div>
-</div>
-
 <!-- Popup informativo: posible autenticación adicional del banco (CX Guide) -->
-<div class="auth-popup-overlay" id="auth-popup" role="dialog" aria-modal="true" aria-label="Posible autenticación adicional" onclick="if(event.target===this) closeAuthPopup()">
+<div class="auth-popup-overlay" id="auth-popup" role="dialog" aria-modal="true" aria-label="Posible autenticación adicional">
   <div class="auth-popup-modal">
-    <div class="auth-popup-icon">🔒</div>
-    <h3>Posible autenticación adicional</h3>
-    <p>Tu banco puede solicitarte una verificación adicional (por ejemplo, un código de un solo uso) para confirmar este pago.</p>
-    <button class="auth-popup-ok" type="button" onclick="closeAuthPopup()">Continuar</button>
+    <div class="auth-popup-header">
+      <svg width="34" height="24" viewBox="0 0 40 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Click to Pay">
+        <path d="M5 4 H20 L28 14 L20 24 H5 Z" fill="#fff" stroke="#fff" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M31 7 C35 11 35 17 31 21" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+      <span class="auth-popup-sep"></span>
+      <svg width="36" height="22" viewBox="0 0 34 22" fill="none" aria-label="Mastercard">
+        <circle cx="12" cy="11" r="10" fill="#EB001B"/>
+        <circle cx="22" cy="11" r="10" fill="#F79E1B"/>
+        <path d="M17 4.8 A10 10 0 0 1 17 17.2 A10 10 0 0 1 17 4.8Z" fill="#FF5F00"/>
+      </svg>
+    </div>
+    <div class="auth-popup-body">
+      <div class="auth-popup-icon" aria-hidden="true">
+        <svg width="46" height="54" viewBox="0 0 46 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M23 4 C30 4 36 7 40 12 V28 C40 41 32 49 23 52 C14 49 6 41 6 28 V12 C10 7 16 4 23 4 Z" fill="#F5F5F7" stroke="#1d1d1f" stroke-width="2" stroke-linejoin="round"/>
+          <path d="M16.5 25 C16.5 21 19.5 17.5 23 17.5 C26.5 17.5 29.5 21 29.5 25 V32" stroke="#1d1d1f" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+          <path d="M20 25 C20 22.8 21.4 21 23 21 C24.6 21 26 22.8 26 25 V33" stroke="#1d1d1f" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+          <path d="M23 25 V36" stroke="#1d1d1f" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M16.5 30 C17.6 30.6 18.7 32 18.7 35" stroke="#1d1d1f" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+          <path d="M29.5 30 C28.4 30.6 27.3 32 27.3 35" stroke="#1d1d1f" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+        </svg>
+      </div>
+      <h3>Posible autenticación adicional</h3>
+      <p>Solo podrá ser solicitado un paso adicional de verificación (por ejemplo, un código de un solo uso) para confirmar este pago.</p>
+      <div class="auth-popup-progress" aria-hidden="true"><span></span></div>
+    </div>
   </div>
 </div>
 
@@ -844,23 +860,20 @@
     dcfState('dcf-1');                                                            // Asegurando el pago…
     dcfTimers.push(setTimeout(function () { dcfState('dcf-2'); }, 1600));
     dcfTimers.push(setTimeout(function () { dcfState('dcf-3'); }, 3400));
-    dcfTimers.push(setTimeout(function () { o.classList.remove('open'); openTDS(); }, 5600));        // 3DS · verificación adicional
-    dcfTimers.push(setTimeout(function () { closeTDS(); openExConfirm(); }, 8000));                  // → confirmación Éxito
-  }
-  function openTDS() {
-    var t = document.getElementById('tds-overlay'); if (t) t.classList.add('open');
-  }
-  function closeTDS() {
-    var t = document.getElementById('tds-overlay'); if (t) t.classList.remove('open');
+    dcfTimers.push(setTimeout(function () { o.classList.remove('open'); openExConfirm(); }, 5600));  // → confirmación Éxito
   }
 
   /* Popup informativo · posible autenticación adicional (al pulsar Pagar) */
   var authPendingFlow = null;
+  var authPopupTimer = null;
   function openAuthPopup(kind) {
     authPendingFlow = kind;
     var p = document.getElementById('auth-popup'); if (p) p.classList.add('open');
+    if (authPopupTimer) clearTimeout(authPopupTimer);
+    authPopupTimer = setTimeout(closeAuthPopup, 2600);
   }
   function closeAuthPopup() {
+    if (authPopupTimer) { clearTimeout(authPopupTimer); authPopupTimer = null; }
     var p = document.getElementById('auth-popup'); if (p) p.classList.remove('open');
     if (authPendingFlow) { var k = authPendingFlow; authPendingFlow = null; payClickToPay(k); }
   }
