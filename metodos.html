@@ -136,7 +136,7 @@
 
       <div class="int-step">
         <div class="int-step-title">Paso 4</div>
-        <p>El backend llama a <em>POST /checkout</em> para recuperar el <em>encryptedPayload</em>, lo descifra con su clave privada y lo envía para la autorización del pago (DSRP). Tras autorizar, reporta el resultado con <em>POST /confirmations</em> y Éxito muestra al consumidor la página de pedido confirmado.</p>
+        <p>El integrador (server-side) llama a <em>POST /checkout</em> usando el <em>merchantTransactionId</em> devuelto en <em>checkoutResponse</em> como argumento; recupera el <em>encryptedPayload</em>, lo descifra con su clave privada y lo envía para la autorización del pago (DSRP). Tras autorizar, reporta el resultado con <em>POST /confirmations</em> y Éxito muestra al consumidor la página de pedido confirmado.</p>
       </div>
       <div class="int-phone">
         <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
@@ -264,7 +264,7 @@
 
       <div class="int-step">
         <div class="int-step-title">Paso 4</div>
-        <p>El backend llama a <em>POST /checkout</em>, descifra el <em>encryptedPayload</em>, lo envía para autorización (DSRP) y reporta el resultado con <em>POST /confirmations</em>. Éxito muestra al consumidor la página de pedido confirmado.</p>
+        <p>El integrador (server-side) llama a <em>POST /checkout</em> usando el <em>merchantTransactionId</em> devuelto en <em>checkoutResponse</em> como argumento; descifra el <em>encryptedPayload</em>, lo envía para autorización (DSRP) y reporta el resultado con <em>POST /confirmations</em>. Éxito muestra al consumidor la página de pedido confirmado.</p>
       </div>
       <div class="int-phone">
         <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
@@ -431,7 +431,7 @@
 
       <div class="int-step">
         <div class="int-step-title">Paso 4</div>
-        <p>El backend llama a <em>POST /checkout</em> para recuperar el <em>encryptedPayload</em>, lo descifra y lo envía para autorización (DSRP). Reporta el resultado con <em>POST /confirmations</em> y Éxito muestra la página de pedido confirmado.</p>
+        <p>El integrador (server-side) llama a <em>POST /checkout</em> usando el <em>merchantTransactionId</em> devuelto en <em>checkoutResponse</em> como argumento; recupera el <em>encryptedPayload</em>, lo descifra con su clave privada y lo envía a autorización (DSRP). Reporta el resultado con <em>POST /confirmations</em> y Éxito muestra la página de pedido confirmado.</p>
       </div>
       <div class="int-phone">
         <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
@@ -553,7 +553,7 @@
 
       <div class="int-step">
         <div class="int-step-title">Paso 4</div>
-        <p>El backend llama a <em>POST /checkout</em>, descifra el <em>encryptedPayload</em>, lo envía para autorización (DSRP) y reporta el resultado con <em>POST /confirmations</em>. Éxito muestra la página de pedido confirmado con la tarjeta recién inscrita.</p>
+        <p>El integrador (server-side) llama a <em>POST /checkout</em> usando el <em>merchantTransactionId</em> devuelto en <em>checkoutResponse</em> como argumento; descifra el <em>encryptedPayload</em>, lo envía para autorización (DSRP) y reporta el resultado con <em>POST /confirmations</em>. Éxito muestra la página de pedido confirmado con la tarjeta recién inscrita.</p>
       </div>
       <div class="int-phone">
         <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
