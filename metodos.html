@@ -216,7 +216,11 @@
 
       <div class="int-step">
         <div class="int-step-title">Paso 2</div>
-        <p>El consumidor ingresa sus datos de contacto. El integrador llama a <em class="m-req">authenticate()</em> pasando el <em class="m-req">iFrame windowRef</em> y <em class="m-req">accountReference</em> (correo / celular). <em class="m-req">authenticate()</em> encapsula <em class="m-req">idLookup()</em>, <em class="m-req">initiateValidation()</em> y <em class="m-req">validate()</em>. Mastercard muestra el OTP en el iFrame con checkbox "Remember Me" (porque se envió <em class="m-req">requestRecognitionToken=True</em>) y responde con la lista de tarjetas y un <em class="m-res">recognitionToken</em>.</p>
+        <ol class="int-step-phases">
+          <li><strong>El consumidor se identifica.</strong> Ingresa correo o celular en el checkout. El integrador llama a <em class="m-req">authenticate()</em> pasando <em class="m-req">windowRef</em>, <em class="m-req">accountReference</em> (correo / celular) y <em class="m-req">requestRecognitionToken=true</em> si se quiere recordar el dispositivo.</li>
+          <li><strong>Click to Pay valida la identidad.</strong> Si el perfil existe en algún sistema Click to Pay, Mastercard muestra el reto en el iFrame: passkey si aplica, OTP si no. En el caso de OTP, incluye el checkbox "Remember Me" para que el consumidor decida si recordar este dispositivo.</li>
+          <li><strong>Respuesta al integrador.</strong> El consumidor ingresa el OTP, marca "Remember Me" y confirma. <em class="m-req">authenticate()</em> devuelve la lista de <em class="m-res">maskedCard</em> y, si aplicaba, un <em class="m-res">recognitionToken</em> para reconocer este dispositivo en visitas futuras.</li>
+        </ol>
       </div>
       <div class="int-phone">
         <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
