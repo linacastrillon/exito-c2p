@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Métodos · Éxito × Click to Pay</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=2026060104">
+<link rel="stylesheet" href="styles.css?v=2026060108">
 </head>
 <body>
 
@@ -133,7 +133,7 @@
 
       <div class="int-step">
         <div class="int-step-title">Paso 4</div>
-        <p>El integrador (server-side) llama a <em>POST /checkout</em> usando el <em>merchantTransactionId</em> devuelto en <em>checkoutResponse</em> como argumento; recupera el <em>encryptedPayload</em>, lo descifra con su clave privada y lo envía para la autorización del pago (DSRP). Tras autorizar, reporta el resultado con <em>POST /confirmations</em> y Éxito muestra al consumidor la página de pedido confirmado.</p>
+        <p>El <em>DCF</em> (Click to Pay) entrega el <em>checkoutResponse</em> con el <em>merchantTransactionId</em> al frontend del integrador. El frontend lo pasa al backend, que llama <em>POST /checkout</em> a Mastercard usando ese ID y recibe el <em>encryptedPayload</em>. El backend lo descifra con su clave privada, lo envía a autorización (DSRP), reporta el resultado con <em>POST /confirmations</em> y Éxito muestra al consumidor la página de pedido confirmado.</p>
       </div>
       <div class="int-phone">
         <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
@@ -258,7 +258,7 @@
 
       <div class="int-step">
         <div class="int-step-title">Paso 4</div>
-        <p>El integrador (server-side) llama a <em>POST /checkout</em> usando el <em>merchantTransactionId</em> devuelto en <em>checkoutResponse</em> como argumento; descifra el <em>encryptedPayload</em>, lo envía para autorización (DSRP) y reporta el resultado con <em>POST /confirmations</em>. Éxito muestra al consumidor la página de pedido confirmado.</p>
+        <p>El <em>DCF</em> (Click to Pay) entrega el <em>checkoutResponse</em> con el <em>merchantTransactionId</em> al frontend del integrador. El frontend lo pasa al backend, que llama <em>POST /checkout</em> a Mastercard usando ese ID y recibe el <em>encryptedPayload</em>. El backend lo descifra, lo envía a autorización (DSRP), reporta el resultado con <em>POST /confirmations</em> y Éxito muestra al consumidor la página de pedido confirmado.</p>
       </div>
       <div class="int-phone">
         <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
@@ -422,7 +422,7 @@
 
       <div class="int-step">
         <div class="int-step-title">Paso 4</div>
-        <p>El integrador (server-side) llama a <em>POST /checkout</em> usando el <em>merchantTransactionId</em> devuelto en <em>checkoutResponse</em> como argumento; recupera el <em>encryptedPayload</em>, lo descifra con su clave privada y lo envía a autorización (DSRP). Reporta el resultado con <em>POST /confirmations</em> y Éxito muestra la página de pedido confirmado.</p>
+        <p>El <em>DCF</em> (Click to Pay) entrega el <em>checkoutResponse</em> con el <em>merchantTransactionId</em> al frontend del integrador. El frontend lo pasa al backend, que llama <em>POST /checkout</em> a Mastercard usando ese ID y recibe el <em>encryptedPayload</em>. El backend lo descifra, lo envía a autorización (DSRP), reporta el resultado con <em>POST /confirmations</em> y Éxito muestra al consumidor la página de pedido confirmado.</p>
       </div>
       <div class="int-phone">
         <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
@@ -438,6 +438,7 @@
         </div>
       </div>
     </div>
+
   </section>
 
   <!-- ════ CASO 4 · AGREGAR NUEVA TARJETA ════ -->
@@ -541,7 +542,7 @@
 
       <div class="int-step">
         <div class="int-step-title">Paso 4</div>
-        <p>El integrador (server-side) llama a <em>POST /checkout</em> usando el <em>merchantTransactionId</em> devuelto en <em>checkoutResponse</em> como argumento; descifra el <em>encryptedPayload</em>, lo envía para autorización (DSRP) y reporta el resultado con <em>POST /confirmations</em>. Éxito muestra la página de pedido confirmado con la tarjeta recién inscrita.</p>
+        <p>El <em>DCF</em> (Click to Pay) entrega el <em>checkoutResponse</em> con el <em>merchantTransactionId</em> al frontend del integrador. El frontend lo pasa al backend, que llama <em>POST /checkout</em> a Mastercard usando ese ID y recibe el <em>encryptedPayload</em>. El backend lo descifra, lo envía a autorización (DSRP), reporta el resultado con <em>POST /confirmations</em> y Éxito muestra la página de pedido confirmado con la tarjeta recién inscrita.</p>
       </div>
       <div class="int-phone">
         <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
