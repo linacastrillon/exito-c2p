@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Métodos · Éxito × Click to Pay</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=2026060211">
+<link rel="stylesheet" href="styles.css?v=2026060219">
 </head>
 <body>
 
@@ -218,8 +218,8 @@
         <div class="int-step-title">Paso 2</div>
         <ol class="int-step-phases">
           <li><strong>El consumidor se identifica.</strong> Ingresa correo o celular en el checkout. El integrador llama a <em class="m-req">authenticate()</em> pasando <em class="m-req">windowRef</em>, <em class="m-req">accountReference</em> (correo / celular) y <em class="m-req">requestRecognitionToken=true</em> si se quiere recordar el dispositivo.</li>
-          <li><strong>Click to Pay valida la identidad.</strong> Si el perfil existe en algún sistema Click to Pay, Mastercard muestra el reto en el iFrame: passkey si aplica, OTP si no. En el caso de OTP, incluye el checkbox "Remember Me" para que el consumidor decida si recordar este dispositivo.</li>
-          <li><strong>Respuesta al integrador.</strong> El consumidor ingresa el OTP, marca "Remember Me" y confirma. <em class="m-req">authenticate()</em> devuelve la lista de <em class="m-res">maskedCard</em> y, si aplicaba, un <em class="m-res">recognitionToken</em> para reconocer este dispositivo en visitas futuras.</li>
+          <li><strong>Reto en pantalla.</strong> Si el perfil existe se solicitará OTP o Passkey. Para el caso de OTP se le presentará al cliente el checkbox "Remember me" para guardar el consentimiento.</li>
+          <li><strong>Respuesta al integrador.</strong> El consumidor ingresa el OTP, marca "Remember me" y confirma. <em class="m-req">authenticate()</em> devuelve la lista de <em class="m-res">maskedCard</em> y, si aplicaba, un <em class="m-res">recognitionToken</em>.</li>
         </ol>
       </div>
       <div class="int-phone">
@@ -244,7 +244,7 @@
 
       <div class="int-step">
         <div class="int-step-title">Paso 3</div>
-        <p>El integrador muestra la lista de tarjetas usando el componente UI <em>SRC Card List</em>. El consumidor selecciona una y el integrador llama a <em class="m-req">checkoutWithCard()</em> con <em class="m-req">payloadRequested="AUTHENTICATED"</em> bajo <em class="m-req">authenticationPreferences</em> si se opta por autenticación de transacción. Recibe <em class="m-res">checkoutResponse</em> con <em class="m-res">checkoutActionCode = COMPLETE</em>.</p>
+        <p>El integrador muestra la lista de tarjetas usando el componente UI <em>SRC Card List</em> dentro del checkout de Éxito, junto con la opción de ingresar una tarjeta nueva manualmente.</p>
       </div>
       <div class="int-phone">
         <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
@@ -252,10 +252,7 @@
           <div class="int-mini-header">éxito<em>.</em></div>
           <div class="int-mini-body">
             <div class="int-mini-pm-row">
-              <svg width="14" height="10" viewBox="0 0 40 28" fill="none" aria-label="Click to Pay">
-                <path d="M5 4 H20 L28 14 L20 24 H5 Z" fill="#111" stroke="#111" stroke-width="3" stroke-linejoin="round"/>
-                <path d="M31 7 C35 11 35 17 31 21" fill="none" stroke="#111" stroke-width="3" stroke-linecap="round"/>
-              </svg>
+              <svg width="14" height="10" viewBox="0 0 40 28" fill="none" aria-label="Click to Pay"><path d="M5 4 H20 L28 14 L20 24 H5 Z" fill="#111" stroke="#111" stroke-width="3" stroke-linejoin="round"/><path d="M31 7 C35 11 35 17 31 21" fill="none" stroke="#111" stroke-width="3" stroke-linecap="round"/></svg>
               <span>Crédito/Débito</span>
               <svg width="16" height="11" viewBox="0 0 34 22" fill="none" aria-label="Mastercard" style="margin-left:auto;"><circle cx="12" cy="11" r="10" fill="#EB001B"/><circle cx="22" cy="11" r="10" fill="#F79E1B"/><path d="M17 4.8 A10 10 0 0 1 17 17.2 A10 10 0 0 1 17 4.8Z" fill="#FF5F00"/></svg>
             </div>
@@ -263,12 +260,7 @@
             <div class="int-mini-card-row sel">
               <div class="int-mini-radio"><div class="int-mini-radio-dot"></div></div>
               <div class="int-mini-card-art">
-                <svg width="36" height="22" viewBox="0 0 50 32" xmlns="http://www.w3.org/2000/svg" aria-label="Tarjeta">
-                  <rect width="50" height="32" rx="4" fill="#1a3026"/>
-                  <text x="4" y="11" font-family="Arial" font-size="5" fill="#F5A800" font-weight="800">éxito</text>
-                  <circle cx="36" cy="22" r="5" fill="#EB001B"/>
-                  <circle cx="41" cy="22" r="5" fill="#F79E1B"/>
-                </svg>
+                <svg width="36" height="22" viewBox="0 0 50 32" xmlns="http://www.w3.org/2000/svg"><rect width="50" height="32" rx="4" fill="#1a3026"/><text x="4" y="11" font-family="Arial" font-size="5" fill="#F5A800" font-weight="800">éxito</text><circle cx="36" cy="22" r="5" fill="#EB001B"/><circle cx="41" cy="22" r="5" fill="#F79E1B"/></svg>
               </div>
               <div class="int-mini-card-meta">
                 <div class="int-mini-card-meta-name">Mastercard Platinum</div>
@@ -290,6 +282,81 @@
 
       <div class="int-step">
         <div class="int-step-title">Paso 4</div>
+        <p>El consumidor selecciona una tarjeta y pulsa Pagar. El integrador llama a <em class="m-req">checkoutWithCard()</em>. En esa llamada decide, mediante el parámetro <em class="m-req">payloadRequested</em> (dentro del objeto <em class="m-req">authenticationPreferences</em>), si quiere que Click to Pay autentique al consumidor con passkey / Face ID. Esto bifurca el flujo en dos caminos:</p>
+      </div>
+      <div class="int-branch">
+        <div class="int-branch-col">
+          <div class="int-branch-card">
+            <div class="int-branch-card-row">
+              <span class="int-branch-tag">payloadRequested =</span>
+              <span class="int-branch-val">AUTHENTICATED</span>
+            </div>
+            <p class="int-branch-desc"><strong>Camino A:</strong> el integrador solicita autenticación. Click to Pay dispara <em>passkey / Face ID</em> antes de devolver el <em class="m-res">checkoutResponse</em>.</p>
+          </div>
+          <div class="int-phone">
+            <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
+            <div class="int-phone-screen int-passkey-screen">
+              <div class="int-pk-top">
+                <div class="int-pk-badge">
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="8" fill="#34c759"/><path d="M4.5 8.4 L7 10.6 L11.5 5.6" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+                </div>
+                <svg class="int-pk-mc" width="32" height="20" viewBox="0 0 34 22" fill="none" aria-label="Mastercard"><circle cx="12" cy="11" r="10" fill="#EB001B"/><circle cx="22" cy="11" r="10" fill="#F79E1B"/><path d="M17 4.8 A10 10 0 0 1 17 17.2 A10 10 0 0 1 17 4.8Z" fill="#FF5F00"/></svg>
+                <div class="int-pk-verifying">Verifying your passkey…</div>
+              </div>
+              <div class="int-pk-sheet">
+                <div class="int-pk-sheet-head">
+                  <span class="int-pk-sheet-title">⚐ Sign In</span>
+                  <span class="int-pk-sheet-x">×</span>
+                </div>
+                <div class="int-pk-faceid">
+                  <svg width="26" height="26" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+                    <path d="M5 9 V6 a1 1 0 0 1 1 -1 H9 M19 5 H22 a1 1 0 0 1 1 1 V9 M23 19 V22 a1 1 0 0 1 -1 1 H19 M9 23 H6 a1 1 0 0 1 -1 -1 V19" stroke="#0a84ff" stroke-width="1.6" stroke-linecap="round"/>
+                    <path d="M10 12 V14 M18 12 V14" stroke="#0a84ff" stroke-width="1.6" stroke-linecap="round"/>
+                    <path d="M14 12 V16 M12 17 H16" stroke="#0a84ff" stroke-width="1.6" stroke-linecap="round"/>
+                    <path d="M10 19 Q14 21.5 18 19" stroke="#0a84ff" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+                  </svg>
+                </div>
+                <div class="int-pk-q">Use Face ID to sign in?</div>
+                <div class="int-pk-sub">You will be signed in to "mastercard.com" with your passkey for "e******g@gmail.com"</div>
+                <div class="int-pk-done">
+                  <svg width="22" height="22" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="8" fill="#0a84ff"/><path d="M4.5 8.4 L7 10.6 L11.5 5.6" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+                  <span>Done</span>
+                </div>
+                <div class="int-pk-other">Other Sign In Options</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="int-branch-col">
+          <div class="int-branch-card">
+            <div class="int-branch-card-row">
+              <span class="int-branch-tag">payloadRequested =</span>
+              <span class="int-branch-val">NON_AUTHENTICATED</span>
+            </div>
+            <p class="int-branch-desc"><strong>Camino B:</strong> el integrador opta por no autenticar. El <em class="m-res">checkoutResponse</em> se devuelve directamente, sin paso biométrico.</p>
+          </div>
+          <div class="int-phone">
+            <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
+            <div class="int-phone-screen int-dcf-screen">
+              <div class="int-mini-dcf-mark">
+                <svg width="18" height="13" viewBox="0 0 40 28" fill="none" aria-label="Click to Pay"><path d="M5 4 H20 L28 14 L20 24 H5 Z" fill="#111" stroke="#111" stroke-width="3" stroke-linejoin="round"/><path d="M31 7 C35 11 35 17 31 21" fill="none" stroke="#111" stroke-width="3" stroke-linecap="round"/></svg>
+                <span class="ic-sep"></span>
+                <svg width="20" height="13" viewBox="0 0 34 22" fill="none" aria-label="Mastercard"><circle cx="12" cy="11" r="10" fill="#EB001B"/><circle cx="22" cy="11" r="10" fill="#F79E1B"/><path d="M17 4.8 A10 10 0 0 1 17 17.2 A10 10 0 0 1 17 4.8Z" fill="#FF5F00"/></svg>
+              </div>
+              <div class="int-mini-dcf-body">
+                <svg class="int-mini-mc-big" width="48" height="30" viewBox="0 0 64 40" fill="none"><circle cx="24" cy="20" r="18" fill="#EB001B"/><circle cx="40" cy="20" r="18" fill="#F79E1B"/><path d="M32 6.5 A18 18 0 0 1 32 33.5 A18 18 0 0 1 32 6.5Z" fill="#FF5F00"/></svg>
+                <div class="int-mini-dcf-text"><strong>Procesando tu pago…</strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="int-arrow"></div>
+
+      <div class="int-step">
+        <div class="int-step-title">Paso 5</div>
         <ol class="int-step-phases">
           <li><strong>El frontend recibe la respuesta.</strong> Click to Pay le entrega al frontend de Éxito el <em class="m-res">checkoutResponse</em> con el <em class="m-res">merchantTransactionId</em>. El frontend lo pasa al backend.</li>
           <li><strong>El backend hace el cobro.</strong> Llama <em class="m-req">POST /checkout</em> a Mastercard con ese ID, recibe el <em class="m-res">encryptedPayload</em>, lo descifra y autoriza el cobro en la red (DSRP).</li>
