@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Métodos · Éxito × Click to Pay</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=2026060108">
+<link rel="stylesheet" href="styles.css?v=2026060211">
 </head>
 <body>
 
@@ -46,7 +46,19 @@
 
   <!-- ════ CASO 1 · NUEVO USUARIO ════ -->
   <section class="case-section active" id="case-new">
-    <div class="int-flow">
+
+    <div class="m-color-legend" aria-label="Leyenda de colores">
+      <span class="m-legend-item">
+        <span class="m-legend-pill m-legend-pill-req">REQUEST</span>
+        <span>Métodos JS o endpoints API invocados por el integrador</span>
+      </span>
+      <span class="m-legend-item">
+        <span class="m-legend-pill m-legend-pill-res">RESPONSE</span>
+        <span>Objetos o campos devueltos al integrador</span>
+      </span>
+    </div>
+
+    <div class="int-flow int-flow-colored">
       <div class="int-header-block">
         <div class="int-icon" aria-hidden="true">⚙</div>
         <div class="int-h">Integración</div>
@@ -54,7 +66,7 @@
 
       <div class="int-step">
         <div class="int-step-title">Paso 1</div>
-        <p>Al cargar la página, el integrador llama a <em>init()</em> y <em>getCards()</em> para verificar si el consumidor está reconocido por algún sistema Click to Pay. Como es la primera vez, <em>getCards()</em> devuelve una respuesta vacía y el consumidor entra al flujo de inscripción.</p>
+        <p>Al cargar la página, el integrador llama a <em class="m-req">init()</em> y <em class="m-req">getCards()</em> para verificar si el consumidor está reconocido. Como es la primera vez, <em class="m-req">getCards()</em> devuelve una respuesta vacía y el consumidor entra al flujo de inscripción.</p>
       </div>
       <div class="int-phone">
         <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
@@ -81,7 +93,7 @@
 
       <div class="int-step">
         <div class="int-step-title">Paso 2</div>
-        <p>El consumidor ingresa su correo, celular y dirección de envío. El integrador llama a <em>authenticate()</em> para verificar si la identidad (correo o celular) es conocida en algún sistema Click to Pay. Devuelve lista vacía: se presenta el formulario de captura de tarjeta y se recoge el consentimiento "Remember Me".</p>
+        <p>El consumidor ingresa su correo, celular y dirección de envío. El integrador llama a <em class="m-req">authenticate()</em>. Devuelve lista vacía: se presenta el formulario de captura de tarjeta y se recoge el consentimiento "Remember Me".</p>
       </div>
       <div class="int-phone">
         <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
@@ -109,7 +121,7 @@
 
       <div class="int-step">
         <div class="int-step-title">Paso 3</div>
-        <p>El integrador llama a <em>encryptCard()</em> para enmascarar el PAN y obtener <em>encryptedCard</em>. Luego invoca <em>checkoutWithNewCard()</em> con <em>recognitionTokenRequested=true</em> y opcionalmente <em>payloadRequested="AUTHENTICATED"</em> para passkey. Recibe <em>checkoutResponse</em> con <em>checkoutActionCode = COMPLETE</em>.</p>
+        <p>El integrador llama a <em class="m-req">encryptCard()</em> para enmascarar el PAN y obtener <em class="m-res">encryptedCard</em>. Luego invoca <em class="m-req">checkoutWithNewCard()</em> con <em class="m-req">recognitionTokenRequested=true</em> y opcionalmente <em class="m-req">payloadRequested="AUTHENTICATED"</em>. Recibe <em class="m-res">checkoutResponse</em> con <em class="m-res">checkoutActionCode = COMPLETE</em>.</p>
       </div>
       <div class="int-phone">
         <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
@@ -133,7 +145,11 @@
 
       <div class="int-step">
         <div class="int-step-title">Paso 4</div>
-        <p>El <em>DCF</em> (Click to Pay) entrega el <em>checkoutResponse</em> con el <em>merchantTransactionId</em> al frontend del integrador. El frontend lo pasa al backend, que llama <em>POST /checkout</em> a Mastercard usando ese ID y recibe el <em>encryptedPayload</em>. El backend lo descifra con su clave privada, lo envía a autorización (DSRP), reporta el resultado con <em>POST /confirmations</em> y Éxito muestra al consumidor la página de pedido confirmado.</p>
+        <ol class="int-step-phases">
+          <li><strong>El frontend recibe la respuesta.</strong> Click to Pay le entrega al frontend de Éxito el <em class="m-res">checkoutResponse</em> con el <em class="m-res">merchantTransactionId</em>. El frontend lo pasa al backend.</li>
+          <li><strong>El backend hace el cobro.</strong> Llama <em class="m-req">POST /checkout</em> a Mastercard con ese ID, recibe el <em class="m-res">encryptedPayload</em>, lo descifra con su clave privada y autoriza el cobro en la red (DSRP).</li>
+          <li><strong>Confirmación final.</strong> El backend reporta el resultado con <em class="m-req">POST /confirmations</em> y Éxito muestra al consumidor la página de pedido confirmado.</li>
+        </ol>
       </div>
       <div class="int-phone">
         <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
@@ -153,7 +169,19 @@
 
   <!-- ════ CASO 2 · RECONOCIDO POR CORREO/TELÉFONO ════ -->
   <section class="case-section" id="case-unrecog">
-    <div class="int-flow">
+
+    <div class="m-color-legend" aria-label="Leyenda de colores">
+      <span class="m-legend-item">
+        <span class="m-legend-pill m-legend-pill-req">REQUEST</span>
+        <span>Métodos JS o endpoints API invocados por el integrador</span>
+      </span>
+      <span class="m-legend-item">
+        <span class="m-legend-pill m-legend-pill-res">RESPONSE</span>
+        <span>Objetos o campos devueltos al integrador</span>
+      </span>
+    </div>
+
+    <div class="int-flow int-flow-colored">
       <div class="int-header-block">
         <div class="int-icon" aria-hidden="true">⚙</div>
         <div class="int-h">Integración</div>
@@ -161,7 +189,7 @@
 
       <div class="int-step">
         <div class="int-step-title">Paso 1</div>
-        <p>El integrador llama a <em>init()</em> y <em>getCards()</em> al cargar la página. Como el dispositivo no está reconocido, <em>getCards()</em> no devuelve <em>maskedCard</em> y responde con un mensaje "not recognized".</p>
+        <p>El integrador llama a <em class="m-req">init()</em> y <em class="m-req">getCards()</em> al cargar la página. Como el dispositivo no está reconocido, <em class="m-req">getCards()</em> no devuelve <em class="m-res">maskedCard</em> y responde con un mensaje "not recognized".</p>
       </div>
       <div class="int-phone">
         <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
@@ -188,7 +216,7 @@
 
       <div class="int-step">
         <div class="int-step-title">Paso 2</div>
-        <p>El consumidor ingresa sus datos de contacto. El integrador llama a <em>authenticate()</em> pasando el <em>iFrame windowRef</em> y <em>accountReference</em> (correo / celular). <em>authenticate()</em> encapsula <em>idLookup()</em>, <em>initiateValidation()</em> y <em>validate()</em>. Mastercard muestra el OTP en el iFrame con checkbox "Remember Me" (porque se envió <em>requestRecognitionToken=True</em>) y responde con la lista de tarjetas y un <em>recognitionToken</em>.</p>
+        <p>El consumidor ingresa sus datos de contacto. El integrador llama a <em class="m-req">authenticate()</em> pasando el <em class="m-req">iFrame windowRef</em> y <em class="m-req">accountReference</em> (correo / celular). <em class="m-req">authenticate()</em> encapsula <em class="m-req">idLookup()</em>, <em class="m-req">initiateValidation()</em> y <em class="m-req">validate()</em>. Mastercard muestra el OTP en el iFrame con checkbox "Remember Me" (porque se envió <em class="m-req">requestRecognitionToken=True</em>) y responde con la lista de tarjetas y un <em class="m-res">recognitionToken</em>.</p>
       </div>
       <div class="int-phone">
         <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
@@ -212,7 +240,7 @@
 
       <div class="int-step">
         <div class="int-step-title">Paso 3</div>
-        <p>El integrador muestra la lista de tarjetas usando el componente UI <em>SRC Card List</em>. El consumidor selecciona una y el integrador llama a <em>checkoutWithCard()</em> con <em>payloadRequested="AUTHENTICATED"</em> bajo <em>authenticationPreferences</em> si se opta por autenticación de transacción. Recibe <em>checkoutResponse</em> con <em>checkoutActionCode = COMPLETE</em>.</p>
+        <p>El integrador muestra la lista de tarjetas usando el componente UI <em>SRC Card List</em>. El consumidor selecciona una y el integrador llama a <em class="m-req">checkoutWithCard()</em> con <em class="m-req">payloadRequested="AUTHENTICATED"</em> bajo <em class="m-req">authenticationPreferences</em> si se opta por autenticación de transacción. Recibe <em class="m-res">checkoutResponse</em> con <em class="m-res">checkoutActionCode = COMPLETE</em>.</p>
       </div>
       <div class="int-phone">
         <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
@@ -258,7 +286,11 @@
 
       <div class="int-step">
         <div class="int-step-title">Paso 4</div>
-        <p>El <em>DCF</em> (Click to Pay) entrega el <em>checkoutResponse</em> con el <em>merchantTransactionId</em> al frontend del integrador. El frontend lo pasa al backend, que llama <em>POST /checkout</em> a Mastercard usando ese ID y recibe el <em>encryptedPayload</em>. El backend lo descifra, lo envía a autorización (DSRP), reporta el resultado con <em>POST /confirmations</em> y Éxito muestra al consumidor la página de pedido confirmado.</p>
+        <ol class="int-step-phases">
+          <li><strong>El frontend recibe la respuesta.</strong> Click to Pay le entrega al frontend de Éxito el <em class="m-res">checkoutResponse</em> con el <em class="m-res">merchantTransactionId</em>. El frontend lo pasa al backend.</li>
+          <li><strong>El backend hace el cobro.</strong> Llama <em class="m-req">POST /checkout</em> a Mastercard con ese ID, recibe el <em class="m-res">encryptedPayload</em>, lo descifra y autoriza el cobro en la red (DSRP).</li>
+          <li><strong>Confirmación final.</strong> El backend reporta el resultado con <em class="m-req">POST /confirmations</em> y Éxito muestra al consumidor la página de pedido confirmado.</li>
+        </ol>
       </div>
       <div class="int-phone">
         <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
@@ -278,7 +310,19 @@
 
   <!-- ════ CASO 3 · USUARIO RECONOCIDO ════ -->
   <section class="case-section" id="case-recog">
-    <div class="int-flow">
+
+    <div class="m-color-legend" aria-label="Leyenda de colores">
+      <span class="m-legend-item">
+        <span class="m-legend-pill m-legend-pill-req">REQUEST</span>
+        <span>Métodos JS o endpoints API invocados por el integrador</span>
+      </span>
+      <span class="m-legend-item">
+        <span class="m-legend-pill m-legend-pill-res">RESPONSE</span>
+        <span>Objetos o campos devueltos al integrador</span>
+      </span>
+    </div>
+
+    <div class="int-flow int-flow-colored">
       <div class="int-header-block">
         <div class="int-icon" aria-hidden="true">⚙</div>
         <div class="int-h">Integración</div>
@@ -286,7 +330,7 @@
 
       <div class="int-step">
         <div class="int-step-title">Paso 1</div>
-        <p>El integrador llama a <em>init()</em> y <em>getCards()</em> al cargar la página. <em>getCards()</em> devuelve la lista de <em>maskedCard</em> del consumidor.</p>
+        <p>El integrador llama a <em class="m-req">init()</em> y <em class="m-req">getCards()</em> al cargar la página. <em class="m-req">getCards()</em> devuelve la lista de <em class="m-res">maskedCard</em> del consumidor.</p>
       </div>
       <div class="int-phone">
         <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
@@ -347,7 +391,7 @@
 
       <div class="int-step">
         <div class="int-step-title">Paso 3</div>
-        <p>El consumidor selecciona una tarjeta y pulsa Pagar. El integrador llama a <em>checkoutWithCard()</em>. El parámetro <em>payloadRequested</em> bajo <em>authenticationPreferences</em> determina si se solicita o no autenticación:</p>
+        <p>El consumidor selecciona una tarjeta y pulsa Pagar. El integrador llama a <em class="m-req">checkoutWithCard()</em>. En esa llamada decide, mediante el parámetro <em class="m-req">payloadRequested</em> (dentro del objeto <em class="m-req">authenticationPreferences</em>), si quiere que Click to Pay autentique al consumidor con passkey / Face ID. Esto bifurca el flujo en dos caminos:</p>
       </div>
       <div class="int-branch">
         <div class="int-branch-col">
@@ -356,7 +400,7 @@
               <span class="int-branch-tag">payloadRequested =</span>
               <span class="int-branch-val">AUTHENTICATED</span>
             </div>
-            <p class="int-branch-desc"><strong>Camino A:</strong> el integrador solicita autenticación. Click to Pay dispara <em>passkey / Face ID</em> antes de devolver el <em>checkoutResponse</em>.</p>
+            <p class="int-branch-desc"><strong>Camino A:</strong> el integrador solicita autenticación. Click to Pay dispara <em>passkey / Face ID</em> antes de devolver el <em class="m-res">checkoutResponse</em>.</p>
           </div>
           <div class="int-phone">
             <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
@@ -399,7 +443,7 @@
               <span class="int-branch-tag">payloadRequested =</span>
               <span class="int-branch-val">NON_AUTHENTICATED</span>
             </div>
-            <p class="int-branch-desc"><strong>Camino B:</strong> el integrador opta por no autenticar. El <em>checkoutResponse</em> se devuelve directamente, sin paso biométrico.</p>
+            <p class="int-branch-desc"><strong>Camino B:</strong> el integrador opta por no autenticar. El <em class="m-res">checkoutResponse</em> se devuelve directamente, sin paso biométrico.</p>
           </div>
           <div class="int-phone">
             <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
@@ -422,7 +466,11 @@
 
       <div class="int-step">
         <div class="int-step-title">Paso 4</div>
-        <p>El <em>DCF</em> (Click to Pay) entrega el <em>checkoutResponse</em> con el <em>merchantTransactionId</em> al frontend del integrador. El frontend lo pasa al backend, que llama <em>POST /checkout</em> a Mastercard usando ese ID y recibe el <em>encryptedPayload</em>. El backend lo descifra, lo envía a autorización (DSRP), reporta el resultado con <em>POST /confirmations</em> y Éxito muestra al consumidor la página de pedido confirmado.</p>
+        <ol class="int-step-phases">
+          <li><strong>El frontend recibe la respuesta.</strong> Click to Pay le entrega al frontend de Éxito el <em class="m-res">checkoutResponse</em> con el <em class="m-res">merchantTransactionId</em>. El frontend lo pasa al backend.</li>
+          <li><strong>El backend hace el cobro.</strong> Llama <em class="m-req">POST /checkout</em> a Mastercard con ese ID, recibe el <em class="m-res">encryptedPayload</em>, lo descifra y autoriza el cobro en la red (DSRP).</li>
+          <li><strong>Confirmación final.</strong> El backend reporta el resultado con <em class="m-req">POST /confirmations</em> y Éxito muestra al consumidor la página de pedido confirmado.</li>
+        </ol>
       </div>
       <div class="int-phone">
         <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
@@ -443,7 +491,19 @@
 
   <!-- ════ CASO 4 · AGREGAR NUEVA TARJETA ════ -->
   <section class="case-section" id="case-addcard">
-    <div class="int-flow">
+
+    <div class="m-color-legend" aria-label="Leyenda de colores">
+      <span class="m-legend-item">
+        <span class="m-legend-pill m-legend-pill-req">REQUEST</span>
+        <span>Métodos JS o endpoints API invocados por el integrador</span>
+      </span>
+      <span class="m-legend-item">
+        <span class="m-legend-pill m-legend-pill-res">RESPONSE</span>
+        <span>Objetos o campos devueltos al integrador</span>
+      </span>
+    </div>
+
+    <div class="int-flow int-flow-colored">
       <div class="int-header-block">
         <div class="int-icon" aria-hidden="true">⚙</div>
         <div class="int-h">Integración</div>
@@ -451,7 +511,7 @@
 
       <div class="int-step">
         <div class="int-step-title">Paso 1</div>
-        <p>El integrador llama a <em>init()</em> y <em>getCards()</em>. <em>getCards()</em> devuelve la lista de <em>maskedCard</em>.</p>
+        <p>El integrador llama a <em class="m-req">init()</em> y <em class="m-req">getCards()</em>. <em class="m-req">getCards()</em> devuelve la lista de <em class="m-res">maskedCard</em>.</p>
       </div>
       <div class="int-phone">
         <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
@@ -512,7 +572,7 @@
 
       <div class="int-step">
         <div class="int-step-title">Paso 3</div>
-        <p>El integrador llama a <em>encryptCard()</em> para obtener <em>encryptedCard</em>. Luego invoca <em>checkoutWithNewCard()</em> pasando <em>encryptedCard</em>, <em>recognitionTokenRequested=true</em> y opcionalmente <em>payloadRequested="AUTHENTICATED"</em>. Recibe <em>checkoutResponse</em> con <em>checkoutActionCode = COMPLETE</em>.</p>
+        <p>El integrador llama a <em class="m-req">encryptCard()</em> para obtener <em class="m-res">encryptedCard</em>. Luego invoca <em class="m-req">checkoutWithNewCard()</em> pasando <em class="m-req">encryptedCard</em>, <em class="m-req">recognitionTokenRequested=true</em> y opcionalmente <em class="m-req">payloadRequested="AUTHENTICATED"</em>. Recibe <em class="m-res">checkoutResponse</em> con <em class="m-res">checkoutActionCode = COMPLETE</em>.</p>
       </div>
       <div class="int-phone">
         <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
@@ -542,7 +602,11 @@
 
       <div class="int-step">
         <div class="int-step-title">Paso 4</div>
-        <p>El <em>DCF</em> (Click to Pay) entrega el <em>checkoutResponse</em> con el <em>merchantTransactionId</em> al frontend del integrador. El frontend lo pasa al backend, que llama <em>POST /checkout</em> a Mastercard usando ese ID y recibe el <em>encryptedPayload</em>. El backend lo descifra, lo envía a autorización (DSRP), reporta el resultado con <em>POST /confirmations</em> y Éxito muestra la página de pedido confirmado con la tarjeta recién inscrita.</p>
+        <ol class="int-step-phases">
+          <li><strong>El frontend recibe la respuesta.</strong> Click to Pay le entrega al frontend de Éxito el <em class="m-res">checkoutResponse</em> con el <em class="m-res">merchantTransactionId</em>. El frontend lo pasa al backend.</li>
+          <li><strong>El backend hace el cobro.</strong> Llama <em class="m-req">POST /checkout</em> a Mastercard con ese ID, recibe el <em class="m-res">encryptedPayload</em>, lo descifra y autoriza el cobro en la red (DSRP).</li>
+          <li><strong>Confirmación final.</strong> El backend reporta el resultado con <em class="m-req">POST /confirmations</em> y Éxito muestra la página de pedido confirmado con la tarjeta recién inscrita.</li>
+        </ol>
       </div>
       <div class="int-phone">
         <div class="int-phone-bar"><span>9:41</span><span>▮▮▮</span></div>
