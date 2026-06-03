@@ -1955,7 +1955,22 @@
     line-height:1.35; color:#1a1a1a;
     margin:6px 0 10px;
   }
-  .vt-title + .vt-lead { margin-bottom:22px; }
+  .vt-title + .vt-lead { margin-bottom:14px; }
+  .vt-latam-note {
+    display:flex; align-items:flex-start; gap:10px;
+    background:#FFF8F0;
+    border-left:3px solid #ee6c2b;
+    border-radius:6px;
+    padding:10px 14px;
+    margin:0 0 22px;
+  }
+  .vt-latam-note svg { flex-shrink:0; margin-top:2px; }
+  .vt-latam-note p {
+    font-size:13px; color:#3a3a3c; line-height:1.5; margin:0;
+  }
+  .vt-latam-note strong { color:#1a1a1a; }
+  .vt-latam-note strong.vt-title-hl { color:#ee6c2b; }
+  .vt-source br { line-height:1.8; }
   .vt-title strong { font-weight:800; }
   .vt-title-hl { color:#ee6c2b; }
   .vt-title-fn {

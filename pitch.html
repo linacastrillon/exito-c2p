@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pitch · Éxito × Click to Pay</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=2026060220">
+<style>
+  /* ── Pitch · estilos de página + impresión ────────────────────────── */
+  .pitch-page {
+    max-width:920px; margin:0 auto;
+    padding:32px 36px 60px;
+    font-family:'Nunito', sans-serif;
+    color:#1a1a1a;
+    line-height:1.5;
+  }
+  .pitch-toolbar {
+    display:flex; align-items:center; justify-content:space-between;
+    gap:16px; margin-bottom:28px; padding-bottom:18px;
+    border-bottom:2px solid #1a1a1a;
+  }
+  .pitch-toolbar h1 {
+    font-size:28px; font-weight:900; letter-spacing:-.02em; margin:0;
+  }
+  .pitch-toolbar h1 em { color:#C62828; font-style:normal; }
+  .pitch-print {
+    background:#1a1a1a; color:#fff; border:none;
+    padding:10px 18px; border-radius:8px;
+    font-family:inherit; font-size:14px; font-weight:800;
+    cursor:pointer;
+  }
+  .pitch-print:hover { background:#3a3a3a; }
+  .pitch-intro {
+    background:#FFF8E1; border-left:4px solid #F5A800; border-radius:6px;
+    padding:14px 18px; margin-bottom:32px;
+    font-size:14px; color:#3a3a3c;
+  }
+  .pitch-intro strong { color:#1a1a1a; }
+
+  .pitch-case {
+    border:1.5px solid #e0e0e4; border-radius:12px;
+    padding:0; margin-bottom:32px;
+    overflow:hidden;
+    page-break-inside:avoid; break-inside:avoid;
+  }
+  .pitch-case-head {
+    background:#1a1a1a; color:#fff;
+    padding:14px 22px;
+    display:flex; align-items:center; gap:14px;
+  }
+  .pitch-case-num {
+    width:38px; height:38px; border-radius:8px;
+    background:#ee6c2b; color:#fff;
+    font-size:16px; font-weight:900;
+    display:grid; place-items:center;
+    flex-shrink:0;
+  }
+  .pitch-case-title {
+    font-size:18px; font-weight:800; letter-spacing:.3px;
+  }
+  .pitch-case-sub {
+    font-size:12px; color:#a0a8b8; font-weight:500;
+    margin-left:auto;
+  }
+  .pitch-case-body { padding:18px 22px 22px; }
+
+  .pitch-section { margin-bottom:16px; }
+  .pitch-section:last-child { margin-bottom:0; }
+  .pitch-section-h {
+    font-size:11.5px; font-weight:800; color:#ee6c2b;
+    letter-spacing:.8px; text-transform:uppercase;
+    margin:0 0 6px;
+  }
+  .pitch-section p {
+    font-size:14px; color:#1a1a1a; line-height:1.55; margin:0 0 8px;
+  }
+  .pitch-section p:last-child { margin:0; }
+  .pitch-section em { color:#C62828; font-style:italic; font-weight:700; }
+
+  .pitch-methods {
+    list-style:none; padding:0; margin:0;
+    display:flex; flex-wrap:wrap; gap:6px;
+  }
+  .pitch-methods li {
+    background:#f4f4f6; border:1px solid #e0e0e4; border-radius:6px;
+    padding:5px 10px; font-size:12px; font-weight:700;
+    color:#3a3a3c; font-family:'SF Mono', Menlo, Monaco, monospace;
+  }
+  .pitch-methods li.req { background:#e8efff; border-color:#bdd0fc; color:#1d4ed8; }
+  .pitch-methods li.res { background:#e7f8eb; border-color:#a8e5b8; color:#15803d; }
+
+  .pitch-qa {
+    background:#f9f9fb; border-radius:8px; padding:12px 14px;
+  }
+  .pitch-qa-item { margin-bottom:10px; }
+  .pitch-qa-item:last-child { margin-bottom:0; }
+  .pitch-qa-q {
+    font-size:13px; font-weight:800; color:#1a1a1a; margin:0 0 3px;
+  }
+  .pitch-qa-q::before { content:"Q: "; color:#ee6c2b; }
+  .pitch-qa-a {
+    font-size:12.5px; color:#3a3a3c; line-height:1.5; margin:0;
+  }
+  .pitch-qa-a::before { content:"A: "; color:#15803d; font-weight:800; }
+
+  .pitch-script {
+    background:#FFF8E1; border-left:4px solid #F5A800;
+    padding:14px 18px; border-radius:6px;
+    font-size:14px; line-height:1.6;
+  }
+  .pitch-script p { margin:0 0 8px; }
+  .pitch-script p:last-child { margin:0; }
+  .pitch-script strong { color:#1a1a1a; }
+
+  /* Glosario */
+  .pitch-glossary {
+    border:1.5px solid #e0e0e4; border-radius:12px;
+    padding:18px 22px;
+    margin-top:32px;
+    page-break-inside:avoid;
+  }
+  .pitch-glossary h2 {
+    font-size:16px; font-weight:900; letter-spacing:.3px;
+    margin:0 0 14px; color:#1a1a1a;
+    padding-bottom:8px; border-bottom:2px solid #ee6c2b;
+  }
+  .pitch-glossary dl { margin:0; }
+  .pitch-glossary dt {
+    font-size:13px; font-weight:800; color:#1a1a1a;
+    font-family:'SF Mono', Menlo, Monaco, monospace;
+    margin-top:10px;
+  }
+  .pitch-glossary dt:first-child { margin-top:0; }
+  .pitch-glossary dd {
+    font-size:12.5px; color:#3a3a3c; line-height:1.5;
+    margin:2px 0 0 0;
+  }
+
+  /* Estilos de impresión */
+  @media print {
+    @page { size: letter; margin: 14mm; }
+    body { background:#fff !important; }
+    .site-nav { display:none !important; }
+    .pitch-toolbar { border-bottom:2px solid #1a1a1a; margin-bottom:18px; padding-bottom:12px; }
+    .pitch-toolbar h1 { font-size:22px; }
+    .pitch-print { display:none; }
+    .pitch-page { padding:0; max-width:none; }
+    .pitch-intro { font-size:12px; padding:10px 14px; margin-bottom:18px; }
+    .pitch-case { border:1.5px solid #999; margin-bottom:18px; page-break-inside:avoid; }
+    .pitch-case-head { padding:10px 18px; }
+    .pitch-case-num { width:30px; height:30px; font-size:14px; }
+    .pitch-case-title { font-size:15px; }
+    .pitch-case-sub { font-size:10.5px; }
+    .pitch-case-body { padding:12px 16px 14px; }
+    .pitch-section { margin-bottom:10px; }
+    .pitch-section-h { font-size:10px; margin-bottom:4px; }
+    .pitch-section p, .pitch-script { font-size:12px; line-height:1.5; }
+    .pitch-script { padding:10px 14px; }
+    .pitch-methods li { font-size:10.5px; padding:3px 7px; }
+    .pitch-qa { padding:9px 12px; }
+    .pitch-qa-q { font-size:11.5px; }
+    .pitch-qa-a { font-size:11px; line-height:1.4; }
+    .pitch-glossary { padding:12px 16px; }
+    .pitch-glossary h2 { font-size:14px; }
+    .pitch-glossary dt { font-size:11.5px; }
+    .pitch-glossary dd { font-size:11px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ HEADER PRINCIPAL ══ -->
+<header class="site-nav">
+  <div class="site-nav-inner">
+    <a class="brand-lockup" href="index.html" aria-label="Inicio">
+      <span class="exito-pill">éxito</span>
+      <span class="brand-x">×</span>
+      <span class="c2p-lockup">
+        <span class="c2p-mk">
+          <svg width="20" height="14" viewBox="0 0 40 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Click to Pay">
+            <path d="M5 4 H20 L28 14 L20 24 H5 Z" fill="#fff" stroke="#fff" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M31 7 C35 11 35 17 31 21" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+        </span>
+        Click to Pay
+      </span>
+    </a>
+    <nav class="site-links">
+      <a href="index.html">Inicio</a>
+      <a href="ventajas.html">Ventajas</a>
+      <a href="demo.html">Demo</a>
+      <a href="metodos.html">Métodos</a>
+    </nav>
+  </div>
+</header>
+
+<main class="pitch-page">
+
+  <div class="pitch-toolbar">
+    <h1>Pitch oral <em>·</em> los 4 casos de uso</h1>
+    <button class="pitch-print" onclick="window.print()" type="button">🖨 Imprimir</button>
+  </div>
+
+  <div class="pitch-intro">
+    <strong>Cómo usar este guion.</strong> Para cada caso tienes (1) el contexto que estás contando, (2) el guion oral en ~30 segundos, (3) los métodos clave a mencionar y (4) preguntas que la VP podría hacerte con la respuesta sugerida. El glosario al final cubre términos que pueden aparecer en cualquier caso.
+  </div>
+
+  <!-- ═══════════════ CASO 1 ═══════════════ -->
+  <section class="pitch-case">
+    <header class="pitch-case-head">
+      <span class="pitch-case-num">01</span>
+      <span class="pitch-case-title">Nuevo usuario</span>
+      <span class="pitch-case-sub">First Time User · sin perfil en Click to Pay</span>
+    </header>
+    <div class="pitch-case-body">
+
+      <div class="pitch-section">
+        <div class="pitch-section-h">Contexto</div>
+        <p>El consumidor llega por primera vez a Éxito (o a cualquier comercio Click to Pay). No tiene perfil en el ecosistema. El dispositivo tampoco está reconocido. <strong>Hay que inscribirlo desde cero.</strong></p>
+      </div>
+
+      <div class="pitch-section">
+        <div class="pitch-section-h">Guion oral · ~30 segundos</div>
+        <div class="pitch-script">
+          <p>"Paso 1: el integrador llama <em>init()</em> y <em>getCards()</em> al cargar la página. Como no hay perfil, devuelve vacío y entra al flujo de inscripción."</p>
+          <p>"Paso 2: el consumidor llena el formulario con datos de contacto, envío y tarjeta. Llamamos <em>authenticate()</em>; al no haber perfil, se confirma que es nuevo y se recoge el consentimiento <em>Remember me</em>."</p>
+          <p>"Paso 3: el integrador llama <em>encryptCard()</em> para enmascarar el PAN y obtener un <em>encryptedCard</em>. Luego invoca <em>checkoutWithNewCard()</em> pasando ese token cifrado, <em>recognitionTokenRequested=true</em> y el parámetro <em>payloadRequested</em>, que decide si se autentica con passkey o no. Si optamos por autenticar, como la tarjeta es nueva, Click to Pay primero crea el passkey y luego lo usa."</p>
+          <p>"Paso 4: cierre estándar. DCF entrega <em>checkoutResponse</em> con <em>merchantTransactionId</em>, el backend llama <em>POST /checkout</em>, recibe el <em>encryptedPayload</em>, descifra, autoriza con DSRP y reporta con <em>POST /confirmations</em>."</p>
+        </div>
+      </div>
+
+      <div class="pitch-section">
+        <div class="pitch-section-h">Métodos clave</div>
+        <ul class="pitch-methods">
+          <li class="req">init()</li>
+          <li class="req">getCards()</li>
+          <li class="req">authenticate()</li>
+          <li class="req">encryptCard()</li>
+          <li class="req">checkoutWithNewCard()</li>
+          <li class="req">POST /checkout</li>
+          <li class="req">POST /confirmations</li>
+          <li class="res">encryptedCard</li>
+          <li class="res">checkoutResponse</li>
+          <li class="res">recognitionToken</li>
+          <li class="res">encryptedPayload</li>
+        </ul>
+      </div>
+
+      <div class="pitch-section">
+        <div class="pitch-section-h">Si preguntan…</div>
+        <div class="pitch-qa">
+          <div class="pitch-qa-item">
+            <p class="pitch-qa-q">¿Por qué usamos checkoutWithNewCard() y no checkoutWithCard()?</p>
+            <p class="pitch-qa-a">Porque la tarjeta no está enrolada en Click to Pay todavía. Necesitamos el método que acepta el <em>encryptedCard</em> recién generado e inscribe el perfil en el mismo flujo.</p>
+          </div>
+          <div class="pitch-qa-item">
+            <p class="pitch-qa-q">¿Qué pasa si el consumidor no marca "Remember me"?</p>
+            <p class="pitch-qa-a">Click to Pay no devuelve <em>recognitionToken</em>. La próxima vez que venga, su dispositivo no será reconocido y volverá a entrar por Caso 2 (lookup por correo).</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════ CASO 2 ═══════════════ -->
+  <section class="pitch-case">
+    <header class="pitch-case-head">
+      <span class="pitch-case-num">02</span>
+      <span class="pitch-case-title">Reconocido por correo / teléfono</span>
+      <span class="pitch-case-sub">User Recognized through Email/Mobile Lookup</span>
+    </header>
+    <div class="pitch-case-body">
+
+      <div class="pitch-section">
+        <div class="pitch-section-h">Contexto</div>
+        <p>El dispositivo no está reconocido (otro browser, modo incógnito o se borraron cookies), pero el consumidor sí tiene perfil en Click to Pay desde antes. <strong>Hay que identificarlo por correo o celular.</strong></p>
+      </div>
+
+      <div class="pitch-section">
+        <div class="pitch-section-h">Guion oral · ~30 segundos</div>
+        <div class="pitch-script">
+          <p>"Paso 1: <em>init()</em> y <em>getCards()</em> devuelven vacío porque el dispositivo no se reconoce."</p>
+          <p>"Paso 2: el integrador llama <em>authenticate()</em> con el correo o celular del consumidor en <em>accountReference</em>, le pasa el <em>windowRef</em> del iFrame y <em>requestRecognitionToken=true</em>. Click to Pay valida la identidad y muestra el reto en pantalla — passkey si está disponible, OTP con checkbox <em>Remember me</em> si no. El consumidor confirma y <em>authenticate()</em> devuelve la lista de <em>maskedCard</em> y un <em>recognitionToken</em> para reconocer el dispositivo en visitas futuras."</p>
+          <p>"Paso 3: el integrador muestra las tarjetas con el componente UI <em>SRC Card List</em>."</p>
+          <p>"Paso 4: idéntico a Caso 3 — el consumidor selecciona una y llamamos <em>checkoutWithCard()</em> con <em>payloadRequested</em> decidiendo si autenticar la transacción."</p>
+          <p>"Paso 5: backend cobro estándar — <em>POST /checkout</em>, descifrar, autorizar DSRP, <em>POST /confirmations</em>."</p>
+        </div>
+      </div>
+
+      <div class="pitch-section">
+        <div class="pitch-section-h">Métodos clave</div>
+        <ul class="pitch-methods">
+          <li class="req">init()</li>
+          <li class="req">getCards()</li>
+          <li class="req">authenticate()</li>
+          <li class="req">checkoutWithCard()</li>
+          <li class="req">POST /checkout</li>
+          <li class="req">POST /confirmations</li>
+          <li class="res">maskedCard</li>
+          <li class="res">recognitionToken</li>
+          <li class="res">checkoutResponse</li>
+          <li class="res">encryptedPayload</li>
+        </ul>
+      </div>
+
+      <div class="pitch-section">
+        <div class="pitch-section-h">Si preguntan…</div>
+        <div class="pitch-qa">
+          <div class="pitch-qa-item">
+            <p class="pitch-qa-q">¿En qué se diferencia Caso 2 de Caso 3?</p>
+            <p class="pitch-qa-a">Solo en el preámbulo. Caso 2 identifica por correo/celular porque el device no está reconocido; Caso 3 ya devuelve las tarjetas directamente porque el device sí está reconocido. Desde el Paso 3 en adelante el flujo es idéntico.</p>
+          </div>
+          <div class="pitch-qa-item">
+            <p class="pitch-qa-q">¿Qué es el recognitionToken y dónde se guarda?</p>
+            <p class="pitch-qa-a">Es un identificador que devuelve Click to Pay para reconocer el dispositivo en visitas futuras. El integrador lo guarda en el navegador (cookie o localStorage) y lo envía con <em>init()</em> en la próxima sesión.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════ CASO 3 ═══════════════ -->
+  <section class="pitch-case">
+    <header class="pitch-case-head">
+      <span class="pitch-case-num">03</span>
+      <span class="pitch-case-title">Usuario reconocido</span>
+      <span class="pitch-case-sub">Recognized User · device reconocido + perfil existente</span>
+    </header>
+    <div class="pitch-case-body">
+
+      <div class="pitch-section">
+        <div class="pitch-section-h">Contexto</div>
+        <p>El consumidor ya estuvo en este navegador y marcó "Remember me". El dispositivo está reconocido. <strong>Va directo a sus tarjetas, sin identificación intermedia.</strong> Es el camino más corto — el ideal.</p>
+      </div>
+
+      <div class="pitch-section">
+        <div class="pitch-section-h">Guion oral · ~25 segundos</div>
+        <div class="pitch-script">
+          <p>"Paso 1: el integrador llama <em>init()</em> y <em>getCards()</em>. Como el dispositivo está reconocido, <em>getCards()</em> devuelve la lista de <em>maskedCard</em> del consumidor de inmediato — sin OTP ni passkey."</p>
+          <p>"Paso 2: el integrador muestra esa lista con el componente UI <em>SRC Card List</em>."</p>
+          <p>"Paso 3: el consumidor selecciona y pulsa Pagar. Llamamos <em>checkoutWithCard()</em>. En esa llamada decidimos, vía el parámetro <em>payloadRequested</em>, si pedimos autenticación con passkey o Face ID, o si saltamos directo. Esto bifurca el flujo en dos caminos: <em>AUTHENTICATED</em> con biometría, o <em>NON_AUTHENTICATED</em> sin ella."</p>
+          <p>"Paso 4: cierre — DCF entrega <em>checkoutResponse</em> con <em>merchantTransactionId</em>, el backend llama <em>POST /checkout</em>, descifra el <em>encryptedPayload</em>, autoriza el cobro con DSRP, reporta con <em>POST /confirmations</em> y mostramos el pedido confirmado."</p>
+        </div>
+      </div>
+
+      <div class="pitch-section">
+        <div class="pitch-section-h">Métodos clave</div>
+        <ul class="pitch-methods">
+          <li class="req">init()</li>
+          <li class="req">getCards()</li>
+          <li class="req">checkoutWithCard()</li>
+          <li class="req">POST /checkout</li>
+          <li class="req">POST /confirmations</li>
+          <li class="res">maskedCard</li>
+          <li class="res">checkoutResponse</li>
+          <li class="res">merchantTransactionId</li>
+          <li class="res">encryptedPayload</li>
+        </ul>
+      </div>
+
+      <div class="pitch-section">
+        <div class="pitch-section-h">Si preguntan…</div>
+        <div class="pitch-qa">
+          <div class="pitch-qa-item">
+            <p class="pitch-qa-q">¿Cuál es la diferencia entre AUTHENTICATED y NON_AUTHENTICATED?</p>
+            <p class="pitch-qa-a">El integrador decide si quiere transaction authentication. AUTHENTICATED hace que Click to Pay dispare passkey o Face ID antes de devolver el checkoutResponse; NON_AUTHENTICATED lo devuelve directo. Es opcional y depende del nivel de seguridad que quiera el merchant.</p>
+          </div>
+          <div class="pitch-qa-item">
+            <p class="pitch-qa-q">¿Qué es DSRP?</p>
+            <p class="pitch-qa-a">Digital Secure Remote Payments. Es el estándar de Mastercard para autorizar transacciones tokenizadas. Permite que el cobro vaya a la red con un token + cryptogram en vez del PAN real, lo que reduce fraude y mejora la tasa de aprobación.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════ CASO 4 ═══════════════ -->
+  <section class="pitch-case">
+    <header class="pitch-case-head">
+      <span class="pitch-case-num">04</span>
+      <span class="pitch-case-title">Agregar nueva tarjeta</span>
+      <span class="pitch-case-sub">Variante de Recognized User · perfil existente + tarjeta nueva</span>
+    </header>
+    <div class="pitch-case-body">
+
+      <div class="pitch-section">
+        <div class="pitch-section-h">Contexto</div>
+        <p>El consumidor está reconocido (Caso 3) pero quiere pagar con una tarjeta que no tiene guardada. <strong>Se le suma una tarjeta al perfil Click to Pay existente.</strong></p>
+      </div>
+
+      <div class="pitch-section">
+        <div class="pitch-section-h">Guion oral · ~30 segundos</div>
+        <div class="pitch-script">
+          <p>"Paso 1: igual que Caso 3 — <em>init()</em> + <em>getCards()</em> devuelven la lista existente."</p>
+          <p>"Paso 2: el consumidor selecciona <em>Ingresar tarjeta manualmente</em> en lugar de una guardada. Se despliega un formulario inline."</p>
+          <p>"Paso 3: el integrador llama <em>encryptCard()</em> para enmascarar el PAN y obtener un <em>encryptedCard</em>. Luego invoca <em>checkoutWithNewCard()</em> pasando ese token, <em>recognitionTokenRequested=true</em> y el parámetro <em>payloadRequested</em>. Si optamos por AUTHENTICATED, como la tarjeta es nueva al sistema, Click to Pay primero crea el passkey y luego lo usa para autenticar; si optamos por NON_AUTHENTICATED, la tarjeta se agrega al perfil sin paso biométrico."</p>
+          <p>"Paso 4: cierre idéntico a los otros casos — <em>POST /checkout</em>, descifrar, autorizar DSRP, <em>POST /confirmations</em>, mostrar confirmación."</p>
+        </div>
+      </div>
+
+      <div class="pitch-section">
+        <div class="pitch-section-h">Métodos clave</div>
+        <ul class="pitch-methods">
+          <li class="req">init()</li>
+          <li class="req">getCards()</li>
+          <li class="req">encryptCard()</li>
+          <li class="req">checkoutWithNewCard()</li>
+          <li class="req">POST /checkout</li>
+          <li class="req">POST /confirmations</li>
+          <li class="res">maskedCard</li>
+          <li class="res">encryptedCard</li>
+          <li class="res">checkoutResponse</li>
+          <li class="res">encryptedPayload</li>
+        </ul>
+      </div>
+
+      <div class="pitch-section">
+        <div class="pitch-section-h">Si preguntan…</div>
+        <div class="pitch-qa">
+          <div class="pitch-qa-item">
+            <p class="pitch-qa-q">¿Por qué checkoutWithNewCard() acepta recognitionTokenRequested si el usuario ya está reconocido?</p>
+            <p class="pitch-qa-a">El recognitionToken aquí no es para reconocer al usuario (eso ya está hecho), sino para asociar la nueva tarjeta al perfil existente y mantenerla disponible para siguientes checkouts.</p>
+          </div>
+          <div class="pitch-qa-item">
+            <p class="pitch-qa-q">¿Es necesario crear un passkey nuevo para esta tarjeta?</p>
+            <p class="pitch-qa-a">Solo si optamos por AUTHENTICATED. Cada tarjeta nueva inscrita con autenticación genera su propio passkey en el flujo de Click to Pay. Si vamos por NON_AUTHENTICATED, la tarjeta se agrega sin biometría.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════ GLOSARIO ═══════════════ -->
+  <section class="pitch-glossary">
+    <h2>Glosario rápido (por si lo preguntan)</h2>
+    <dl>
+      <dt>DCF · Digital Card Facilitator</dt>
+      <dd>El sistema de Click to Pay que corre embebido en el navegador del consumidor. Es el "cajero invisible" que Mastercard le presta al integrador. Reconoce al consumidor, le muestra tarjetas, autentica y devuelve la respuesta cifrada. Cada red (Mastercard, Visa, Amex) tiene su propio DCF.</dd>
+
+      <dt>DSRP · Digital Secure Remote Payments</dt>
+      <dd>Estándar Mastercard para autorizar transacciones tokenizadas. El cobro va a la red con un token + cryptogram en vez del PAN real, lo que reduce fraude y mejora la tasa de aprobación.</dd>
+
+      <dt>EMVCo SRC · Secure Remote Commerce</dt>
+      <dd>El estándar de la industria (definido por EMVCo) que estandariza Click to Pay entre redes. Es por eso que el botón se llama "Click to Pay" en general y no "Mastercard Pay".</dd>
+
+      <dt>merchantTransactionId</dt>
+      <dd>Identificador único de la transacción que el DCF entrega al integrador en el <em>checkoutResponse</em>. Es el puente que une la llamada JavaScript del lado cliente con la llamada API REST del lado backend (<em>POST /checkout</em>).</dd>
+
+      <dt>encryptedPayload</dt>
+      <dd>El "sobre cifrado" que devuelve Mastercard cuando el backend llama <em>POST /checkout</em>. Adentro está el token + cryptogram que el integrador descifra con su clave privada para autorizar el cobro.</dd>
+
+      <dt>recognitionToken</dt>
+      <dd>Token que devuelve Click to Pay cuando el consumidor marca "Remember me". El integrador lo guarda en el navegador y lo envía en <em>init()</em> en visitas futuras. Es lo que convierte un dispositivo "no reconocido" en "reconocido".</dd>
+
+      <dt>payloadRequested · AUTHENTICATED / NON_AUTHENTICATED</dt>
+      <dd>Parámetro dentro de <em>authenticationPreferences</em> que el integrador envía en <em>checkoutWithCard()</em> / <em>checkoutWithNewCard()</em>. Decide si Click to Pay debe autenticar al consumidor con passkey o Face ID antes de devolver el <em>checkoutResponse</em>. Es opcional — depende del nivel de seguridad que quiera el merchant para la transacción.</dd>
+    </dl>
+  </section>
+
+</main>
+
+</body>
+</html>
